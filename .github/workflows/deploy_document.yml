@@ -1,0 +1,21 @@
+name: Update version of Command document
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    env:
+      DOCUMENT_NAME: ps-pull-ecr-stack-deploy
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - id: update_document
+        run: |
+          aws ssm update-document --name "$DOCUMENT_NAME" --content "file://pull_ecr_stack_deploy.cmd.yml" --document-version "\$LATEST" | tee command-update.json
+          echo "::set-output name=document_version::$(jq -r .Document.DocumentVersion command-update.json 2>/dev/null)"
+      - if: steps.update_document.output.document_version != ""
+        run: aws ssm update-document-default-version --name "$DOCUMENT_NAME" --document-version ${{ steps.update_document.outputs.document_version }}
