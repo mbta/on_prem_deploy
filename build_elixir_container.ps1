@@ -8,7 +8,9 @@ param(
     [string]$ErlangVersion,
 
     [Parameter(Mandatory)]
-    [string]$ElixirVersion
+    [string]$ElixirVersion,
+
+    [switch]$Force=$false
 
 )
 
@@ -18,7 +20,7 @@ $elixirimage="${ImageNameRoot}elixir"
 $elixirtag="${ElixirVersion}-erlang-${erltag}"
 
 docker manifest inspect "${elixirimage}:${elixirtag}" | Out-Null
-if ($?) {
+if (-not $Force -and $?) {
     Write-Output "Skipping ${elixirimage}:${elixirtag}, already exists."
 } else {
   docker build docker -f docker/Dockerfile.elixir `
