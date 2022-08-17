@@ -3,7 +3,7 @@ name: Build Erlang/Elixir images
 on:
   workflow_dispatch:
   push:
-    branches: [initial]
+    branches: [windows-docker]
 
 jobs:
   build2019:
@@ -19,9 +19,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      - name: Force build if workflow_dispatch or re-run
+        id: force
+        if: github.event_name == 'workflow_dispatch' || github.run_attempt != '1'
+        run: echo "::set-output name=force::-Force"
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Build Erlang tag (if needed)
-        run: ./build_erlang_container.ps1 -ImageNameRoot paulswartz/windows- -WindowsVersion ${{ matrix.windows_version }} -ErlangVersion ${{ matrix.erlang_version }}
+        run: ./build_erlang_container.ps1 -ImageNameRoot paulswartz/windows- -WindowsVersion ${{ matrix.windows_version }} -ErlangVersion ${{ matrix.erlang_version }} ${{ steps.force.outputs.force }}
       - name: Build Elixir tag (if needed)
-        run: ./build_elixir_container.ps1 -ImageNameRoot paulswartz/windows- -WindowsVersion ${{ matrix.windows_version }} -ErlangVersion ${{ matrix.erlang_version }} -ElixirVersion ${{ matrix.elixir_version }}
+        run: ./build_elixir_container.ps1 -ImageNameRoot paulswartz/windows- -WindowsVersion ${{ matrix.windows_version }} -ErlangVersion ${{ matrix.erlang_version }} -ElixirVersion ${{ matrix.elixir_version }} ${{ steps.force.outputs.force }}

@@ -5,13 +5,15 @@ param(
     [string]$WindowsVersion,
 
     [Parameter(Mandatory)]
-    [string]$ErlangVersion
+    [string]$ErlangVersion,
+
+    [switch]$Force=$false
 )
 $erlimage="${ImageNameRoot}erlang"
 $erltag="${ErlangVersion}-windows-${WindowsVersion}"
 
 docker manifest inspect "${erlimage}:${erltag}" | Out-Null
-if ($?) {
+if (-not $Force -and $?) {
     Write-Output "Skipping ${erlimage}:${erltag}, already exists."
 } else {
   docker build docker -f docker/Dockerfile.erlang `
