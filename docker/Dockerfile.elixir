@@ -20,6 +20,9 @@ FROM $FROM_IMAGE
 USER ContainerAdministrator
 RUN setx /M PATH "%PATH%;C:\Elixir\bin"
 
-USER ContainerUser
-
 COPY --from=build C:\\Elixir C:\\Elixir
+
+USER ContainerUser
+RUN mix local.hex --force \
+    && mix local.rebar --force
+
