@@ -75,4 +75,5 @@ mainSteps:
     - Set-Variable -Name SPLUNK_URL -Value '{{ SplunkURL}}'
     - Set-Variable -Name SPLUNK_INDEX -Value '{{ SplunkIndex }}'
     - Set-Variable -Name SPLUNK_TOKEN_SECRET_ARN -Value '{{ SplunkTokenSecret }}'
+    - Invoke-Expression (Invoke-WebRequest -UseBasicParsing -Uri 'https://raw.githubusercontent.com/paulswartz/on_prem_deploy/initial/Helpers.ps1')
     - Invoke-Expression (Invoke-WebRequest -UseBasicParsing -Uri 'https://raw.githubusercontent.com/paulswartz/on_prem_deploy/initial/docker_stack_deploy.ps1')

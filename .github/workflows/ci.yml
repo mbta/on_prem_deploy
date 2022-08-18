@@ -1,0 +1,16 @@
+name: Unit Tests
+
+on:
+  push:
+
+jobs:
+  update:
+    name: Run tests
+    runs-on: windows-2019
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: .\InstallTestDependencies.ps1
+      - name: Run tests
+        run: .\RunPesterTests.ps1
