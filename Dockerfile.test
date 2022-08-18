@@ -14,6 +14,7 @@ WORKDIR C:\\on_prem_deploy
 COPY InstallTestDependencies.ps1 ./
 RUN .\InstallTestDependencies.ps1
 
-COPY *.ps1 ./
+COPY RunPesterTests.ps1 ./
+COPY scripts scripts
 
 RUN .\RunPesterTests.ps1
