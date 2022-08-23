@@ -34,6 +34,20 @@ Describe "ContainerStack" {
             -TaskPort "4000" `
         | ConvertFrom-Yaml
         $output.services.container.ports | Should -HaveCount 1
-        $output.services.container.ports[0] | Should -Contain "4000:4000"
+        $output.services.container.ports[0] | Should -Be "4000:4000"
+    }
+
+    It "Includes multiple ports on separate lines" {
+        $output = ContainerStack `
+            -Image "image" `
+            -EnvFile "envFile" `
+            -SplunkToken "token" `
+            -SplunkUrl "splunk.com" `
+            -SplunkIndex "idx" `
+            -TaskPort "4000 5000" `
+        | ConvertFrom-Yaml
+        $output.services.container.ports | Should -HaveCount 2
+        $output.services.container.ports[0] | Should -Be "4000:4000"
+        $output.services.container.ports[1] | Should -Be "5000:5000"
     }
 }

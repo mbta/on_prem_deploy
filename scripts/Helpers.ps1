@@ -42,9 +42,11 @@ function ContainerStack()
     $portStack = if ("$TaskPort" -eq "") {
         ""
     } else {
+        $portRows = $TaskPort.split(" ") `
+          | ForEach-Object { "      - ${_}:${_}" }
         @"
     ports:
-      - ${TaskPort}:${TaskPort}
+$($portRows -Join "`n")
 "@
     }
 
