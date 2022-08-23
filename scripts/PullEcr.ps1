@@ -5,7 +5,9 @@
 
 $env:Path += ";C:\Program Files\Amazon\AWSCLIV2"
 
-aws ecr get-login-password | docker login --username AWS --password-stdin "$DOCKER_REPO" 2>$null
+if ($DOCKER_REPO -match 'ecr\.[\w-]+\.amazonaws.com') {
+    aws ecr get-login-password | docker login --username AWS --password-stdin "$DOCKER_REPO" 2>$null
+}
 docker pull "${DOCKER_REPO}:${DOCKER_TAG}"
 if (-not $?) {
   Write-Error "Unable to pull ${DOCKER_REPO}:${DOCKER_TAG}" -ErrorAction Stop
