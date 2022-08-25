@@ -5,7 +5,7 @@ parameters:
   ECRRepo:
     type: "String"
     description: "ECR Repo"
-    allowedPattern: "^[a-z0-9.\\-\\/]+$"
+    allowedPattern: "^[a-z0-9.\\_\\-\\/]+$"
   DockerTag:
     type: "String"
     description: "Docker Tag to deploy"
@@ -28,25 +28,25 @@ parameters:
   DockerArgs:
     type: "String"
     displayType: textarea
-    description: "Additional data to pass into the stack configuration. Note that configuration for the default container needs to be indented properly (4 spaces)`"
+    description: "(optional) Additional data to pass into the stack configuration. Note that configuration for the default container needs to be indented properly (4 spaces)`"
     default: ""
   ServiceName:
     type: "String"
-    description: "Name of the service"
-    allowedPattern: "^[a-z0-9._]+$"
+    description: "Name of the service (kebab-case)"
+    allowedPattern: "^[a-z0-9.-]+$"
   EnvironmentSecret:
     type: "String"
     description: "Name/ARN of the SecretsManager secret with the container's environment"
-    allowedPattern: "^[a-z0-9._-]+$"
+    allowedPattern: "^[a-z0-9.-]+$"
+  SplunkIndex:
+    type: "String"
+    description: "Splunk Index to log into"
+    allowedPattern: "^[a-z0-9.-]+$"
   SplunkURL:
     type: "String"
     description: "URL of the Splunk instance"
     default: "{{ssm:mbta-splunk-url}}"
     allowedPattern: "^https:\\/\\/[a-z0-9.\\-\\/]+$"
-  SplunkIndex:
-    type: "String"
-    description: "Splunk Index to log into"
-    allowedPattern: "^[a-z0-9.-]+$"
   SplunkTokenSecret:
     type: "String"
     description: "Name/ARN of the SecretsManager secret with the Splunk Token"
