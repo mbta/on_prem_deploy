@@ -3,7 +3,7 @@ name: Build Erlang/Elixir images
 on:
   workflow_dispatch:
   push:
-    branches: [windows-docker]
+    branches: [main]
 
 jobs:
   build2019:
@@ -26,6 +26,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Build Erlang tag (if needed)
-        run: ./build_erlang_container.ps1 -ImageNameRoot paulswartz/windows- -WindowsVersion ${{ matrix.windows_version }} -ErlangVersion ${{ matrix.erlang_version }} ${{ steps.force.outputs.force }}
+        run: ./build_erlang_container.ps1 -ImageNameRoot ${{ secrets.DOCKER_USERNAME }}/windows- -WindowsVersion ${{ matrix.windows_version }} -ErlangVersion ${{ matrix.erlang_version }} ${{ steps.force.outputs.force }}
       - name: Build Elixir tag (if needed)
-        run: ./build_elixir_container.ps1 -ImageNameRoot paulswartz/windows- -WindowsVersion ${{ matrix.windows_version }} -ErlangVersion ${{ matrix.erlang_version }} -ElixirVersion ${{ matrix.elixir_version }} ${{ steps.force.outputs.force }}
+        run: ./build_elixir_container.ps1 -ImageNameRoot ${{ secrets.DOCKER_USERNAME }}/windows- -WindowsVersion ${{ matrix.windows_version }} -ErlangVersion ${{ matrix.erlang_version }} -ElixirVersion ${{ matrix.elixir_version }} ${{ steps.force.outputs.force }}
