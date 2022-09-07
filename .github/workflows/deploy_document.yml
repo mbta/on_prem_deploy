@@ -9,7 +9,7 @@ jobs:
   update:
     runs-on: ubuntu-latest
     env:
-      DOCUMENT_NAME: ps-pull-ecr-stack-deploy
+      DOCUMENT_NAME: mbta-pull-ecr-stack-deploy
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2

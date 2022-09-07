@@ -59,7 +59,7 @@ mainSteps:
     runCommand:
     - Set-Variable -Name DOCKER_REPO -Value '{{ ECRRepo }}'
     - Set-Variable -Name DOCKER_TAG -Value '{{ DockerTag }}'
-    - Invoke-Expression (Invoke-WebRequest -UseBasicParsing -Uri 'https://raw.githubusercontent.com/paulswartz/on_prem_deploy/initial/scripts/PullEcr.ps1')
+    - Invoke-Expression (Invoke-WebRequest -UseBasicParsing -Uri 'https://raw.githubusercontent.com/mbta/on_prem_deploy/main/scripts/PullEcr.ps1')
     - Set-Variable -Name DOCKER_ARGS -Value '{{ DockerArgs }}'
     - Set-Variable -Name TASK_CPU -Value '{{ TaskCpu }}'
     - Set-Variable -Name TASK_MEMORY -Value '{{ TaskMemory }}'
@@ -69,5 +69,5 @@ mainSteps:
     - Set-Variable -Name SPLUNK_URL -Value '{{ SplunkURL}}'
     - Set-Variable -Name SPLUNK_INDEX -Value '{{ SplunkIndex }}'
     - Set-Variable -Name SPLUNK_TOKEN_SECRET_ARN -Value '{{ SplunkTokenSecret }}'
-    - Invoke-Expression (Invoke-WebRequest -UseBasicParsing -Uri 'https://raw.githubusercontent.com/paulswartz/on_prem_deploy/initial/scripts/Helpers.ps1')
-    - Invoke-Expression (Invoke-WebRequest -UseBasicParsing -Uri 'https://raw.githubusercontent.com/paulswartz/on_prem_deploy/initial/scripts/DockerStackDeploy.ps1')
+    - Invoke-Expression (Invoke-WebRequest -UseBasicParsing -Uri 'https://raw.githubusercontent.com/mbta/on_prem_deploy/main/scripts/Helpers.ps1')
+    - Invoke-Expression (Invoke-WebRequest -UseBasicParsing -Uri 'https://raw.githubusercontent.com/mbta/on_prem_deploy/main/scripts/DockerStackDeploy.ps1')
