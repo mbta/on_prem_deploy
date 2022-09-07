@@ -7,6 +7,7 @@ on:
 
 jobs:
   build2019:
+    continue-on-error: true
     strategy:
       matrix:
         erlang_version: [24.3.4.4, 25.0.4]
