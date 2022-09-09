@@ -22,8 +22,8 @@ parameters:
     default: "128M"
   TaskPort:
     type: "String"
-    description: "(optional) port to expose from the container"
-    allowedPattern: "^(\\d+)?$"
+    description: "(optional) port(s) to expose from the container (space-separated)"
+    allowedPattern: "^(\\d+( \\d+)*)?$"
     default: ""
   DockerArgs:
     type: "String"
