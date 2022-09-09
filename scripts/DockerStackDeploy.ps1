@@ -18,18 +18,16 @@
 # . .\Helpers.ps1
 # .\docker_stack_deploy.ps1
 
-$container_env_file = "${env:USERPROFILE}\${SERVICE_NAME}.env"
 $container_stack_file = "${env:USERPROFILE}\${SERVICE_NAME}_stack.yaml"
 $env:Path += ";C:\Program Files\Amazon\AWSCLIV2"
 
 $environment_map = GetSecretString -SecretName $SECRET_NAME | ConvertFrom-Json
-$environment_map.psobject.Properties | ForEach-Object { $_.Name + "=" + $_.Value } | Out-File "$container_env_file" -Encoding ascii
 
 $splunk_token = GetSecretString -SecretName $SPLUNK_TOKEN_SECRET_ARN
 
 ContainerStack `
     -Image "${DOCKER_REPO}:${DOCKER_TAG}" `
-    -envFile $container_env_file `
+    -Environment $environment_map.psobject.Properties `
     -splunkToken $splunk_token `
     -splunkUrl $SPLUNK_URL `
     -splunkIndex $SPLUNK_INDEX `

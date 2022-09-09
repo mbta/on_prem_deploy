@@ -12,15 +12,26 @@ function GetSecretString()
     $SecretJson.SecretString
 }
 
+function EnvironmentConfig()
+{
+    param
+    (
+        [Parameter(Mandatory)]
+        [object]$Environment
+    )
+    $rows = $Environment | ForEach-Object {
+        $escapedValue = $_.Value.replace("`n", "\n").replace("`r", "\r")
+        $_.Name + "=" + $escapedValue
+    }
+    $rows -Join "`r`n"
+}
+
 function ContainerStack()
 {
     param
     (
         [Parameter(Mandatory)]
         [string]$Image,
-
-        [Parameter(Mandatory)]
-        [string]$EnvFile,
 
         [Parameter(Mandatory)]
         [string]$SplunkToken,
@@ -31,6 +42,7 @@ function ContainerStack()
         [Parameter(Mandatory)]
         [string]$SplunkIndex,
 
+        [object]$Environment = @{},
         [string]$TaskCpu = "",
         [string]$TaskMemory = "",
         [string]$TaskPort = "",
@@ -39,6 +51,16 @@ function ContainerStack()
         [string]$ExtraArgs = ""
     )
 
+    $environmentStack =
+    @"
+    environment:
+$(
+$environmentRows = $Environment.GetEnumerator() | ForEach-Object {
+    "      $($_.Name): `"$($_.Value.replace("`n", "\n"))`""
+}
+$environmentRows -Join "`n"
+)
+"@
     $portStack = if ("$TaskPort" -eq "") {
         ""
     } else {
@@ -56,7 +78,7 @@ version: '3.7'
 services:
   container:
     image: $image
-    env_file: $envFile
+${environmentStack}
 ${portStack}
     volumes:
       - type: bind
