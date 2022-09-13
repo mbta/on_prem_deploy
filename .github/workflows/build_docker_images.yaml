@@ -10,7 +10,7 @@ jobs:
     continue-on-error: true
     strategy:
       matrix:
-        erlang_version: [24.3.4.4, 25.0.4]
+        erlang_version: [24.3.4.4, 24.3.4.5, 25.0.4]
         elixir_version: [1.13.4, 1.14.0]
         windows_version: [1809]
     runs-on: windows-2019
