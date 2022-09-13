@@ -18,7 +18,7 @@ $erlimage="${ImageNameRoot}erlang"
 $erltag="${ErlangVersion}-windows-${WindowsVersion}"
 $elixirimage="${ImageNameRoot}elixir"
 $elixirtag="${ElixirVersion}-erlang-${erltag}"
-$ElixirZip="Precompiled.zip"
+$ElixirZip="Precompiled"
 
 if ([System.Version]$ElixirVersion -ge [System.Version]"1.14.0") {
     # With Elixir 1.14.0, the releases are precompiled for the specific Erlang version.
