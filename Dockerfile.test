@@ -1,0 +1,20 @@
+# Dockerfile for running the unit tests for the scripts
+FROM mcr.microsoft.com/windows/servercore:1809
+#FROM mcr.microsoft.com/dotnet/sdk:6.0
+
+SHELL ["powershell", "-Command"]
+USER ContainerAdministrator
+#RUN Install-Module -Name Pester -Force -SkipPublisherCheck
+#RUN curl -o C:\windows\system32\nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+RUN Install-PackageProvider -Name NuGet -RequiredVersion 2.8.5.201 -Force
+
+RUN mkdir C:\on_prem_deploy
+
+WORKDIR C:\\on_prem_deploy
+COPY InstallTestDependencies.ps1 ./
+RUN .\InstallTestDependencies.ps1
+
+COPY RunPesterTests.ps1 ./
+COPY scripts scripts
+
+RUN .\RunPesterTests.ps1

@@ -1,0 +1,32 @@
+name: Update version of Command document
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: us-east-1
+      DOCUMENT_NAME: mbta-pull-ecr-stack-deploy
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - id: update_document
+        run: |
+          if aws ssm describe-document --name "$DOCUMENT_NAME" >/dev/null 2>&1; then
+            aws ssm update-document --name "$DOCUMENT_NAME" --content "file://pull_ecr_stack_deploy.cmd.yml" --document-version "\$LATEST" | tee command-update.json
+            echo "::set-output name=document_version::$(jq -r .Document.DocumentVersion command-update.json 2>/dev/null)"
+          else
+            aws ssm create-document --name "$DOCUMENT_NAME" --document-format YAML --document-type Command --content "file://pull_ecr_stack_deploy.cmd.yml"
+          fi
+      - if: steps.update_document.output.document_version
+        run: aws ssm update-document-default-version --name "$DOCUMENT_NAME" --document-version ${{ steps.update_document.outputs.document_version }}
