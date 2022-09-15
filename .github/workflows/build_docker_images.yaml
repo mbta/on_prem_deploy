@@ -9,10 +9,60 @@ jobs:
   build2019:
     continue-on-error: true
     strategy:
+      # Compatibility matrix:
+      # https://hexdocs.pm/elixir/1.14.0/compatibility-and-deprecations.html
       matrix:
-        erlang_version: [24.3.4.4, 24.3.4.5, 25.0.4]
-        elixir_version: [1.13.4, 1.14.0]
-        windows_version: [1809]
+        include:
+          # Elixir 1.14
+          - elixir_version: 1.14.0
+            erlang_version: 25.0.4
+            windows_version: 1809
+          - elixir_version: 1.14.0
+            erlang_version: 24.3.4.5
+            windows_version: 1809
+          - elixir_version: 1.14.0
+            erlang_version: 23.3.4.9
+            windows_version: 1809
+          # Elixir 1.13.4
+          - elixir_version: 1.13.4
+            erlang_version: 25.0.4
+            windows_version: 1809
+          - elixir_version: 1.13.4
+            erlang_version: 24.3.4.5
+            windows_version: 1809
+          - elixir_version: 1.13.4
+            erlang_version: 23.3.4.9
+            windows_version: 1809
+          - elixir_version: 1.13.4
+            erlang_version: 22.3
+            windows_version: 1809
+          # Erlang 1.12.3
+          - elixir_version: 1.12.3
+            erlang_version: 24.3.4.5
+            windows_version: 1809
+          - elixir_version: 1.12.3
+            erlang_version: 23.3.4.9
+            windows_version: 1809
+          - elixir_version: 1.12.3
+            erlang_version: 22.3
+            windows_version: 1809
+          # Erlang 1.11.3
+          - elixir_version: 1.12.3
+            erlang_version: 24.3.4.5
+            windows_version: 1809
+          - elixir_version: 1.11.3
+            erlang_version: 23.3.4.9
+            windows_version: 1809
+          - elixir_version: 1.11.3
+            erlang_version: 22.3
+            windows_version: 1809
+          # Erlang 1.10.4
+          - elixir_version: 1.10.4
+            erlang_version: 23.3.4.9
+            windows_version: 1809
+          - elixir_version: 1.10.4
+            erlang_version: 22.3
+            windows_version: 1809
     runs-on: windows-2019
     steps:
       - name: Login to Docker Hub
