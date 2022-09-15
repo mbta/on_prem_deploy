@@ -7,7 +7,7 @@ ARG FROM_IMAGE=$BUILD_IMAGE
 
 FROM $BUILD_IMAGE as build
 ARG ELIXIR_VERSION=1.13.4
-ARG ELIXIR_ZIP=Precompiled.zip
+ARG ELIXIR_ZIP=Precompiled
 
 # log which version of Windows we're using
 RUN ver
