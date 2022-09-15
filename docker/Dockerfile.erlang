@@ -17,10 +17,6 @@ RUN curl -fSLo otp-installer.exe "https://github.com/erlang/otp/releases/downloa
 FROM $FROM_IMAGE
 
 USER ContainerAdministrator
-RUN curl -fSLo vc_redist.x64.exe https://aka.ms/vs/17/release/vc_redist.x64.exe \
-    && start /w vc_redist.x64.exe /install /quiet /norestart \
-    && del vc_redist.x64.exe
-
 ARG GIT_VERSION=2.37.1
 RUN curl -fSLo Git-Install.exe "https://github.com/git-for-windows/git/releases/download/v%GIT_VERSION%.windows.1/Git-%GIT_VERSION%-64-bit.exe" \
     && start /w Git-Install.exe /VERYSILENT /NORESTART /NOCANCEL \
@@ -29,5 +25,7 @@ RUN curl -fSLo Git-Install.exe "https://github.com/git-for-windows/git/releases/
 RUN setx /M PATH "%PATH%;C:\Erlang\bin"
 
 COPY --from=build C:\\Erlang C:\\Erlang
+
+RUN C:\Erlang\vcredist_x64.exe /install /quiet /norestart
 
 USER ContainerUser
