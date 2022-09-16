@@ -5,6 +5,7 @@ BeforeAll {
 Describe "ContainerStack" {
     It "Generates well-formatted YAML" {
         $output = ContainerStack `
+            -Service "service-test" `
             -Image "image" `
             -SplunkToken "token" `
             -SplunkUrl "splunk.com" `
@@ -18,12 +19,14 @@ Describe "ContainerStack" {
         $container.logging.options["splunk-token"] | Should -Be "token"
         $container.logging.options["splunk-url"] | Should -Be "splunk.com"
         $container.logging.options["splunk-index"] | Should -Be "idx"
+        $container.logging.options["splunk-source"] | Should -Be "service-test"
         $container.deploy.resources.limits.cpus | Should -Be "0.25"
         $container.deploy.resources.limits.memory | Should -Be "256M"
     }
 
     It "Includes ports if configured" {
         $output = ContainerStack `
+            -Service "service-test" `
             -Image "image" `
             -SplunkToken "token" `
             -SplunkUrl "splunk.com" `
@@ -36,6 +39,7 @@ Describe "ContainerStack" {
 
     It "Includes multiple ports on separate lines" {
         $output = ContainerStack `
+            -Service "service-test" `
             -Image "image" `
             -SplunkToken "token" `
             -SplunkUrl "splunk.com" `
@@ -49,6 +53,7 @@ Describe "ContainerStack" {
 
     It "Includes environment variables if provided" {
         $output = ContainerStack `
+            -Service "service-test" `
             -Image "image" `
             -Environment @{
               KEY = "value`nvalue2"
@@ -69,6 +74,7 @@ Describe "ContainerStack" {
 {"KEY": "value\nvalue2"}
 "@ | ConvertFrom-Json
         $output = ContainerStack `
+            -Service "service-test" `
             -Image "image" `
             -Environment $jsonParsed.psobject.Properties `
             -SplunkToken "token" `

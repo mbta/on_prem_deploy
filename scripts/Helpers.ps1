@@ -31,6 +31,9 @@ function ContainerStack()
     param
     (
         [Parameter(Mandatory)]
+        [string]$Service,
+
+        [Parameter(Mandatory)]
         [string]$Image,
 
         [Parameter(Mandatory)]
@@ -92,6 +95,7 @@ ${portStack}
         splunk-token: "$splunkToken"
         splunk-url: "$splunkUrl"
         splunk-index: "$splunkIndex"
+        splunk-source: "$Service"
         splunk-format: raw
     deploy:
       mode: replicated

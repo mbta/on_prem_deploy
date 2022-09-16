@@ -26,6 +26,7 @@ $environment_map = GetSecretString -SecretName $SECRET_NAME | ConvertFrom-Json
 $splunk_token = GetSecretString -SecretName $SPLUNK_TOKEN_SECRET_ARN
 
 ContainerStack `
+    -Service "${SERVICE_NAME}" `
     -Image "${DOCKER_REPO}:${DOCKER_TAG}" `
     -Environment $environment_map.psobject.Properties `
     -splunkToken $splunk_token `
