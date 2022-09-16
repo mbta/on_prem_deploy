@@ -4,17 +4,19 @@ BeforeAll {
 
 Describe "ContainerStack" {
     It "Generates well-formatted YAML" {
-        $output = ContainerStack `
+        $rawOutput = ContainerStack `
             -Service "service-test" `
             -Image "image" `
             -SplunkToken "token" `
             -SplunkUrl "splunk.com" `
-            -SplunkIndex "idx" `
-        | ConvertFrom-Yaml
+            -SplunkIndex "idx"
+        $output = $rawOutput | ConvertFrom-Yaml
         $output | Should -Not -Be $null
         $output.version | Should -Be "3.7"
         $container = $output.services.container
         $container.image | Should -Be "image"
+        $rawOutput | Should -Not -Match "environment:"
+        $rawOutput | Should -Not -Match "ports:"
         $container.logging.driver | Should -Be "splunk"
         $container.logging.options["splunk-token"] | Should -Be "token"
         $container.logging.options["splunk-url"] | Should -Be "splunk.com"
@@ -84,5 +86,17 @@ Describe "ContainerStack" {
         $output | Should -Not -Be $null
         $container = $output.services.container
         $container.environment.KEY | Should -Be "value`nvalue2"
+    }
+
+    It "Does not include an environment key when provided empty JSON" {
+        $jsonParsed = "{}" | ConvertFrom-Json
+        $rawOutput = ContainerStack `
+            -Service "service-test" `
+            -Image "image" `
+            -Environment $jsonParsed.psobject.Properties `
+            -SplunkToken "token" `
+            -SplunkUrl "splunk.com" `
+            -SplunkIndex "idx"
+        $rawOutput | Should -Not -Match "environment:"
     }
 }

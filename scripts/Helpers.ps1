@@ -54,16 +54,18 @@ function ContainerStack()
         [string]$ExtraArgs = ""
     )
 
-    $environmentStack =
+    $environmentRows = $Environment.GetEnumerator() | ForEach-Object {
+        "      $($_.Name): `"$($_.Value.replace("`n", "\n"))`""
+    }
+    $environmentStack = if ($environmentRows.Count -eq 0) {
+        ""
+    } else {
     @"
     environment:
-$(
-$environmentRows = $Environment.GetEnumerator() | ForEach-Object {
-    "      $($_.Name): `"$($_.Value.replace("`n", "\n"))`""
-}
-$environmentRows -Join "`n"
-)
+$($environmentRows -Join "`n")
 "@
+    }
+
     $portStack = if ("$TaskPort" -eq "") {
         ""
     } else {
