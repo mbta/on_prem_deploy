@@ -9,8 +9,11 @@ jobs:
   build2019:
     continue-on-error: true
     strategy:
-      # Compatibility matrix:
+      # Elixir compatibility matrix:
       # https://hexdocs.pm/elixir/1.14.0/compatibility-and-deprecations.html
+      #
+      # Supported Erlang versions: search for `otp_win64` in
+      # https://erlang.org/download/
       matrix:
         include:
           # Elixir 1.14
