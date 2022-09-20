@@ -42,7 +42,10 @@ docker stack deploy --with-registry-auth -c "$container_stack_file" "$SERVICE_NA
 if (-not $?) {
   Write-Error "Unable to start ${DOCKER_REPO}:${DOCKER_TAG}" -ErrorAction Stop
 }
-# Sleep 30s to give service time to start and stabilize, or crash >1 time
-Start-Sleep -Seconds 30
+
+docker service update "${SERVICE_NAME}_container"
+if (-not $?) {
+  Write-Error "Unable to update ${DOCKER_REPO}:${DOCKER_TAG}" -ErrorAction Stop
+}
+
 docker service ps "${SERVICE_NAME}_container"
-docker ps -f "name=${SERVICE_NAME}"
