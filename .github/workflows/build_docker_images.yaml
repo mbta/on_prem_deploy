@@ -18,23 +18,29 @@ jobs:
         include:
           # Elixir 1.14
           - elixir_version: 1.14.0
+            erlang_version: 25.1
+            windows_version: 1809
+          - elixir_version: 1.14.0
             erlang_version: 25.0.4
             windows_version: 1809
           - elixir_version: 1.14.0
             erlang_version: 24.3.4.5
             windows_version: 1809
           - elixir_version: 1.14.0
-            erlang_version: 23.3.4.9
+            erlang_version: 23.3.4.17
             windows_version: 1809
           # Elixir 1.13.4
           - elixir_version: 1.13.4
+            erlang_version: 25.1
+            windows_version: 1809
+          - elixir_version: 1.13.4
             erlang_version: 25.0.4
             windows_version: 1809
           - elixir_version: 1.13.4
             erlang_version: 24.3.4.5
             windows_version: 1809
           - elixir_version: 1.13.4
-            erlang_version: 23.3.4.9
+            erlang_version: 23.3.4.17
             windows_version: 1809
           - elixir_version: 1.13.4
             erlang_version: 22.3
@@ -44,7 +50,7 @@ jobs:
             erlang_version: 24.3.4.5
             windows_version: 1809
           - elixir_version: 1.12.3
-            erlang_version: 23.3.4.9
+            erlang_version: 23.3.4.17
             windows_version: 1809
           - elixir_version: 1.12.3
             erlang_version: 22.3
@@ -54,14 +60,14 @@ jobs:
             erlang_version: 24.3.4.5
             windows_version: 1809
           - elixir_version: 1.11.3
-            erlang_version: 23.3.4.9
+            erlang_version: 23.3.4.17
             windows_version: 1809
           - elixir_version: 1.11.3
             erlang_version: 22.3
             windows_version: 1809
           # Erlang 1.10.4
           - elixir_version: 1.10.4
-            erlang_version: 23.3.4.9
+            erlang_version: 23.3.4.17
             windows_version: 1809
           - elixir_version: 1.10.4
             erlang_version: 22.3
