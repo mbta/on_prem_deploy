@@ -18,7 +18,7 @@ jobs:
             windows_version: 1809
           - erlang_version: 25.0.4
             windows_version: 1809
-          - erlang_version: 24.3.4.5
+          - erlang_version: 24.3.4.6
             windows_version: 1809
           - erlang_version: 23.3.4.18
             windows_version: 1809
@@ -56,7 +56,7 @@ jobs:
             erlang_version: 25.0.4
             windows_version: 1809
           - elixir_version: 1.14.0
-            erlang_version: 24.3.4.5
+            erlang_version: 24.3.4.6
             windows_version: 1809
           - elixir_version: 1.14.0
             erlang_version: 23.3.4.18
@@ -69,7 +69,7 @@ jobs:
             erlang_version: 25.0.4
             windows_version: 1809
           - elixir_version: 1.13.4
-            erlang_version: 24.3.4.5
+            erlang_version: 24.3.4.6
             windows_version: 1809
           - elixir_version: 1.13.4
             erlang_version: 23.3.4.18
@@ -79,7 +79,7 @@ jobs:
             windows_version: 1809
           # Erlang 1.12.3
           - elixir_version: 1.12.3
-            erlang_version: 24.3.4.5
+            erlang_version: 24.3.4.6
             windows_version: 1809
           - elixir_version: 1.12.3
             erlang_version: 23.3.4.18
@@ -89,7 +89,7 @@ jobs:
             windows_version: 1809
           # Erlang 1.11.3
           - elixir_version: 1.12.3
-            erlang_version: 24.3.4.5
+            erlang_version: 24.3.4.6
             windows_version: 1809
           - elixir_version: 1.11.3
             erlang_version: 23.3.4.18
