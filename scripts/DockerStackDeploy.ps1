@@ -18,6 +18,10 @@
 # . .\Helpers.ps1
 # .\docker_stack_deploy.ps1
 
+if (-Not (Get-Command GetSecretString -errorAction SilentlyContinue)) {
+    Write-Error "Helpers.ps1 was not loaded: perhaps it failed to download?" -ErrorAction Stop
+}
+
 $container_stack_file = "${env:USERPROFILE}\${SERVICE_NAME}_stack.yaml"
 $env:Path += ";C:\Program Files\Amazon\AWSCLIV2"
 
