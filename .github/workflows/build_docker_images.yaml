@@ -36,7 +36,7 @@ jobs:
         if: github.event_name == 'workflow_dispatch' || github.run_attempt != '1'
         run: echo "::set-output name=force::-Force"
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Build Erlang tag (if needed)
         run: ./build_erlang_container.ps1 -ImageNameRoot ${{ secrets.DOCKER_USERNAME }}/windows- -WindowsVersion ${{ matrix.windows_version }} -ErlangVersion ${{ matrix.erlang_version }} ${{ steps.force.outputs.force }}
   elixir2019:
@@ -116,6 +116,6 @@ jobs:
         if: github.event_name == 'workflow_dispatch' || github.run_attempt != '1'
         run: echo "::set-output name=force::-Force"
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Build Elixir tag (if needed)
         run: ./build_elixir_container.ps1 -ImageNameRoot ${{ secrets.DOCKER_USERNAME }}/windows- -WindowsVersion ${{ matrix.windows_version }} -ErlangVersion ${{ matrix.erlang_version }} -ElixirVersion ${{ matrix.elixir_version }} ${{ steps.force.outputs.force }}
