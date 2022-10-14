@@ -12,7 +12,7 @@ Describe "ContainerStack" {
             -SplunkIndex "idx"
         $output = $rawOutput | ConvertFrom-Yaml
         $output | Should -Not -Be $null
-        $output.version | Should -Be "3.7"
+        $output.version | Should -Be "3.9"
         $container = $output.services.container
         $container.image | Should -Be "image"
         $rawOutput | Should -Not -Match "environment:"
@@ -22,6 +22,9 @@ Describe "ContainerStack" {
         $container.logging.options["splunk-url"] | Should -Be "splunk.com"
         $container.logging.options["splunk-index"] | Should -Be "idx"
         $container.logging.options["splunk-source"] | Should -Be "service-test"
+        $container.deploy.placement.max_replicas_per_node | Should -Be 1
+        $container.deploy.update_config.order | Should -Be "stop-first"
+        $container.deploy.rollback_config.order | Should -Be "stop-first"
         $container.deploy.resources.limits.cpus | Should -Be "0.25"
         $container.deploy.resources.limits.memory | Should -Be "256M"
     }

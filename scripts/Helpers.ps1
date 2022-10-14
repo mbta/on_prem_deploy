@@ -50,7 +50,7 @@ function ContainerStack()
         [string]$TaskMemory = "",
         [string]$TaskPort = "",
         [int32]$Replicas = 1,
-        [string]$UpdateOrder = "start-first",
+        [string]$UpdateOrder = "stop-first",
         [string]$ExtraArgs = ""
     )
 
@@ -78,7 +78,7 @@ $($portRows -Join "`n")
     }
 
     @"
-version: '3.7'
+version: '3.9'
 
 services:
   container:
@@ -102,6 +102,8 @@ ${portStack}
     deploy:
       mode: replicated
       replicas: $replicas
+      placement:
+        max_replicas_per_node: 1
       update_config:
         order: $updateOrder
       rollback_config:
