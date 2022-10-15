@@ -77,6 +77,12 @@ $($portRows -Join "`n")
 "@
     }
 
+    $maxReplicas = if ($updateOrder -eq "stop-first") {
+        1
+    } else {
+        2 * $replicas
+    }
+
     @"
 version: '3.9'
 
@@ -103,7 +109,7 @@ ${portStack}
       mode: replicated
       replicas: $replicas
       placement:
-        max_replicas_per_node: 1
+        max_replicas_per_node: $maxReplicas
       update_config:
         order: $updateOrder
       rollback_config:

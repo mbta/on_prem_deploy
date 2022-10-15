@@ -102,4 +102,19 @@ Describe "ContainerStack" {
             -SplunkIndex "idx"
         $rawOutput | Should -Not -Match "environment:"
     }
+
+    It "Includes additional max_replicas_per_node with start-first order" {
+                $rawOutput = ContainerStack `
+            -Service "service-test" `
+            -Image "image" `
+            -SplunkToken "token" `
+            -SplunkUrl "splunk.com" `
+            -SplunkIndex "idx" `
+            -UpdateOrder "start-first"
+        $output = $rawOutput | ConvertFrom-Yaml
+        $container = $output.services.container
+        $container.deploy.update_config.order | Should -Be "start-first"
+        $container.deploy.rollback_config.order | Should -Be "start-first"
+        $container.deploy.placement.max_replicas_per_node | Should -Be 2
+    }
 }
