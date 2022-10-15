@@ -50,7 +50,7 @@ function ContainerStack()
         [string]$TaskMemory = "",
         [string]$TaskPort = "",
         [int32]$Replicas = 1,
-        [string]$UpdateOrder = "stop-first",
+        [string]$UpdateOrder = "",
         [string]$ExtraArgs = ""
     )
 
@@ -75,6 +75,10 @@ $($environmentRows -Join "`n")
     ports:
 $($portRows -Join "`n")
 "@
+    }
+
+    if ($updateOrder -eq "") {
+        $updateOrder = "stop-first"
     }
 
     $maxReplicas = if ($updateOrder -eq "stop-first") {

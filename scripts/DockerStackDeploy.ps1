@@ -10,6 +10,7 @@
 #
 # Optionally pass extra arguments to Docker:
 # Set-Variable -Name DOCKER_ARGS -Value "<value>"
+# Set-Variable -Name UPDATE_ORDER -Value "<value>"
 # Set-Variable -Name TASK_CPU -Value "<value>"
 # Set-Variable -Name TASK_MEMORY -Value "<value>"
 # Set-Variable -Name TASK_PORT -Value "<value>"
@@ -40,6 +41,7 @@ ContainerStack `
     -taskMemory $TASK_MEMORY `
     -taskPort $TASK_PORT `
     -extraArgs $DOCKER_ARGS `
+    -updateOrder $UPDATE_ORDER `
 > "$container_stack_file"
 
 docker stack deploy --with-registry-auth -c "$container_stack_file" "$SERVICE_NAME"

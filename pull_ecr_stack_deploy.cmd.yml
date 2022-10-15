@@ -25,6 +25,10 @@ parameters:
     description: "(optional) port(s) to expose from the container (space-separated)"
     allowedPattern: "^(\\d+( \\d+)*)?$"
     default: ""
+  UpdateOrder:
+    type: "String"
+    description: "When starting a new task, whether to stop-first (default) or start-first"
+    default: "stop-first"
   DockerArgs:
     type: "String"
     displayType: textarea
@@ -64,6 +68,7 @@ mainSteps:
     - Set-Variable -Name TASK_CPU -Value '{{ TaskCpu }}'
     - Set-Variable -Name TASK_MEMORY -Value '{{ TaskMemory }}'
     - Set-Variable -Name TASK_PORT -Value '{{ TaskPort }}'
+    - Set-Variable -Name UPDATE_ORDER -Value '{{ UpdateOrder }}'
     - Set-Variable -Name SERVICE_NAME -Value '{{ ServiceName }}'
     - Set-Variable -Name SECRET_NAME -Value '{{ EnvironmentSecret }}'
     - Set-Variable -Name SPLUNK_URL -Value '{{ SplunkURL}}'
