@@ -24,7 +24,7 @@ jobs:
         run: |
           if aws ssm describe-document --name "$DOCUMENT_NAME" >/dev/null 2>&1; then
             aws ssm update-document --name "$DOCUMENT_NAME" --content "file://pull_ecr_stack_deploy.cmd.yml" --document-version "\$LATEST" | tee command-update.json
-            echo "::set-output name=document_version::$(jq -r .DocumentDescription.DocumentVersion command-update.json 2>/dev/null)"
+            echo "document_version=$(jq -r .DocumentDescription.DocumentVersion command-update.json 2>/dev/null)" >> $GITHUB_OUTPUT
           else
             aws ssm create-document --name "$DOCUMENT_NAME" --document-format YAML --document-type Command --content "file://pull_ecr_stack_deploy.cmd.yml"
           fi

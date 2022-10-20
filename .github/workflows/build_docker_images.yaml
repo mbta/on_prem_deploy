@@ -34,7 +34,7 @@ jobs:
       - name: Force build if workflow_dispatch or re-run
         id: force
         if: github.event_name == 'workflow_dispatch' || github.run_attempt != '1'
-        run: echo "::set-output name=force::-Force"
+        run: echo "force=-Force" >> $GITHUB_OUTPUT
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Build Erlang tag (if needed)
@@ -114,7 +114,7 @@ jobs:
       - name: Force build if workflow_dispatch or re-run
         id: force
         if: github.event_name == 'workflow_dispatch' || github.run_attempt != '1'
-        run: echo "::set-output name=force::-Force"
+        run: echo "force=-Force" >> $GITHUB_OUTPUT
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Build Elixir tag (if needed)
