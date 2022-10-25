@@ -109,6 +109,7 @@ ${portStack}
         splunk-index: "$splunkIndex"
         splunk-source: "$Service"
         splunk-format: raw
+        tag: "container_id={{.ID}}"
     deploy:
       mode: replicated
       replicas: $replicas
