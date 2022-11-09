@@ -23,6 +23,11 @@ if (-Not (Get-Command GetSecretString -errorAction SilentlyContinue)) {
     Write-Error "Helpers.ps1 was not loaded: perhaps it failed to download?" -ErrorAction Stop
 }
 
+if (-Not (docker node ls 2> $null)) {
+    Write-Output "Not a manager node, nothing to do."
+    Exit
+}
+
 $container_stack_file = "${env:USERPROFILE}\${SERVICE_NAME}_stack.yaml"
 $env:Path += ";C:\Program Files\Amazon\AWSCLIV2"
 
