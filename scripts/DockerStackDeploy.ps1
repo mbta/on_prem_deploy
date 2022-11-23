@@ -45,6 +45,7 @@ ContainerStack `
     -taskCpu $TASK_CPU `
     -taskMemory $TASK_MEMORY `
     -taskPort $TASK_PORT `
+    -replicas $TASK_REPLICAS `
     -extraArgs $DOCKER_ARGS `
     -updateOrder $UPDATE_ORDER `
 > "$container_stack_file"

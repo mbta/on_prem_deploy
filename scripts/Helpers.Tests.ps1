@@ -1,5 +1,5 @@
 BeforeAll {
-    . $PSCommandPath.Replace('.Tests.ps1','.ps1')
+    . $PSCommandPath.Replace('.Tests.ps1', '.ps1')
 }
 
 Describe "ContainerStack" {
@@ -61,9 +61,9 @@ Describe "ContainerStack" {
             -Service "service-test" `
             -Image "image" `
             -Environment @{
-              KEY = "value`nvalue2"
-              KEY2 = "single line value"
-            } `
+            KEY  = "value`nvalue2"
+            KEY2 = "single line value"
+        } `
             -SplunkToken "token" `
             -SplunkUrl "splunk.com" `
             -SplunkIndex "idx" `
@@ -103,8 +103,8 @@ Describe "ContainerStack" {
         $rawOutput | Should -Not -Match "environment:"
     }
 
-    It "Includes additional max_replicas_per_node with start-first order" {
-                $rawOutput = ContainerStack `
+    It "Includes 1 additional max_replicas_per_node with start-first order" {
+        $rawOutput = ContainerStack `
             -Service "service-test" `
             -Image "image" `
             -SplunkToken "token" `
@@ -116,5 +116,32 @@ Describe "ContainerStack" {
         $container.deploy.update_config.order | Should -Be "start-first"
         $container.deploy.rollback_config.order | Should -Be "start-first"
         $container.deploy.placement.max_replicas_per_node | Should -Be 2
+    }
+
+    It "can increase the number of replicas" {
+        $rawOutput = ContainerStack `
+            -Service "service-test" `
+            -Image "image" `
+            -SplunkToken "token" `
+            -SplunkUrl "splunk.com" `
+            -SplunkIndex "idx" `
+            -Replicas "2"
+        $output = $rawOutput | ConvertFrom-Yaml
+        $container = $output.services.container
+        $container.deploy.replicas | Should -Be 2
+        $container.deploy.placement.max_replicas_per_node | Should -Be 1
+    }
+    
+    It "ignores blank replica" {
+        $rawOutput = ContainerStack `
+            -Service "service-test" `
+            -Image "image" `
+            -SplunkToken "token" `
+            -SplunkUrl "splunk.com" `
+            -SplunkIndex "idx" `
+            -Replicas ""
+        $output = $rawOutput | ConvertFrom-Yaml
+        $container = $output.services.container
+        $container.deploy.replicas | Should -Be 1
     }
 }
