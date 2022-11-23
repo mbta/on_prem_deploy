@@ -25,6 +25,11 @@ parameters:
     description: "(optional) port(s) to expose from the container (space-separated)"
     allowedPattern: "^(\\d+( \\d+)*)?$"
     default: ""
+  TaskReplicas:
+    type: "String"
+    description: "(optional) number of replicas to run (default: 1)"
+    allowedPattern: "^\\d*$"
+    default: ""
   UpdateOrder:
     type: "String"
     description: "When starting a new task, whether to stop-first (default) or start-first"
@@ -68,6 +73,7 @@ mainSteps:
     - Set-Variable -Name TASK_CPU -Value '{{ TaskCpu }}'
     - Set-Variable -Name TASK_MEMORY -Value '{{ TaskMemory }}'
     - Set-Variable -Name TASK_PORT -Value '{{ TaskPort }}'
+    - Set-Variable -Name TASK_REPLICAS -Value '{{ TaskReplicas }}'
     - Set-Variable -Name UPDATE_ORDER -Value '{{ UpdateOrder }}'
     - Set-Variable -Name SERVICE_NAME -Value '{{ ServiceName }}'
     - Set-Variable -Name SECRET_NAME -Value '{{ EnvironmentSecret }}'

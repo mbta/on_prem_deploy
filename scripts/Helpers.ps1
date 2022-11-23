@@ -49,7 +49,7 @@ function ContainerStack()
         [string]$TaskCpu = "",
         [string]$TaskMemory = "",
         [string]$TaskPort = "",
-        [int32]$Replicas = 1,
+        [int32]$Replicas = "",
         [string]$UpdateOrder = "",
         [string]$ExtraArgs = ""
     )
@@ -81,10 +81,16 @@ $($portRows -Join "`n")
         $updateOrder = "stop-first"
     }
 
+    if ($replicas -eq "") {
+        $replicas = 1
+    }
+
     $maxReplicas = if ($updateOrder -eq "stop-first") {
         1
     } else {
-        2 * $replicas
+        # Allow an extra task to run on the server, to support starting a
+        # container before the previous one stops.
+        2
     }
 
     @"
