@@ -49,16 +49,16 @@ jobs:
       matrix:
         include:
           # Elixir 1.14
-          - elixir_version: 1.14.2
+          - elixir_version: 1.14.3
             erlang_version: 25.1.2
             windows_version: 1809
-          - elixir_version: 1.14.2
+          - elixir_version: 1.14.3
             erlang_version: 25.0.4
             windows_version: 1809
-          - elixir_version: 1.14.2
+          - elixir_version: 1.14.3
             erlang_version: 24.3.4.7
             windows_version: 1809
-          - elixir_version: 1.14.2
+          - elixir_version: 1.14.3
             erlang_version: 23.3.4.18
             windows_version: 1809
           # Elixir 1.13.4
