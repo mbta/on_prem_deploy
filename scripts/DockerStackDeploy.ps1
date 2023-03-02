@@ -14,6 +14,7 @@
 # Set-Variable -Name TASK_CPU -Value "<value>"
 # Set-Variable -Name TASK_MEMORY -Value "<value>"
 # Set-Variable -Name TASK_PORT -Value "<value>"
+# Set-Variable -Name PORT_MODE -Value "<value>"
 
 # NOTE: requires that the functions from Helpers.ps1 are sourced first.
 # . .\Helpers.ps1
@@ -45,6 +46,7 @@ ContainerStack `
     -taskCpu $TASK_CPU `
     -taskMemory $TASK_MEMORY `
     -taskPort $TASK_PORT `
+    -portMode $PORT_MODE `
     -replicas $TASK_REPLICAS `
     -extraArgs $DOCKER_ARGS `
     -updateOrder $UPDATE_ORDER `
