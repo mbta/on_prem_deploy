@@ -52,6 +52,7 @@ function ContainerStack()
         [string]$PortMode = "",
         [int32]$Replicas = "",
         [string]$UpdateOrder = "",
+        [string]$PlacementConstraint = "",
         [string]$ExtraArgs = ""
     )
 
@@ -101,6 +102,13 @@ $($portRows -Join "`n")
         2
     }
 
+    if ($PlacementConstraint -ne "") {
+        $PlacementConstraint = @"
+        constraints:
+          - $PlacementConstraint
+"@
+    }
+
     @"
 version: '3.9'
 
@@ -129,6 +137,7 @@ ${portStack}
       replicas: $replicas
       placement:
         max_replicas_per_node: $maxReplicas
+${PlacementConstraint}
       update_config:
         order: $updateOrder
       rollback_config:

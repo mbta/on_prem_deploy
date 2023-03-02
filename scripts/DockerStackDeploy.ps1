@@ -15,6 +15,7 @@
 # Set-Variable -Name TASK_MEMORY -Value "<value>"
 # Set-Variable -Name TASK_PORT -Value "<value>"
 # Set-Variable -Name PORT_MODE -Value "<value>"
+# Set-Variable -Name PLACEMENT_CONSTRAINT -Value "<value>"
 
 # NOTE: requires that the functions from Helpers.ps1 are sourced first.
 # . .\Helpers.ps1
@@ -50,6 +51,7 @@ ContainerStack `
     -replicas $TASK_REPLICAS `
     -extraArgs $DOCKER_ARGS `
     -updateOrder $UPDATE_ORDER `
+    -placementConstraint $PLACEMENT_CONSTRAINT `
 > "$container_stack_file"
 
 function dockerStackDeploy() {
