@@ -39,7 +39,9 @@ Describe "ContainerStack" {
             -TaskPort "4000" `
         | ConvertFrom-Yaml
         $output.services.container.ports | Should -HaveCount 1
-        $output.services.container.ports[0] | Should -Be "4000:4000"
+        $output.services.container.ports[0].mode | Should -Be "ingress"
+        $output.services.container.ports[0].target | Should -Be 4000
+        $output.services.container.ports[0].published | Should -Be 4000
     }
 
     It "Includes multiple ports on separate lines" {
@@ -52,8 +54,28 @@ Describe "ContainerStack" {
             -TaskPort "4000 5000" `
         | ConvertFrom-Yaml
         $output.services.container.ports | Should -HaveCount 2
-        $output.services.container.ports[0] | Should -Be "4000:4000"
-        $output.services.container.ports[1] | Should -Be "5000:5000"
+        $output.services.container.ports[0].mode | Should -Be "ingress"
+        $output.services.container.ports[0].target | Should -Be 4000
+        $output.services.container.ports[0].published | Should -Be 4000
+        $output.services.container.ports[1].mode | Should -Be "ingress"
+        $output.services.container.ports[1].target | Should -Be 5000
+        $output.services.container.ports[1].published | Should -Be 5000
+    }
+
+    It "Can override the port mode" {
+        $output = ContainerStack `
+            -Service "service-test" `
+            -Image "image" `
+            -SplunkToken "token" `
+            -SplunkUrl "splunk.com" `
+            -SplunkIndex "idx" `
+            -TaskPort "4000" `
+            -PortMode "host" `
+        | ConvertFrom-Yaml
+        $output.services.container.ports | Should -HaveCount 1
+        $output.services.container.ports[0].mode | Should -Be "host"
+        $output.services.container.ports[0].target | Should -Be 4000
+        $output.services.container.ports[0].published | Should -Be 4000
     }
 
     It "Includes environment variables if provided" {

@@ -49,6 +49,7 @@ function ContainerStack()
         [string]$TaskCpu = "",
         [string]$TaskMemory = "",
         [string]$TaskPort = "",
+        [string]$PortMode = "",
         [int32]$Replicas = "",
         [string]$UpdateOrder = "",
         [string]$ExtraArgs = ""
@@ -69,8 +70,15 @@ $($environmentRows -Join "`n")
     $portStack = if ("$TaskPort" -eq "") {
         ""
     } else {
+        if ($PortMode -eq "") {
+          $PortMode = "ingress"
+        }
         $portRows = $TaskPort.split(" ") `
-          | ForEach-Object { "      - ${_}:${_}" }
+          | ForEach-Object { @"
+      - mode: "$PortMode"
+        target: ${_}
+        published: ${_}
+"@ }
         @"
     ports:
 $($portRows -Join "`n")
