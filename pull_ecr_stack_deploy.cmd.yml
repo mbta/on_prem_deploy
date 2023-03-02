@@ -39,6 +39,10 @@ parameters:
     type: "String"
     description: "When starting a new task, whether to stop-first (default) or start-first"
     default: "stop-first"
+  PlacementConstraint:
+    type: "String"
+    description: "(optional) Placement constraint for the deploy"
+    default: ""
   DockerArgs:
     type: "String"
     displayType: textarea
@@ -81,6 +85,7 @@ mainSteps:
     - Set-Variable -Name PORT_MODE -Value '{{ PortMode }}'
     - Set-Variable -Name TASK_REPLICAS -Value '{{ TaskReplicas }}'
     - Set-Variable -Name UPDATE_ORDER -Value '{{ UpdateOrder }}'
+    - Set-Variable -Name PLACEMENT_CONSTRAINT -Value '{{ PlacementConstraint }}'
     - Set-Variable -Name SERVICE_NAME -Value '{{ ServiceName }}'
     - Set-Variable -Name SECRET_NAME -Value '{{ EnvironmentSecret }}'
     - Set-Variable -Name SPLUNK_URL -Value '{{ SplunkURL}}'

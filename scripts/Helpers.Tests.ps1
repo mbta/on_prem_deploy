@@ -27,6 +27,7 @@ Describe "ContainerStack" {
         $container.deploy.rollback_config.order | Should -Be "stop-first"
         $container.deploy.resources.limits.cpus | Should -Be "0.25"
         $container.deploy.resources.limits.memory | Should -Be "256M"
+        $rawOutput | Should -Not -Match "constraints:"
     }
 
     It "Includes ports if configured" {
@@ -165,5 +166,19 @@ Describe "ContainerStack" {
         $output = $rawOutput | ConvertFrom-Yaml
         $container = $output.services.container
         $container.deploy.replicas | Should -Be 1
+    }
+
+    It "can set a placement constraint" {
+        $rawOutput = ContainerStack `
+            -Service "service-test" `
+            -Image "image" `
+            -SplunkToken "token" `
+            -SplunkUrl "splunk.com" `
+            -SplunkIndex "idx" `
+            -PlacementConstraint "node.hostname == HOSTNAME"
+        $output = $rawOutput | ConvertFrom-Yaml
+        $container = $output.services.container
+        $container.deploy.placement.constraints | Should -HaveCount 1
+        $container.deploy.placement.constraints[0] | Should -Be "node.hostname == HOSTNAME"
     }
 }
