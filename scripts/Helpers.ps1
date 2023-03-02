@@ -70,10 +70,11 @@ $($environmentRows -Join "`n")
         ""
     } else {
         $portRows = $TaskPort.split(" ") `
-          | ForEach-Object { "      - ${_}:${_}" }
+          | ForEach-Object { "      - '${_}:${_}'" }
         @"
     ports:
 $($portRows -Join "`n")
+      - '60000'
 "@
     }
 

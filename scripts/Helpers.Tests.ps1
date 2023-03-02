@@ -38,7 +38,8 @@ Describe "ContainerStack" {
             -SplunkIndex "idx" `
             -TaskPort "4000" `
         | ConvertFrom-Yaml
-        $output.services.container.ports | Should -HaveCount 1
+        # count includes fake port
+        $output.services.container.ports | Should -HaveCount 2
         $output.services.container.ports[0] | Should -Be "4000:4000"
     }
 
@@ -51,7 +52,8 @@ Describe "ContainerStack" {
             -SplunkIndex "idx" `
             -TaskPort "4000 5000" `
         | ConvertFrom-Yaml
-        $output.services.container.ports | Should -HaveCount 2
+        # count includes fake port
+        $output.services.container.ports | Should -HaveCount 3
         $output.services.container.ports[0] | Should -Be "4000:4000"
         $output.services.container.ports[1] | Should -Be "5000:5000"
     }
