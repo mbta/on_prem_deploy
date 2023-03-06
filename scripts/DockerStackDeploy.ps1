@@ -50,8 +50,21 @@ ContainerStack `
     -updateOrder $UPDATE_ORDER `
 > "$container_stack_file"
 
-docker stack deploy --with-registry-auth -c "$container_stack_file" "$SERVICE_NAME"
-if (-not $?) {
+function dockerStackDeploy() {
+    docker stack deploy --with-registry-auth -c "$container_stack_file" "$SERVICE_NAME"
+    return $?
+}
+
+$returnCode = dockerStackDeploy
+if (-not $returnCode) {
+    # https://github.com/moby/moby/swarmkit/issues/1379
+    #
+    # Since we're running the same stack on all the instances, it should be safe
+    # to retry. If it fails another time, consider it failed and stop the deploy.
+    $returnCode = dockerStackDeploy
+}
+
+if (-not $returnCode) {
   Write-Error "Unable to start ${DOCKER_REPO}:${DOCKER_TAG}" -ErrorAction Stop
 }
 
