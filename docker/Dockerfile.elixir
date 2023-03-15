@@ -2,7 +2,7 @@
 # - https://github.com/StefanScherer/dockerfiles-windows/blob/main/chocolatey/Dockerfile
 # - https://github.com/avid-technology/docker-erlang-windows
 
-ARG BUILD_IMAGE=paulswartz/windows-erlang:24.3.4.2-windows-1809
+ARG BUILD_IMAGE=mbtatools/windows-erlang:24.3.4.2-windows-1809
 ARG FROM_IMAGE=$BUILD_IMAGE
 
 FROM $BUILD_IMAGE as build
