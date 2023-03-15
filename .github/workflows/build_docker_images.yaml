@@ -5,6 +5,9 @@ on:
   push:
     branches: [main]
 
+env:
+  REGISTRY: ghcr.io
+
 jobs:
   erlang2019:
     name: Erlang images
@@ -29,20 +32,32 @@ jobs:
           - erlang_version: 22.3
             windows_version: 1809
     runs-on: windows-2019
+    permissions:
+      contents: read
+      packages: write
     steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
       - name: Force build if workflow_dispatch or re-run
         id: force
         if: github.event_name == 'workflow_dispatch' || github.run_attempt != '1'
         run: echo "force=-Force" >> $env:GITHUB_OUTPUT
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Build Erlang tag (if needed)
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      - name: Build Erlang tag for Docker Hub (if needed)
         run: ./build_erlang_container.ps1 -ImageNameRoot ${{ secrets.DOCKER_USERNAME }}/windows- -WindowsVersion ${{ matrix.windows_version }} -ErlangVersion ${{ matrix.erlang_version }} ${{ steps.force.outputs.force }}
+      - name: Log in to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Erlang tag for GHCR (if needed)
+        run: ./build_erlang_container.ps1 -ImageNameRoot ${{ env.REGISTRY }}/${{ github.repository_owner }}/windows- -WindowsVersion ${{ matrix.windows_version }} -ErlangVersion ${{ matrix.erlang_version }} ${{ steps.force.outputs.force }}
+
   elixir2019:
     name: Elixir images
     continue-on-error: true
@@ -121,17 +136,28 @@ jobs:
             erlang_version: 22.3
             windows_version: 1809
     runs-on: windows-2019
+    permissions:
+      contents: read
+      packages: write
     steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
       - name: Force build if workflow_dispatch or re-run
         id: force
         if: github.event_name == 'workflow_dispatch' || github.run_attempt != '1'
         run: echo "force=-Force" >> $env:GITHUB_OUTPUT
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Build Elixir tag (if needed)
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      - name: Build Elixir tag for Docker Hub (if needed)
         run: ./build_elixir_container.ps1 -ImageNameRoot ${{ secrets.DOCKER_USERNAME }}/windows- -WindowsVersion ${{ matrix.windows_version }} -ErlangVersion ${{ matrix.erlang_version }} -ElixirVersion ${{ matrix.elixir_version }} ${{ steps.force.outputs.force }}
+      - name: Log in to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Elixir tag for GHCR (if needed)
+        run: ./build_elixir_container.ps1 -ImageNameRoot ${{ env.REGISTRY }}/${{ github.repository_owner }}/windows- -WindowsVersion ${{ matrix.windows_version }} -ErlangVersion ${{ matrix.erlang_version }} -ElixirVersion ${{ matrix.elixir_version }} ${{ steps.force.outputs.force }}
