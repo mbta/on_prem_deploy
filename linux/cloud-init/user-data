@@ -1,0 +1,17 @@
+#cloud-config
+
+users:
+  - name: pswartz
+    gecos: Paul Swartz
+    groups: users,admin
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_import_id:
+      - gh:paulswartz
+  - name: iwestcott
+    gecos: Ian Westcott
+    groups: users,admin
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_import_id:
+      - gh:ianwestcott
