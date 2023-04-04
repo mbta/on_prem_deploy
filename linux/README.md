@@ -1,28 +1,23 @@
 ## Requirements
 
-So far, this only works on an Intel Mac. It would probably work on a
+So far, this only works on an Intel Mac. It would probably work on an Intel Linux machine as well.
 
 ``` shell
-$ brew install qemu
+$ brew install virtualbox
 ```
 
 ## Usage
-In one tab:
 ``` shell
-$ python3 -m http.server --directory ./cloud-init
+$ vagrant up
 ```
 
-In another tab:
+Vagrant will complain about `Authentication failure. Retrying...` and you can Control-C out of `vagrant up` at that point. 
+
+You can SSH into the VM with either:
 
 ``` shell
-$ ./run-local.sh
-```
-
-Once that finishes (you'll see the SSH fingerprints for the user SSH keys), in a third tab:
-
-``` shell
-$ ssh -p 5555 <username>@localhost
+$ ssh -p2222 <username>@localhost
 ```
 
 You'll also want to configure TOTP by running `google-authenticator` once you've
-logged in with SSH.
+logged in with SSH in order to enable `sudo`.

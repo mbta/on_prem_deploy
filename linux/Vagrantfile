@@ -1,0 +1,28 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  vm_name = "onprem-linux"
+
+  config.vagrant.plugins = "vagrant-env" # Install plugin to support .env files
+  config.env.enable # enable .env support plugin (it will let us easily enable cloud_init support)
+
+  config.vm.box = "ubuntu/jammy64"
+
+  config.vm.define vm_name
+
+  config.vm.hostname = vm_name
+
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    vb.name = vm_name
+
+    # Customize the amount of memory on the VM:
+    vb.memory = "512"
+  end
+
+  config.vm.cloud_init :user_data do |cloud_init|
+    cloud_init.content_type = "text/cloud-config"
+    cloud_init.inline = File.read("cloud-init/vendor-data") + File.read("cloud-init/user-data") + "\nhostname: #{vm_name}"
+  end
+end
