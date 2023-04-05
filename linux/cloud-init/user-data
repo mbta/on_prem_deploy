@@ -21,5 +21,5 @@ ansible:
   install_method: distro
   pull:
     url: "https://github.com/paulswartz/on_prem_deploy.git"
-    checkout: linux-ansible
+    checkout: linux
     playbook_name: linux/main.yml
