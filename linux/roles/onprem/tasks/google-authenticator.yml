@@ -10,8 +10,12 @@
     group: root
     mode: '0755'
     content: |
+      # don't require Google Authenticator if sudo doesn't require a password (vagrant)
+      sudo -vn 2>/dev/null && return
+
+      trap "exit 1" SIGINT SIGQUIT
       if [ ! -f $HOME/.google_authenticator ]; then
-        google-authenticator -tDW -r 3 -R 30
+        google-authenticator -ftDW -r 3 -R 30
       fi
       if [ ! -f $HOME/.google_authenticator ]; then
         exit 1
