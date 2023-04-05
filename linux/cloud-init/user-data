@@ -6,6 +6,7 @@ users:
 ansible:
   package_name: ansible
   install_method: distro
+  run_user: root
   pull:
     url: "https://github.com/paulswartz/on_prem_deploy.git"
     checkout: linux
