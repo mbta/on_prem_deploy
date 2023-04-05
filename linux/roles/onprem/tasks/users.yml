@@ -17,3 +17,11 @@
     key: "https://github.com/{{ item.github }}.keys"
   become: true
   loop: "{{ devops_users }}"
+- name: Users in admin group do not need passwords
+  copy:
+    dest: /etc/sudoers.d/mbta-admins
+    owner: root
+    group: root
+    mode: '0440'
+    content: |
+      %admin ALL=(ALL) NOPASSWD:ALL
