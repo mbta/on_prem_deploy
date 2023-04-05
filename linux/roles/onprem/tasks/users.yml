@@ -1,0 +1,19 @@
+---
+- name: create devops users
+  user:
+    name: "{{ item.username }}"
+    comment: "{{ item.comment }}"
+    password: "!"
+    password_lock: true
+    groups:
+      - admin
+      - users
+    shell: /bin/bash
+    append: false
+  loop: "{{ devops_users }}"
+- name: copy user's ssh key
+  authorized_key:
+    user: "{{ item.username }}"
+    key: "https://github.com/{{ item.github }}.keys"
+  become: true
+  loop: "{{ devops_users }}"

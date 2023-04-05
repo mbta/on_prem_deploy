@@ -1,23 +1,7 @@
 #cloud-config
 
-users:
-  - name: pswartz
-    gecos: Paul Swartz
-    groups: users,admin
-    shell: /bin/bash
-    lock_passwd: true
-    ssh_import_id:
-      - gh:paulswartz
-  - name: iwestcott
-    gecos: Ian Westcott
-    groups: users,admin
-    shell: /bin/bash
-    lock_passwd: true
-    ssh_import_id:
-      - gh:ianwestcott
-
 ansible:
-  package_name: ansible-core
+  package_name: ansible
   install_method: distro
   pull:
     url: "https://github.com/paulswartz/on_prem_deploy.git"

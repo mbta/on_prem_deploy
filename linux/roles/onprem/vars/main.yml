@@ -1,0 +1,9 @@
+---
+
+devops_users:
+  - username: pswartz
+    comment: Paul Swartz
+    github: paulswartz
+  - username: iwestcott
+    comment: Ian Westcott
+    github: ianwestcott
