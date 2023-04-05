@@ -3,12 +3,9 @@
 package_update: true
 package_upgrade: true
 package_reboot_if_required: true
-packages:
-  - libpam-google-authenticator
 
 ssh:
   emit_keys_to_console: false
-
 
 write_files:
   - path: /etc/pam.d/sshd
@@ -78,18 +75,3 @@ write_files:
      AuthenticationMethods publickey,keyboard-interactive
      ChallengeResponseAuthentication yes
      PasswordAuthentication no
-  - path: /etc/pam.d/sudo
-    content: |
-      #%PAM-1.0
-
-      # Set up user limits from /etc/security/limits.conf.
-      session    required   pam_limits.so
-
-      session    required   pam_env.so readenv=1 user_readenv=0
-      session    required   pam_env.so readenv=1 envfile=/etc/default/locale user_readenv=0
-
-      #@include common-auth
-      @include common-account
-      @include common-session-noninteractive
-      # Require 2FA
-      auth required pam_google_authenticator.so
