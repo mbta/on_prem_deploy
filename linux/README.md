@@ -11,13 +11,20 @@ $ brew install virtualbox
 $ vagrant up
 ```
 
-Vagrant will complain about `Authentication failure. Retrying...` and you can Control-C out of `vagrant up` at that point. 
+Vagrant may complain about `Authentication failure. Retrying...` and you can Control-C out of `vagrant up` at that point. 
 
 You can SSH into the VM with either:
 
 ``` shell
+$ vagrant ssh
+
+# or 
+
 $ ssh -p2222 <username>@localhost
 ```
 
-You'll also want to configure TOTP by running `google-authenticator` once you've
-logged in with SSH in order to enable `sudo`.
+To iterate on the Ansible configuration, you can run `ansible-pull` directly from an SSH connection:
+
+``` shell
+sudo ansible-pull -C linux -U https://github.com/paulswartz/on_prem_deploy.git linux/main.yml
+```
