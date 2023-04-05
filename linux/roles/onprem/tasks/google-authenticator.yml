@@ -17,3 +17,33 @@
     regexp: '^@include common-auth'
     line: "#@include common-auth"
     state: present
+- name: (ssh) Disable password auth
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication yes'
+    line: "PasswordAuthentication no"
+    state: present
+- name: (ssh) Require google authenticator (if configured)
+  blockinfile:
+    path: /etc/pam.d/sshd
+    marker: "# {mark} Google Authenticator"
+    state: present
+    insertafter: EOF
+    block: |
+      auth required pam_google_authenticator.so nullok
+      auth required pam_permit.so
+- name: (ssh) Disable normal auth
+  lineinfile:
+    path: /etc/pam.d/sshd
+    regexp: '^@include common-auth'
+    line: "#@include common-auth"
+    state: present
+- name: (ssh) Enable keyboard-interactive authentication
+  copy:
+    dest: /etc/ssh/sshd_config.d/50-google-authenticator.conf
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+     AuthenticationMethods publickey,keyboard-interactive
+     ChallengeResponseAuthentication yes
