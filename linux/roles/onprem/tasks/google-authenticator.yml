@@ -3,6 +3,19 @@
   apt:
     name: libpam-google-authenticator
     state: present
+- name: Require Google Authenticator configuration on login
+  copy:
+    dest: /etc/profile.d/google-authenticator.sh
+    owner: root
+    group: root
+    mode: '0755'
+    content: |
+      if [ ! -f $HOME/.google_authenticator ]; then
+        google-authenticator -tDW -r 3 -R 30
+      fi
+      if [ ! -f $HOME/.google_authenticator ]; then
+        exit 1
+      fi
 - name: (sudo) Require google authenticator
   blockinfile:
     path: /etc/pam.d/sudo
@@ -23,6 +36,7 @@
     regexp: '^PasswordAuthentication yes'
     line: "PasswordAuthentication no"
     state: present
+  notify: ssh
 - name: (ssh) Require google authenticator (if configured)
   blockinfile:
     path: /etc/pam.d/sshd
@@ -32,12 +46,14 @@
     block: |
       auth required pam_google_authenticator.so nullok
       auth required pam_permit.so
+  notify: ssh
 - name: (ssh) Disable normal auth
   lineinfile:
     path: /etc/pam.d/sshd
     regexp: '^@include common-auth'
     line: "#@include common-auth"
     state: present
+  notify: ssh
 - name: (ssh) Enable keyboard-interactive authentication
   copy:
     dest: /etc/ssh/sshd_config.d/50-google-authenticator.conf
@@ -47,16 +63,4 @@
     content: |
      AuthenticationMethods publickey,keyboard-interactive
      ChallengeResponseAuthentication yes
-- name: Require Google Authenticator configuration on login
-  copy:
-    dest: /etc/profile.d/google-authenticator.sh
-    owner: root
-    group: root
-    mode: '0755'
-    content: |
-      if [ ! -f $HOME/.google_authenticator ]; then
-        google-authenticator -tDW -r 3 -R 30
-      fi
-      if [ ! -f $HOME/.google_authenticator ]; then
-        exit 1
-      fi
+  notify: ssh
