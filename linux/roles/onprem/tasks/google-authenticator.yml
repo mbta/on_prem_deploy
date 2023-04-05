@@ -1,0 +1,19 @@
+---
+- name: Install libpam-google-authenticator
+  apt:
+    name: libpam-google-authenticator
+    state: present
+- name: (sudo) Require google authenticator
+  blockinfile:
+    path: /etc/pam.d/sudo
+    marker: "# {mark} Google Authenticator"
+    state: present
+    insertafter: EOF
+    block: |
+      auth required pam_google_authenticator.so
+- name: (sudo) Disable normal auth
+  lineinfile:
+    path: /etc/pam.d/sudo
+    regexp: '^@include common-auth'
+    line: "#@include common-auth"
+    state: present
