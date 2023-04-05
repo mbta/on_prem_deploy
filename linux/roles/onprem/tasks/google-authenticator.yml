@@ -10,9 +10,8 @@
     group: root
     mode: '0755'
     content: |
-      # don't require Google Authenticator if sudo doesn't require a password (vagrant)
-      sudo -vn 2>/dev/null && return
-
+      # only require this for members of the `users` group
+      id -nG "$USER" | grep -qw "users" || return
       trap "exit 1" SIGINT SIGQUIT
       if [ ! -f $HOME/.google_authenticator ]; then
         google-authenticator -ftDW -r 3 -R 30
@@ -24,7 +23,7 @@
   blockinfile:
     path: /etc/pam.d/sudo
     marker: "# {mark} Google Authenticator"
-    state: present
+    state: absent
     insertafter: EOF
     block: |
       auth required pam_google_authenticator.so
@@ -33,7 +32,7 @@
     path: /etc/pam.d/sudo
     regexp: '^@include common-auth'
     line: "#@include common-auth"
-    state: present
+    state: absent
 - name: (ssh) Disable password auth
   lineinfile:
     path: /etc/ssh/sshd_config
