@@ -1,0 +1,10 @@
+---
+- name: Ensure cron is present
+  apt:
+    name: cron
+- name: Run ansible-pull every 15m
+  cron:
+    name: ansible-pull
+    user: root
+    job: "ansible-pull -C linux -U https://github.com/paulswartz/on_prem_deploy.git linux/main.yml"
+    minute: "*/15"
