@@ -15,3 +15,11 @@ users:
     lock_passwd: true
     ssh_import_id:
       - gh:ianwestcott
+
+ansible:
+  package_name: ansible-core
+  install_method: distro
+  pull:
+    url: "https://github.com/paulswartz/on_prem_deploy.git"
+    checkout: linux-ansible
+    playbook_name: linux/main.yml
