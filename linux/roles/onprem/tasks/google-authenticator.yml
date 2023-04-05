@@ -47,3 +47,16 @@
     content: |
      AuthenticationMethods publickey,keyboard-interactive
      ChallengeResponseAuthentication yes
+- name: Require Google Authenticator configuration on login
+  copy:
+    dest: /etc/profile.d/google-authenticator.sh
+    owner: root
+    group: root
+    mode: '0755'
+    content: |
+      if [ ! -f $HOME/.google_authenticator ]; then
+        google-authenticator -tDW -r 3 -R 30
+      fi
+      if [ ! -f $HOME/.google_authenticator ]; then
+        exit 1
+      fi
