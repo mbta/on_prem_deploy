@@ -1,5 +1,8 @@
 #cloud-config
 
+# By not including `- default` here, we don't create the `ubuntu` admin user.
+users:
+
 ansible:
   package_name: ansible
   install_method: distro
