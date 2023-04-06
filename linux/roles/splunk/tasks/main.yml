@@ -45,3 +45,9 @@
     src: files/inputs.conf
     dest: /opt/splunkforwarder/etc/system/local/inputs.conf
   notify: splunk
+- name: Verify SSL certificates
+  lineinfile:
+    path: /opt/splunkforwarder/etc/splunk-launch.conf
+    regexp: "^PYTHONHTTPSVERIFY=0"
+    line: "PYTHONHTTPSVERIFY=1"
+  notify: splunk
