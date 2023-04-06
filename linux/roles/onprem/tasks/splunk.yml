@@ -1,0 +1,15 @@
+---
+- name: create Splunk user
+  user:
+    name: splunk
+    password: "!"
+    password_lock: true
+    shell: /bin/false
+- name: download Splunk universal forwarder
+  get_url:
+    checksum: "{{ splunk.checksum }}"
+    dest: "/home/splunk/{{ splunk.deb }}"
+    url: "https://download.splunk.com/products/universalforwarder/releases/{{ splunk.version }}/linux/{{ splunk.deb }}"
+- name: Install Splunk universal forwarder
+  apt:
+    deb: "/home/splunk/{{ splunk.deb }}"

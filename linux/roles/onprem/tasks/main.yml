@@ -2,3 +2,4 @@
 - include_tasks: google-authenticator.yml
 - include_tasks: users.yml
 - include_tasks: ansible-pull.yml
+- include_tasks: splunk.yml
