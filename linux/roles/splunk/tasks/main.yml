@@ -13,6 +13,14 @@
 - name: Install Splunk universal forwarder
   apt:
     deb: "/home/splunk/{{ splunk.deb }}"
+- name: Generate local Splunk admin password
+  shell:
+    creates: /root/.splunk_admin_password
+    cmd: python3 -c "import secrets; print(secrets.token_urlsafe())" > /root/.splunk_admin_password
+- name: Initialize Splunk
+  shell:
+    cmd: /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt --seed-passwd $(cat /root/.splunk_admin_password)
+    creates: /opt/splunkforwarder/var/run/splunk/splunkd.pid
 - name: Copy Splunkcloud configuration
   copy:
     owner: splunk
@@ -25,3 +33,8 @@
     group: splunk
     src: /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl
     dest: /opt/splunkforwarder/etc/deployment-apps
+- name: Add Splunkcloud configuration to Splunk
+  shell:
+    creates: /opt/splunkforwarder/etc/apps/100_mbta_splunkcloud
+    cmd: /opt/splunkforwarder/bin/splunk install app /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl  -auth admin:$(cat /root/.splunk_admin_password)
+  notify: splunk
