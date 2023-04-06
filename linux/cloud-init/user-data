@@ -18,3 +18,4 @@ ansible:
     url: "https://github.com/paulswartz/on_prem_deploy.git"
     checkout: linux
     playbook_name: linux/main.yml
+    vault_password_file: /root/.ansible_vault_password

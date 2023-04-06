@@ -25,6 +25,17 @@ Vagrant.configure("2") do |config|
 
   config.vm.cloud_init :user_data do |cloud_init|
     cloud_init.content_type = "text/cloud-config"
+    cloud_init.inline = <<-EOF
+#cloud-config
+write_files:
+  - path: /root/.ansible_vault_password
+    mode: '0400'
+    content: #{File.read(".ansible_vault_password")}
+EOF
+  end
+
+  config.vm.cloud_init :user_data do |cloud_init|
+    cloud_init.content_type = "text/cloud-config"
     cloud_init.path = "cloud-init/user-data"
   end
 end

@@ -5,3 +5,4 @@ tmp/
 
 
 /linux/*.img
+/linux/.ansible_vault_password
