@@ -13,3 +13,15 @@
 - name: Install Splunk universal forwarder
   apt:
     deb: "/home/splunk/{{ splunk.deb }}"
+- name: Copy Splunkcloud configuration
+  copy:
+    owner: splunk
+    group: splunk
+    src: files/splunkclouduf.spl
+    dest: /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl
+- name: Expand Splunkcloud configuration
+  unarchive:
+    owner: splunk
+    group: splunk
+    src: /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl
+    dest: /opt/splunkforwarder/etc/deployment-apps
