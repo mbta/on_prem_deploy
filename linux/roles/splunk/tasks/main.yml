@@ -38,3 +38,10 @@
     creates: /opt/splunkforwarder/etc/apps/100_mbta_splunkcloud
     cmd: /opt/splunkforwarder/bin/splunk install app /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl  -auth admin:$(cat /root/.splunk_admin_password)
   notify: splunk
+- name: Configure Splunk inputs
+  copy:
+    owner: splunk
+    group: splunk
+    src: files/inputs.conf
+    dest: /opt/splunkforwarder/etc/system/local/inputs.conf
+  notify: splunk
