@@ -6,10 +6,12 @@ So far, this only works on an Intel Mac. It would probably work on an Intel Linu
 $ brew install virtualbox
 ```
 
-You'll also need to put the Vault password (stored in 1Password) into `.ansible_vault_password`.
+You'll also need to put the Vault password (stored in 1Password) into
+`.ansible_vault_password` or the `ANSIBLE_VAULT_PASSWORD` environment variable.
 
 ## Usage
 ``` shell
+$ vagrant plugin install vagrant-env
 $ vagrant up
 ```
 
