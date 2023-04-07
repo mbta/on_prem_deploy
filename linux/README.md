@@ -6,6 +6,8 @@ So far, this only works on an Intel Mac. It would probably work on an Intel Linu
 $ brew install virtualbox
 ```
 
+You'll also need to put the Vault password (stored in 1Password) into `.ansible_vault_password`.
+
 ## Usage
 ``` shell
 $ vagrant up
@@ -26,5 +28,5 @@ $ ssh -p2222 <username>@localhost
 To iterate on the Ansible configuration, you can run `ansible-pull` directly from an SSH connection:
 
 ``` shell
-sudo ansible-pull -C linux -U https://github.com/paulswartz/on_prem_deploy.git linux/main.yml
+sudo ansible-pull -C linux -U https://github.com/paulswartz/on_prem_deploy.git --vault-password-file /root/.ansible_vault_password linux/main.yml
 ```
