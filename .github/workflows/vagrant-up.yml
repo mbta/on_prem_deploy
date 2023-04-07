@@ -1,0 +1,25 @@
+name: vagrant-up
+
+on: [push]
+
+jobs:
+  vagrant-up:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache Vagrant boxes
+        uses: actions/cache@v3
+        with:
+          path: ~/.vagrant.d/boxes
+          key: ${{ runner.os }}-vagrant-${{ hashFiles('linux/Vagrantfile') }}
+          restore-keys: |
+            ${{ runner.os }}-vagrant-
+      - name: Show Vagrant version
+        run: vagrant --version
+      - name: Install vagrant-env plugin
+        run: vagrant plugin install vagrant-env
+      - name: Run vagrant up
+        working-directory: linux
+        env:
+          ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+        run: vagrant up

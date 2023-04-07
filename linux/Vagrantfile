@@ -29,7 +29,7 @@ hostname: #{vm_name}
 write_files:
   - path: /root/.ansible_vault_password
     mode: '0400'
-    content: #{File.read(".ansible_vault_password")}
+    content: #{ENV["ANSIBLE_VAULT_PASSWORD"] || File.read(".ansible_vault_password")}
 EOF
   end
 
