@@ -6,6 +6,8 @@ Date: 2023-04-05
 
 Accepted
 
+Amended By [3. Use Ansible for configuration](0003-use-ansible-for-configuration.md)
+
 ## Context
 
 We need a way to provide a Linux image to ITD to run in the VMware environment,
