@@ -1,0 +1,81 @@
+---
+- name: Ensure required packages are installed
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - ca-certificates
+    - curl
+    - gnupg
+- name: Ensure old Docker packages are not installed
+  apt:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - docker
+    - docker-engine
+    - docker.io
+    - containerd
+    - runc
+- name: Check if AWS GPG key is present
+  shell: gpg --list-keys BCE9D9A42D51784F 2> /dev/null
+  ignore_errors: true
+  register: aws_gpg_key
+  changed_when: aws_gpg_key.rc != 0
+- name: Fetch GPG key for AWS
+  shell:
+    cmd: gpg --keyserver hkps://keyserver.ubuntu.com --recv BCE9D9A42D51784F
+  when: aws_gpg_key.changed
+- name: Fetch GPG key for Docker
+  shell:
+    cmd: |
+       install -m 0755 -d /etc/apt/keyrings
+       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+       chmod a+r /etc/apt/keyrings/docker.gpg
+    creates: /etc/apt/keyrings/docker.gpg
+- name: Add Docker repo to apt
+  register: add_docker_repo
+  shell:
+    cmd: echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" > /etc/apt/sources.list.d/docker.list
+    creates: /etc/apt/sources.list.d/docker.list
+- name: Update apt cache
+  shell: apt update
+  when: add_docker_repo.changed
+- name: Ensure new Docker packages are installed
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-buildx-plugin
+    - docker-compose-plugin
+- name: Fetch install script signature
+  get_url:
+    dest: /root/ecs-anywhere-install.sh.asc
+    url: "https://amazon-ecs-agent.s3.amazonaws.com/ecs-anywhere-install-latest.sh.asc"
+  register: ecs_anywhere_sh_asc
+- name: Fetch install script
+  get_url:
+    dest: /root/ecs-anywhere-install.sh
+    url: "https://amazon-ecs-agent.s3.amazonaws.com/ecs-anywhere-install-latest.sh"
+  register: ecs_anywhere_sh
+- name: Verify install script
+  shell:
+    gpg --verify /root/ecs-anywhere-install.sh.asc /root/ecs-anywhere-install.sh
+  when: ecs_anywhere_sh_asc.changed or ecs_anywhere_sh.changed
+- name: Install ECS Anywhere
+  when: ecs_anywhere.activation_id is defined and ecs_anywhere.activation_code is defined
+  shell:
+    cmd: |
+      bash /root/ecs-anywhere-install.sh \
+      --region {{ ecs_anywhere.region }} \
+      --cluster {{ ecs_anywhere.cluster }} \
+      --activation-id {{ ecs_anywhere.activation_id | trim | quote }} \
+      --activation-code {{ ecs_anywhere.activation_code | trim | quote }}
+    creates: /etc/init/amazon-ssm-agent.conf
+- name: SSM is running
+  service:
+    name: amazon-ssm-agent
+    state: started
