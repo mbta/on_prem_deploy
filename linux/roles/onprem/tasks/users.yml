@@ -1,4 +1,7 @@
 ---
+- name: create docker group
+  group:
+    name: docker
 - name: create devops users
   user:
     name: "{{ item.username }}"
@@ -8,6 +11,7 @@
     groups:
       - admin
       - users
+      - docker
     shell: /bin/bash
     append: false
   loop: "{{ devops_users }}"
