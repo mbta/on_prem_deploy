@@ -10,7 +10,7 @@ jobs:
       - name: Cache Vagrant boxes
         uses: actions/cache@v3
         with:
-          path: ~/.vagrant.d/boxes
+          path: ~/.vagrant.d
           key: ${{ runner.os }}-vagrant-${{ hashFiles('linux/Vagrantfile') }}
           restore-keys: |
             ${{ runner.os }}-vagrant-
@@ -24,9 +24,7 @@ jobs:
         working-directory: linux
         env:
           ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
-        run: |
-          vagrant box update
-          vagrant up
+        run: vagrant up
       - name: Output Cloud-Init status
         if: ${{ ! cancelled() }}
         working-directory: linux
