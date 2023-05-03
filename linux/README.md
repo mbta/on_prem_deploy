@@ -12,6 +12,7 @@ You'll also need to put the Vault password (stored in 1Password) into
 ## Usage
 ``` shell
 $ vagrant plugin install vagrant-env
+$ vagrant plugin install vagrant-vbguest
 $ vagrant up
 ```
 
