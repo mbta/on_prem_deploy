@@ -24,4 +24,6 @@ jobs:
         working-directory: linux
         env:
           ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
-        run: vagrant up
+        run: |
+          vagrant box update
+          vagrant up
