@@ -27,3 +27,9 @@ jobs:
         run: |
           vagrant box update
           vagrant up
+      - name: Output Cloud-Init status
+        if: ${{ ! cancelled() }}
+        working-directory: linux
+        env:
+          ANSIBLE_VAULT_PASSWORD: ignored
+        run: vagrant ssh -c 'cat /run/cloud-init/status.json'
