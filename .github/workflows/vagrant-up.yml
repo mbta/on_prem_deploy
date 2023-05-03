@@ -16,8 +16,10 @@ jobs:
             ${{ runner.os }}-vagrant-
       - name: Show Vagrant version
         run: vagrant --version
-      - name: Install vagrant-env plugin
-        run: vagrant plugin install vagrant-env
+      - name: Install vagrant plugins
+        run: |
+          vagrant plugin install vagrant-env
+          vagrant plugin install vagrant-vbguest
       - name: Run vagrant up
         working-directory: linux
         env:
