@@ -5,6 +5,8 @@ on: [push]
 jobs:
   vagrant-up:
     runs-on: macos-latest
+    env:
+      VAGRANT_HOSTNAME: github
     steps:
       - uses: actions/checkout@v3
       - name: Cache Vagrant boxes
