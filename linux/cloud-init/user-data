@@ -15,8 +15,9 @@ ansible:
   install_method: distro
   run_user: root
   pull:
-    url: "https://github.com/paulswartz/on_prem_deploy.git"
-    checkout: linux
+    url: "https://github.com/GITHUB_REPO.git"
+    checkout: GIT_BRANCH
+    extra_vars: "github_repo=GITHUB_REPO git_branch=GIT_BRANCH"
     playbook_name: linux/main.yml
     inventory: linux/inventory.yml
     vault_password_file: /root/.ansible_vault_password

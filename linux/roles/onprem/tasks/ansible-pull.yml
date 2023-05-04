@@ -6,5 +6,5 @@
   cron:
     name: ansible-pull
     user: root
-    job: "ansible-pull -C linux -U https://github.com/paulswartz/on_prem_deploy.git --vault-password-file /root/.ansible_vault_password -i linux/inventory.yml linux/main.yml"
+    job: "ansible-pull -C {{ git_branch }} -U https://github.com/{{ github_repo }}.git --vault-password-file /root/.ansible_vault_password -i linux/inventory.yml --extra-vars \"github_repo={{ github_repo }} git_branch={{ git_branch }}\" linux/main.yml"
     minute: "*/15"

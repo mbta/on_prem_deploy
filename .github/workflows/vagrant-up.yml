@@ -7,6 +7,8 @@ jobs:
     runs-on: macos-latest
     env:
       VAGRANT_HOSTNAME: github
+      GITHUB_REPO: ${{ github.repository }}
+      GIT_BRANCH: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v3
       - name: Cache Vagrant boxes
