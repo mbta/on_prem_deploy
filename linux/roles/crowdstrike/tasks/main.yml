@@ -1,0 +1,19 @@
+---
+- name: Download Falcon sensor
+  register: download_falcon_sensor
+  get_url:
+    dest: /root/falcon-sensor.deb
+    url: "{{ crowdstrike.url }}"
+- name: Install Falcon sensor
+  when: download_falcon_sensor.changed
+  register: install_falcon_sensor
+  apt:
+    deb: /root/falcon-sensor.deb
+- name: Configure Falcon sensor
+  when: install_falcon_sensor.changed
+  shell:
+    cmd: /opt/CrowdStrike/falconctl -s --cid={{ crowdstrike.cid | trim | quote }}
+- name: Ensure falcon-sensor is running
+  service:
+    name: falcon-sensor
+    state: started
