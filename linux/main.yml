@@ -4,6 +4,9 @@
   become: true
   roles:
     - onprem
+  vars:
+    github_repo: mbta/on_prem_deploy
+    git_branch: main
 - hosts: full
   roles:
     - splunk

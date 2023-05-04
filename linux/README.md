@@ -31,5 +31,5 @@ $ ssh -p2222 <username>@localhost
 To iterate on the Ansible configuration, you can run `ansible-pull` directly from an SSH connection:
 
 ``` shell
-sudo ansible-pull -C linux -U https://github.com/paulswartz/on_prem_deploy.git --vault-password-file /root/.ansible_vault_password -i linux/inventory.yml linux/main.yml
+sudo ansible-pull -C main -U https://github.com/mbta/on_prem_deploy.git --vault-password-file /root/.ansible_vault_password -i linux/inventory.yml linux/main.yml
 ```
