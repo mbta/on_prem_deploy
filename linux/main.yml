@@ -1,8 +1,10 @@
 ---
-- hosts: localhost
+- hosts: all
   connection: local
   become: true
   roles:
     - onprem
+- hosts: full
+  roles:
     - splunk
     - ecs-anywhere

@@ -1,0 +1,7 @@
+---
+ci:
+  hosts:
+    github:
+full:
+  hosts:
+    vagrant:

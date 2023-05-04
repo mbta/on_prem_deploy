@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  vm_name = "onprem-linux"
+  vm_name = ENV["VAGRANT_HOSTNAME"] || "vagrant"
 
   config.vagrant.plugins = ["vagrant-env", "vagrant-vbguest"]
   config.env.enable # enable .env support plugin (it will let us easily enable cloud_init support)
