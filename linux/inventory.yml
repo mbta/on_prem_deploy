@@ -2,6 +2,9 @@
 ci:
   hosts:
     github:
-full:
+vagrant:
   hosts:
     vagrant:
+staging:
+  hosts:
+    hsctdlnxstg01:

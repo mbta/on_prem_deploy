@@ -7,7 +7,16 @@
   vars:
     github_repo: mbta/on_prem_deploy
     git_branch: main
-- hosts: full
+- hosts: vagrant
+  roles:
+    - splunk
+    - ecs-anywhere
+    - crowdstrike
+    - tenable
+- hosts: staging
+  vars:
+    splunk:
+      index: onprem-linux-staging
   roles:
     - splunk
     - ecs-anywhere
