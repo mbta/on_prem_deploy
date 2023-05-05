@@ -17,6 +17,11 @@
   vars:
     splunk:
       index: onprem-linux-staging
+    ecs_anywhere:
+      region: us-east-1
+      cluster: linux-staging
+      activation_id: TBD
+      activation_code: TBD
   roles:
     - splunk
     - ecs-anywhere
