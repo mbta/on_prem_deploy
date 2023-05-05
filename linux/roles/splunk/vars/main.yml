@@ -3,3 +3,4 @@ splunk:
   version: 9.0.4
   deb: splunkforwarder-9.0.4-de405f4a7979-linux-2.6-amd64.deb
   checksum: md5:8b032dc053aff34b43397a0a9df9c91b
+  index: test
