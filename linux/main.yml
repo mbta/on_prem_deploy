@@ -9,8 +9,8 @@
     git_branch: main
 - hosts: vagrant
   roles:
-    - splunk
     - ecs-anywhere
+    - splunk
     - crowdstrike
     - tenable
 - hosts: staging

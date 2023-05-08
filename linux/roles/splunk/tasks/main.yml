@@ -6,10 +6,14 @@
     password_lock: true
     shell: /bin/false
 - name: download Splunk universal forwarder
-  get_url:
-    checksum: "{{ splunk_deb_checksum }}"
+  aws_s3:
+    region: "{{ s3_config_region }}"
+    bucket: "{{ s3_config_bucket }}"
+    object: "{{ s3_config_prefix | trim }}/{{ splunk_deb }}"
     dest: "/home/splunk/{{ splunk_deb }}"
-    url: "https://download.splunk_com/products/universalforwarder/releases/{{ splunk_version }}/linux/{{ splunk_deb }}"
+    mode: get
+    overwrite: different
+    ignore_nonexistent_bucket: true
 - name: Install Splunk universal forwarder
   apt:
     deb: "/home/splunk/{{ splunk_deb }}"
@@ -22,11 +26,14 @@
     cmd: /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt --seed-passwd $(cat /root/.splunk_admin_password)
     creates: /opt/splunkforwarder/var/run/splunk/splunkd.pid
 - name: Copy Splunkcloud configuration
-  copy:
-    owner: splunk
-    group: splunk
-    src: files/splunkclouduf.spl
+  aws_s3:
+    region: "{{ s3_config_region }}"
+    bucket: "{{ s3_config_bucket }}"
+    object: "{{ s3_config_prefix | trim }}/splunkclouduf.spl"
     dest: /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl
+    mode: get
+    overwrite: different
+    ignore_nonexistent_bucket: true
 - name: Expand Splunkcloud configuration
   unarchive:
     owner: splunk
