@@ -17,7 +17,7 @@ jobs:
       # https://erlang.org/download/
       matrix:
         include:
-          - erlang_version: 25.3.1
+          - erlang_version: 25.3.2
             windows_version: 1809
           - erlang_version: 25.2.3
             windows_version: 1809
@@ -69,7 +69,7 @@ jobs:
         include:
           # Elixir 1.14
           - elixir_version: 1.14.4
-            erlang_version: 25.3.1
+            erlang_version: 25.3.2
             windows_version: 1809
           - elixir_version: 1.14.4
             erlang_version: 25.2.3
@@ -88,7 +88,7 @@ jobs:
             windows_version: 1809
           # Elixir 1.13.4
           - elixir_version: 1.13.4
-            erlang_version: 25.3.1
+            erlang_version: 25.3.2
             windows_version: 1809
           - elixir_version: 1.13.4
             erlang_version: 25.2.3
