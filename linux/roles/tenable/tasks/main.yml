@@ -3,8 +3,8 @@
   register: download_nessus
   get_url:
     dest: /root/nessus.deb
-    checksum: "{{ tenable.checksum }}"
-    url: "{{ tenable.url }}"
+    checksum: "{{ tenable_checksum }}"
+    url: "{{ tenable_url }}"
 - name: Install Nessus
   when: download_nessus.changed
   register: install_nessus
@@ -15,7 +15,7 @@
   shell:
     cmd: |
       /opt/nessus_agent/sbin/nessuscli agent link \
-      --key={{ tenable.key | trim | quote }} \
-      --groups={{ tenable.groups | quote }} \
-      --host={{ tenable.host }} \
-      --port={{ tenable.port }}
+      --key={{ tenable_key | trim | quote }} \
+      --groups={{ tenable_groups | quote }} \
+      --host={{ tenable_host }} \
+      --port={{ tenable_port }}

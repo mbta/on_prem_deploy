@@ -1,7 +1,6 @@
 ---
 
-ecs_anywhere:
-  region: us-east-2
-  cluster: linux-test
-  #activation_id: TBD
-  #activation_code: TBD
+ecs_anywhere_region: us-east-2
+ecs_anywhere_cluster: linux-test
+#ecs_anywhere_activation_id: TBD
+#ecs_anywhere_activation_code: TBD

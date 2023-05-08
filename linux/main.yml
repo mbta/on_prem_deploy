@@ -15,13 +15,11 @@
     - tenable
 - hosts: staging
   vars:
-    splunk:
-      index: onprem-linux-staging
-    ecs_anywhere:
-      region: us-east-1
-      cluster: linux-staging
-      activation_id: TBD
-      activation_code: TBD
+    splunk_index: onprem-linux-staging
+    ecs_anywhere_region: us-east-1
+    ecs_anywhere_cluster: linux-staging
+    ecs_anywhere_activation_id: TBD
+    ecs_anywhere_activation_code: TBD
   roles:
     - splunk
     - ecs-anywhere
