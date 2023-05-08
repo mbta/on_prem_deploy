@@ -7,12 +7,12 @@
     shell: /bin/false
 - name: download Splunk universal forwarder
   get_url:
-    checksum: "{{ splunk.checksum }}"
-    dest: "/home/splunk/{{ splunk.deb }}"
-    url: "https://download.splunk.com/products/universalforwarder/releases/{{ splunk.version }}/linux/{{ splunk.deb }}"
+    checksum: "{{ splunk_deb_checksum }}"
+    dest: "/home/splunk/{{ splunk_deb }}"
+    url: "https://download.splunk_com/products/universalforwarder/releases/{{ splunk_version }}/linux/{{ splunk_deb }}"
 - name: Install Splunk universal forwarder
   apt:
-    deb: "/home/splunk/{{ splunk.deb }}"
+    deb: "/home/splunk/{{ splunk_deb }}"
 - name: Generate local Splunk admin password
   shell:
     creates: /root/.splunk_admin_password
