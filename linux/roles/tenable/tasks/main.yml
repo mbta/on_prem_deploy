@@ -1,10 +1,14 @@
 ---
 - name: Download Nessus
   register: download_nessus
-  get_url:
+  aws_s3:
+    region: "{{ s3_config_region }}"
+    bucket: "{{ s3_config_bucket }}"
+    object: "{{ s3_config_prefix | trim }}/{{ tenable_path }}"
     dest: /root/nessus.deb
-    checksum: "{{ tenable_checksum }}"
-    url: "{{ tenable_url }}"
+    mode: get
+    overwrite: different
+    ignore_nonexistent_bucket: true
 - name: Install Nessus
   when: download_nessus.changed
   register: install_nessus

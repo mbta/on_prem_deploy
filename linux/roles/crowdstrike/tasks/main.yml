@@ -1,9 +1,14 @@
 ---
 - name: Download Falcon sensor
   register: download_falcon_sensor
-  get_url:
+  aws_s3:
+    region: "{{ s3_config_region }}"
+    bucket: "{{ s3_config_bucket }}"
+    object: "{{ s3_config_prefix | trim }}/{{ crowdstrike_path}}"
     dest: /root/falcon-sensor.deb
-    url: "{{ crowdstrike_url }}"
+    mode: get
+    overwrite: different
+    ignore_nonexistent_bucket: true
 - name: Install Falcon sensor
   when: download_falcon_sensor.changed
   register: install_falcon_sensor
