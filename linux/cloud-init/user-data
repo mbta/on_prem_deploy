@@ -1,5 +1,7 @@
 #cloud-config
 
+packages:
+- git
 package_update: true
 package_upgrade: true
 package_reboot_if_required: true
@@ -8,7 +10,24 @@ ssh:
   emit_keys_to_console: false
 
 # By not including `- default` here, we don't create the `ubuntu` admin user.
+# By include a user here, we create a login even if Ansible fails to run.
+# We use a direct key to avoid hitting GitHub rate limits in CI. -ps
 users:
+  - name: pswartz
+    groups:
+      - admin
+      - users
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOV3T6Da+IyAFLcND2qAeuTdtrKUUJCL2zaastUNQ5je
+
+write_files:
+  - path: /etc/sudoers.d/mbta-admin
+    mode: '0600'
+    content: "%admin ALL=(ALL) NOPASSWD:ALL"
+
+# Remove userdata from VMware
+redact:
+- userdata
 
 ansible:
   package_name: ansible
