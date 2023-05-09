@@ -21,6 +21,9 @@ users:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOV3T6Da+IyAFLcND2qAeuTdtrKUUJCL2zaastUNQ5je
 
 write_files:
+  - path: /root/.ansible_vault_password
+    mode: '0400'
+    content: "ANSIBLE_VAULT_PASSWORD"
   - path: /etc/sudoers.d/mbta-admin
     mode: '0600'
     content: "%admin ALL=(ALL) NOPASSWD:ALL"
