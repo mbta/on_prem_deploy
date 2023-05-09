@@ -14,13 +14,13 @@
       - docker
     shell: /bin/bash
     append: false
-  loop: "{{ devops_users }}"
+  loop: "{{ devops_users + itd_users }}"
 - name: copy user's ssh key
   authorized_key:
     user: "{{ item.username }}"
     key: "https://github.com/{{ item.github }}.keys"
   become: true
-  loop: "{{ devops_users }}"
+  loop: "{{ devops_users + itd_users }}"
 - name: Users in admin group do not need passwords
   copy:
     dest: /etc/sudoers.d/mbta-admins
