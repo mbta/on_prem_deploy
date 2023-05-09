@@ -10,3 +10,11 @@ devops_users:
   - username: kjohnson
     comment: Kris Johnson
     github: krisrjohnson21
+
+itd_users:
+  - username: ctzunuxpineda
+    comment: Carlos Tzunux-Pineda
+    github: carlostpineda
+  - username: rkuthuru
+    comment: Raj Kuthuru
+    github: rkuthuru12
