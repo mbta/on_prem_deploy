@@ -30,8 +30,14 @@ jobs:
           ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
         run: vagrant up
       - name: Output Cloud-Init status
-        if: ${{ ! cancelled() }}
+        if: ${{ failure() }}
         working-directory: linux
         env:
           ANSIBLE_VAULT_PASSWORD: ignored
         run: vagrant ssh -c 'cat /run/cloud-init/status.json'
+      - name: Output Cloud-Init Logs
+        if: ${{ failure() }}
+        working-directory: linux
+        env:
+          ANSIBLE_VAULT_PASSWORD: ignored
+        run: vagrant ssh -c 'sudo cat /var/log/cloud-init*'
