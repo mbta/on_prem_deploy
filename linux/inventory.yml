@@ -19,9 +19,15 @@ all:
 ci:
   hosts:
     github:
-vagrant:
+local:
   hosts:
     vagrant:
+    qemu:
 staging:
   hosts:
-    hsctdlnxstg01:
+    hsctdlnxstg[01:99]:
+    ppctdlnxstg[01:99]:
+prod:
+  hosts:
+    hsctdlnxprd[01:99]:
+    ppctdlnxprd[01:99]:

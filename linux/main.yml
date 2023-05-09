@@ -7,7 +7,7 @@
   vars:
     github_repo: mbta/on_prem_deploy
     git_branch: main
-- hosts: vagrant
+- hosts: local
   roles:
     - ecs-anywhere
     - splunk
@@ -18,6 +18,18 @@
     splunk_index: onprem-linux-staging
     ecs_anywhere_region: us-east-1
     ecs_anywhere_cluster: linux-staging
+    ecs_anywhere_activation_id: TBD
+    ecs_anywhere_activation_code: TBD
+  roles:
+    - splunk
+    - ecs-anywhere
+    - crowdstrike
+    - tenable
+- hosts: prod
+  vars:
+    splunk_index: onprem-linux-prod
+    ecs_anywhere_region: us-east-1
+    ecs_anywhere_cluster: linux-prod
     ecs_anywhere_activation_id: TBD
     ecs_anywhere_activation_code: TBD
   roles:
