@@ -4,7 +4,6 @@ packages:
 - git
 package_update: true
 package_upgrade: true
-package_reboot_if_required: true
 
 ssh:
   emit_keys_to_console: false
