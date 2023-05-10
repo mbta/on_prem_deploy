@@ -4,7 +4,15 @@
 
 set -e
 ISO_URL=https://cloud-images.ubuntu.com/minimal/releases/jammy/release/ubuntu-22.04-minimal-cloudimg-amd64.img
-ISO_PATH=ubuntu-minimal.img
+ISO_PATH=ubuntu-minimal-amd64.img
+if [ $(arch) = "arm64" ]; then
+   QEMU_CPU=max
+   QEMU_MACHINE=q35
+else
+   QEMU_CPU=host
+   QEMU_MACHINE="accel=hvf"
+fi
+
 HOSTNAME=${1:-qemu}
 GITHUB_REPO=${GITHUB_REPO:-mbta/on_prem_deploy}
 GIT_BRANCH=${GIT_BRANCH:-linux}
@@ -38,8 +46,8 @@ qemu-img resize $tmpdir/boot-disk.img +4G
 qemu-system-x86_64 \
 	 -net 'nic,model=virtio-net-pci' \
 	 -net 'user,hostfwd=tcp::5555-:22' \
-	 -machine accel=hvf \
-	 -cpu host \
+	 -machine $QEMU_MACHINE \
+	 -cpu $QEMU_CPU \
 	 -m 1024 \
 	 -nographic \
 	 -hda $tmpdir/boot-disk.img \
