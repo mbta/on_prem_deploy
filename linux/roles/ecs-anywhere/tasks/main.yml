@@ -26,13 +26,20 @@
   shell:
     cmd: gpg --keyserver hkps://keyserver.ubuntu.com --recv BCE9D9A42D51784F
   when: aws_gpg_key.changed
-- name: Fetch GPG key for Docker
-  shell:
-    cmd: |
-       install -m 0755 -d /etc/apt/keyrings
-       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-       chmod a+r /etc/apt/keyrings/docker.gpg
-    creates: /etc/apt/keyrings/docker.gpg
+- name: /etc/apt/keyrings directory
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+- name: GPG key for Docker
+  copy:
+    src: files/docker.gpg
+    dest: /etc/apt/keyrings/docker.gpg
+    owner: root
+    group: root
+    mode: "0644"
 - name: Add Docker repo to apt
   register: add_docker_repo
   shell:
