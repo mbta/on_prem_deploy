@@ -1,4 +1,6 @@
-## Requirements
+# Requirements
+
+## Virtualbox 
 
 So far, this only works on an Intel Mac. It would probably work on an Intel Linux machine as well.
 
@@ -9,7 +11,7 @@ $ brew install virtualbox
 You'll also need to put the Vault password (stored in 1Password) into
 `.ansible_vault_password` or the `ANSIBLE_VAULT_PASSWORD` environment variable.
 
-## Usage
+### Usage
 ``` shell
 $ vagrant plugin install vagrant-env
 $ vagrant plugin install vagrant-vbguest
@@ -27,6 +29,28 @@ $ vagrant ssh
 
 $ ssh -p2222 <username>@localhost
 ```
+
+## QEMU
+
+QEMU will work on an M1.
+
+``` shell
+$ brew install qemu
+```
+
+### Usage
+
+``` shell
+bash run_qemu.sh
+```
+
+And you can SSH into the VM with
+
+``` shell
+$ ssh -p5555 <username>@localhsot
+```
+
+# Ansible
 
 To iterate on the Ansible configuration, you can run `ansible-pull` directly from an SSH connection:
 
