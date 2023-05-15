@@ -29,3 +29,7 @@
     mode: '0440'
     content: |
       %admin ALL=(ALL) NOPASSWD:ALL
+- name: Delete default `ubuntu` user
+  user:
+    name: ubuntu
+    state: absent
