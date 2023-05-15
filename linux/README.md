@@ -1,5 +1,8 @@
 # Requirements
 
+You'll also need to put the Vault password (stored in 1Password) into
+`.ansible_vault_password` or the `ANSIBLE_VAULT_PASSWORD` environment variable.
+
 ## Virtualbox 
 
 So far, this only works on an Intel Mac. It would probably work on an Intel Linux machine as well.
@@ -7,9 +10,6 @@ So far, this only works on an Intel Mac. It would probably work on an Intel Linu
 ``` shell
 $ brew install virtualbox
 ```
-
-You'll also need to put the Vault password (stored in 1Password) into
-`.ansible_vault_password` or the `ANSIBLE_VAULT_PASSWORD` environment variable.
 
 ### Usage
 ``` shell
@@ -57,3 +57,10 @@ To iterate on the Ansible configuration, you can run `ansible-pull` directly fro
 ``` shell
 sudo ansible-pull -C main -U https://github.com/mbta/on_prem_deploy.git --vault-password-file /root/.ansible_vault_password -i linux/inventory.yml linux/main.yml
 ```
+
+Ansible Vault is used for storing some kinds of low-secrecy values, where they
+should not be public but are not otherwise secret inside the MBTA.
+
+While they are encrypted, long-term credentials (such as AWS access keys or
+passwords) should not be stored with `ansible-vault encrypt`. Instead, fetch
+those credentials from a more secure source, such as S3 using SSM credentials.
