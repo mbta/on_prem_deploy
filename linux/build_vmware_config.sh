@@ -13,18 +13,18 @@ fi
 tmpdir=$(mktemp -d)
 
 echo "govc vm.change -vm \"PATH_TO_THE_VM\" \\"
-cat > $tmpdir/meta-data <<-EOF
-local-hostname: $HOSTNAME
+cat > "$tmpdir"/meta-data <<-EOF
+local-hostname: "$HOSTNAME"
 EOF
-echo "-e guestinfo.metadata=\"$(gzip -c9 < $tmpdir/meta-data | base64)\" \\"
+echo "-e guestinfo.metadata=\"$(gzip -c9 < "$tmpdir"/meta-data | base64)\" \\"
 echo "-e guestinfo.metadata.encoding=\"gzip+base64\" \\"
 
-cat cloud-init/user-data \
-| sed "s/GITHUB_REPO/${GITHUB_REPO/\//\\/}/g" \
+< cloud-init/user-data \
+sed "s/GITHUB_REPO/${GITHUB_REPO/\//\\/}/g" \
 | sed "s/GIT_BRANCH/$GIT_BRANCH/g" \
 | sed "s/ANSIBLE_VAULT_PASSWORD/$ANSIBLE_VAULT_PASSWORD/g" \
-> $tmpdir/user-data
+> "$tmpdir"/user-data
 
-echo "-e guestinfo.userdata=\"$(gzip -c9 < $tmpdir/user-data | base64)\" \\"
+echo "-e guestinfo.userdata=\"$(gzip -c9 < "$tmpdir"/user-data | base64)\" \\"
 echo "-e guestinfo.userdatadata.encoding=\"gzip+base64\""
-rm -r $tmpdir
+rm -r "$tmpdir"
