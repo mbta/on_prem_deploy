@@ -5,20 +5,11 @@
     state: present
 - name: Require Google Authenticator configuration on login
   copy:
+    src: files/google-authenticator.sh
     dest: /etc/profile.d/google-authenticator.sh
     owner: root
     group: root
     mode: '0755'
-    content: |
-      # only require this for members of the `users` group
-      id -nG "$USER" | grep -qw "users" || return
-      trap "exit 1" SIGINT SIGQUIT
-      if [ ! -f $HOME/.google_authenticator ]; then
-        google-authenticator -ftDW -r 3 -R 30
-      fi
-      if [ ! -f $HOME/.google_authenticator ]; then
-        exit 1
-      fi
 - name: (sudo) Require google authenticator
   blockinfile:
     path: /etc/pam.d/sudo
