@@ -4,6 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
+    paths:
+      - build_erlang_container.ps1
+      - build_elixir_container.ps1
+      - docker/**
 
 env:
   REGISTRY: ghcr.io
