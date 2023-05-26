@@ -14,11 +14,6 @@ else
 fi
 
 HOSTNAME=${1:-qemu}
-GITHUB_REPO=${GITHUB_REPO:-mbta/on_prem_deploy}
-GIT_BRANCH=${GIT_BRANCH:-linux}
-if [ -z "${ANSIBLE_VAULT_PASSWORD+x}" ]; then
-  ANSIBLE_VAULT_PASSWORD=$(cat .ansible_vault_password)
-fi
 tmpdir=tmp # ignored by .gitignore
 mkdir -p "$tmpdir"
 

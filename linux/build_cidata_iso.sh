@@ -5,6 +5,12 @@
 set -e
 
 HOSTNAME=$1
+GITHUB_REPO=${GITHUB_REPO:-mbta/on_prem_deploy}
+GIT_BRANCH=${GIT_BRANCH:-main}
+if [ -z "${ANSIBLE_VAULT_PASSWORD+x}" ]; then
+  ANSIBLE_VAULT_PASSWORD=$(cat .ansible_vault_password)
+fi
+
 tmpdir=tmp
 
 mkdir -p "$tmpdir"/config
@@ -16,7 +22,9 @@ EOF
 sed "s/GITHUB_REPO/${GITHUB_REPO/\//\\/}/g" \
 | sed "s/GIT_BRANCH/$GIT_BRANCH/g" \
 | sed "s/ANSIBLE_VAULT_PASSWORD/$ANSIBLE_VAULT_PASSWORD/g" \
-> "$tmpdir"/config/user-data
+| tee "$tmpdir"/config/user-data
+
+echo
 
 echo > "$tmpdir"/config/vendor-data
 
