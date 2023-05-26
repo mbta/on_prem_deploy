@@ -23,6 +23,7 @@ local:
   hosts:
     vagrant:
     qemu:
+    local[01:99]:
 staging:
   hosts:
     hsctdlnxstg[01:99]:
