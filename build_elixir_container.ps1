@@ -23,6 +23,10 @@ $ElixirZip="Precompiled"
 if ([System.Version]$ElixirVersion -ge [System.Version]"1.14.0") {
     # With Elixir 1.14.0, the releases are precompiled for the specific Erlang version.
     $ErlangMajorVersion=$ErlangVersion.split(".")[0]
+    if ([System.Version]$ElixirVersion -lt [System.Version]"1.15.0" -and $ErlangMajorVersion -gt "25") {
+        # Erlang 1.14 is not precompiled for Erlang 26, so we use the Erlang 25 pre-compiled version there.
+        $ErlangMajorVersion="25"
+    }
     $ElixirZip="elixir-otp-$ErlangMajorVersion"
 }
 
