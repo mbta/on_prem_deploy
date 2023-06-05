@@ -16,10 +16,17 @@ ADD https://github.com/elixir-lang/elixir/releases/download/v${ELIXIR_VERSION}/$
 SHELL ["powershell", "-Command"]
 RUN Expand-Archive -Path elixir.zip -DestinationPath "C:\Elixir"
 
+# Download root certificate used by repo.hex.pm
+RUN Invoke-WebRequest https://secure.globalsign.net/cacert/Root-R3.crt -OutFile "C:\root-r3.crt"
+
 FROM $FROM_IMAGE
 
 USER ContainerAdministrator
 RUN setx /M PATH "%PATH%;C:\Elixir\bin"
+
+COPY --from=build C:\\root-r3.crt C:\\root-r3.crt
+RUN certutil -addstore "Root" C:\root-r3.crt \
+    && del C:\root-r3.crt
 
 COPY --from=build C:\\Elixir C:\\Elixir
 
