@@ -13,6 +13,7 @@ local-hostname: $HOSTNAME
 EOF
 
 bash build_user_data.sh | tee "$tmpdir"/config/user-data
+bash build_network_config.sh > "$tmpdir"/config/network-config
 
 echo
 
