@@ -165,15 +165,6 @@ cat > "$tmpdir"/"$HOSTNAME"/"$HOSTNAME".ovf <<EOF
         <rasd:ResourceType>17</rasd:ResourceType>
         <vmw:Config ovf:required="false" vmw:key="backing.writeThrough" vmw:value="false"/>
       </Item>
-      <Item ovf:required="false">
-        <rasd:AddressOnParent>0</rasd:AddressOnParent>
-        <rasd:AutomaticAllocation>false</rasd:AutomaticAllocation>
-        <rasd:Description>Floppy Drive</rasd:Description>
-        <rasd:ElementName>Floppy 1</rasd:ElementName>
-        <rasd:InstanceID>11</rasd:InstanceID>
-        <rasd:ResourceSubType>vmware.floppy.remotedevice</rasd:ResourceSubType>
-        <rasd:ResourceType>14</rasd:ResourceType>
-      </Item>
       <Item>
         <rasd:AddressOnParent>7</rasd:AddressOnParent>
         <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
