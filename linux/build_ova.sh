@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Build an OVA for the given hostname
-# $ bash build_ova.sh [hostname]
+# $ bash build_ova.sh [hostname] <optional static IP address>
+# To set an initial password for the configuration:
+# $ env INITIAL_PASSWORD=[password] bash build_ova.sh ...
 
 set -e
 CPU=4
@@ -11,6 +13,8 @@ VMDK_PATH=ubuntu-22.04-server-cloudimg-amd64.vmdk
 VMDK_URL=https://cloud-images.ubuntu.com/releases/jammy/release/"$VMDK_PATH"
 
 HOSTNAME=${1:-local01}
+IP_ADDRESS=$2
+
 tmpdir=$(realpath tmp) # ignored by .gitignore
 mkdir -p "$tmpdir"
 
@@ -23,6 +27,7 @@ mkdir -p "$tmpdir"/"$HOSTNAME"
 cp "$tmpdir"/"$VMDK_PATH" "$tmpdir"/"$HOSTNAME"/"$HOSTNAME".vmdk
 
 b64_user_data=$(bash build_user_data.sh "$HOSTNAME" | base64)
+b64_network_config=$(bash build_network_config.sh "$IP_ADDRESS" | base64)
 vmdk_size=$(stat -f "%z" "$tmpdir"/"$VMDK_PATH")
 
 cat > "$tmpdir"/"$HOSTNAME"/"$HOSTNAME".ovf <<EOF
@@ -51,9 +56,21 @@ cat > "$tmpdir"/"$HOSTNAME"/"$HOSTNAME".ovf <<EOF
 
     <ProductSection ovf:required="true">
       <Info>Cloud-Init customization</Info>
-      <Property ovf:key="instance-id" ovf:type="string" ovf:userConfigurable="true" ovf:value="${HOSTNAME}" />
-      <Property ovf:key="hostname" ovf:type="string" ovf:userConfigurable="true" ovf:value="${HOSTNAME}" />
-      <Property ovf:key="user-data" ovf:type="string" ovf:userConfigurable="true" ovf:value="${b64_user_data}" />
+      <Property ovf:key="instance-id" ovf:type="string" ovf:userConfigurable="true" ovf:value="${HOSTNAME}">
+        <Label>Instance ID</Label>
+      </Property>
+      <Property ovf:key="hostname" ovf:type="string" ovf:userConfigurable="true" ovf:value="${HOSTNAME}">
+        <Label>Hostname</Label>
+      </Property>
+      <Property ovf:key="user-data" ovf:type="string" ovf:userConfigurable="true" ovf:value="${b64_user_data}">
+        <Label>User data</Label>
+      </Property>
+      <Property ovf:key="network-config" ovf:type="string" ovf:userConfigurable="true" ovf:value="${b64_network_config}">
+        <Label>Network config</Label>
+      </Property>
+      <Property ovf:key="password" ovf:type="string" ovf:password="true" ovf:userConfigurable="true" ovf:value="${INITIAL_PASSWORD}">
+          <Label>Default User's password</Label>
+      </Property>
     </ProductSection>
 
     <VirtualHardwareSection ovf:transport="iso">
