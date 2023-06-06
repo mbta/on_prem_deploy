@@ -3,8 +3,8 @@
 # $ bash run_qemu.sh [hostname]
 
 set -e
-ISO_URL=https://cloud-images.ubuntu.com/minimal/releases/jammy/release/ubuntu-22.04-minimal-cloudimg-amd64.img
-ISO_PATH=ubuntu-minimal-amd64.img
+ISO_PATH=ubuntu-22.04-minimal-cloudimg-amd64.img
+ISO_URL=https://cloud-images.ubuntu.com/minimal/releases/jammy/release/"$ISO_PATH"
 if [ "$(arch)" = "arm64" ]; then
    QEMU_CPU=max
    QEMU_MACHINE=q35
@@ -20,10 +20,12 @@ mkdir -p "$tmpdir"
 if [ -f "$tmpdir"/boot-disk.img ]; then
    echo Boot disk exists, not rebuilding...
 else
-   curl -C - -o "$tmpdir"/$ISO_PATH "$ISO_URL"
+   pushd "$tmpdir" >/dev/null
+   wget -cN "$ISO_URL"
 
-   cp "$tmpdir"/$ISO_PATH "$tmpdir"/boot-disk.img
-   qemu-img resize "$tmpdir"/boot-disk.img +4G
+   cp $ISO_PATH boot-disk.img
+   qemu-img resize boot-disk.img +4G
+   popd >/dev/null
 fi
 
 bash build_cidata_iso.sh "$HOSTNAME"
