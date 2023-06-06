@@ -24,7 +24,7 @@ popd > /dev/null
 
 rm -rf "$tmpdir"/"$HOSTNAME" "$tmpdir"/"$HOSTNAME".*
 mkdir -p "$tmpdir"/"$HOSTNAME"
-cp "$tmpdir"/"$VMDK_PATH" "$tmpdir"/"$HOSTNAME"/"$HOSTNAME".vmdk
+cp "$tmpdir"/"$VMDK_PATH" "$tmpdir"/"$HOSTNAME"/
 
 b64_user_data=$(bash build_user_data.sh "$HOSTNAME" | base64)
 b64_network_config=$(bash build_network_config.sh "$IP_ADDRESS" | base64)
@@ -34,7 +34,7 @@ cat > "$tmpdir"/"$HOSTNAME"/"$HOSTNAME".ovf <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <Envelope xmlns="http://schemas.dmtf.org/ovf/envelope/1" xmlns:cim="http://schemas.dmtf.org/wbem/wscim/1/common" xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData" xmlns:vmw="http://www.vmware.com/schema/ovf" xmlns:vssd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_VirtualSystemSettingData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <References>
-    <File ovf:href="${HOSTNAME}.vmdk" ovf:id="file1" ovf:size="${vmdk_size}"/>
+    <File ovf:href="${VMDK_PATH}" ovf:id="file1" ovf:size="${vmdk_size}"/>
   </References>
   <DiskSection>
     <Info>Virtual disk information</Info>
@@ -203,7 +203,7 @@ openssl sha1 *.vmdk *.ovf > "$HOSTNAME".mf
 tar -cf ../"$HOSTNAME".ova \
     --format=ustar --no-acls --no-fflags --no-xattrs \
     --uname root --gname root \
-    "$HOSTNAME".*
+    "$HOSTNAME".* "$VMDK_PATH"
 cp "$HOSTNAME".ovf "$tmpdir"
 popd > /dev/null
 rm -r "$tmpdir"/"$HOSTNAME"
