@@ -22,7 +22,7 @@ pushd "$tmpdir" > /dev/null
 wget -cN "$VMDK_URL"
 popd > /dev/null
 
-rm -rf "$tmpdir"/"$HOSTNAME" "$tmpdir"/"$HOSTNAME".*
+rm -rf "${tmpdir:?}"/"$HOSTNAME" "$tmpdir"/"$HOSTNAME".*
 mkdir -p "$tmpdir"/"$HOSTNAME"
 cp "$tmpdir"/"$VMDK_PATH" "$tmpdir"/"$HOSTNAME"/
 
@@ -199,14 +199,19 @@ cat > "$tmpdir"/"$HOSTNAME"/"$HOSTNAME".ovf <<EOF
 EOF
 
 pushd "$tmpdir"/"$HOSTNAME" > /dev/null
+
+# We disable this warning because openssl does not support -- to separate files,
+# and using ./*glob results in the wrong filenames in the manifest. -ps
+# shellcheck disable=SC2035
 openssl sha1 *.vmdk *.ovf > "$HOSTNAME".mf
+
 tar -cf ../"$HOSTNAME".ova \
     --format=ustar --no-acls --no-fflags --no-xattrs \
     --uname root --gname root \
     "$HOSTNAME".* "$VMDK_PATH"
 cp "$HOSTNAME".ovf "$tmpdir"
 popd > /dev/null
-rm -r "$tmpdir"/"$HOSTNAME"
+rm -r "${tmpdir:?}"/"$HOSTNAME"
 
 tar -tvf "$tmpdir"/"$HOSTNAME".ova
 ls -l "$tmpdir"/"$HOSTNAME".*
