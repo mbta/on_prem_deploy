@@ -57,7 +57,8 @@ function ContainerStack()
     )
 
     $environmentRows = $Environment.GetEnumerator() | ForEach-Object {
-        "      $($_.Name): `"$($_.Value.replace("`n", "\n"))`""
+        $escapedValue = $_.Value.replace("`"", "\`"").replace("`n", "\n")
+        "      $($_.Name): `"$($escapedValue)`""
     }
     $environmentStack = if ($environmentRows.Count -eq 0) {
         ""

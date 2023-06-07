@@ -114,6 +114,23 @@ Describe "ContainerStack" {
         $container.environment.KEY | Should -Be "value`nvalue2"
     }
 
+    It "Can use environment variables with nested JSON" {
+        $jsonParsed = @"
+{"KEY": "[{\"object\": \"value\"}]"}
+"@ | ConvertFrom-Json
+        $output = ContainerStack `
+            -Service "service-test" `
+            -Image "image" `
+            -Environment $jsonParsed.psobject.Properties `
+            -SplunkToken "token" `
+            -SplunkUrl "splunk.com" `
+            -SplunkIndex "idx" `
+        | ConvertFrom-Yaml
+        $output | Should -Not -Be $null
+        $container = $output.services.container
+        $container.environment.KEY | Should -Be "[{`"object`": `"value`"}]"
+    }
+
     It "Does not include an environment key when provided empty JSON" {
         $jsonParsed = "{}" | ConvertFrom-Json
         $rawOutput = ContainerStack `
