@@ -8,3 +8,9 @@ fi
 if [ ! -f $HOME/.google_authenticator ]; then
     exit 1
 fi
+
+if [ -z "$SSH_ORIGINAL_COMMAND" ]; then
+    exec "$SHELL"
+else
+    exec "$SHELL" -c "$SSH_ORIGINAL_COMMAND"
+fi
