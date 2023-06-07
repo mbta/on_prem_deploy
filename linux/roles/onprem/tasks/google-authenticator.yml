@@ -6,7 +6,7 @@
 - name: Require Google Authenticator configuration on login
   copy:
     src: files/google-authenticator.sh
-    dest: /etc/profile.d/google-authenticator.sh
+    dest: /usr/local/sbin/enforce-google-authenticator
     owner: root
     group: root
     mode: '0755'
@@ -55,6 +55,7 @@
     group: root
     mode: '0644'
     content: |
+     ForceCommand /usr/local/sbin/enforce-google-authenticator
      AuthenticationMethods publickey,keyboard-interactive
      ChallengeResponseAuthentication yes
   notify: ssh
