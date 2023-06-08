@@ -44,7 +44,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: setup
     steps:
-
       - uses: actions/checkout@v3
       - name: ASDF cache
         uses: actions/cache@v3
@@ -54,3 +53,23 @@ jobs:
       - uses: mbta/actions/reshim-asdf@v1
       - name: Shellcheck
         run: shellcheck **/*.sh
+
+  lint_ansible:
+    name: Lint Ansible
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v3
+      - name: ASDF cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.asdf
+          key: ${{ runner.os }}-asdf-${{ hashFiles('.tool-versions') }}
+      - name: Install ansible-lint
+        run: ~/.asdf/installs/ansible/*/venv/bin/python3 -m pip install ansible-lint
+      - uses: mbta/actions/reshim-asdf@v1
+      - name: Install Ansible Galaxy collections
+        run: ansible-galaxy collection install -r linux/collections/requirements.yml
+      - name: Run ansible-lint
+        run: ~/.asdf/installs/ansible/*/venv/bin/ansible-lint --format full
+        working-directory: linux
