@@ -2,5 +2,6 @@
 
 ecs_anywhere_region: us-east-2
 ecs_anywhere_cluster: linux-test
-#ecs_anywhere_activation_id: TBD
-#ecs_anywhere_activation_code: TBD
+# these are encrypted, stored in group_vars/<group>/vault.yml
+ecs_anywhere_activation_id: "{{ vault_ecs_anywhere_activation_id }}"
+ecs_anywhere_activation_code: "{{ vault_ecs_anywhere_activation_code }}"
