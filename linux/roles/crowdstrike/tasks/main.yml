@@ -1,10 +1,10 @@
 ---
 - name: Download Falcon sensor
   register: download_falcon_sensor
-  aws_s3:
+  amazon.aws.s3_object:
     region: "{{ s3_config_region }}"
     bucket: "{{ s3_config_bucket }}"
-    object: "{{ s3_config_prefix | trim }}/{{ crowdstrike_path}}"
+    object: "{{ s3_config_prefix }}/{{ crowdstrike_path }}"
     dest: /root/falcon-sensor.deb
     mode: get
     overwrite: different
