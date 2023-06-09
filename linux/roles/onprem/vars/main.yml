@@ -7,7 +7,7 @@ devops_users:
   - username: iwestcott
     comment: Ian Westcott
     github: ianwestcott
-  - username: kjohnson
+  - username: krisjohnson
     comment: Kris Johnson
     github: krisrjohnson21
   - username: hlingutla
