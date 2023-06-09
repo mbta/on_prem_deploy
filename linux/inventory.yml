@@ -26,9 +26,9 @@ local:
     local[01:99]:
 staging:
   hosts:
-    hsctdlnxstg[01:99]:
-    ppctdlnxstg[01:99]:
+    HSCTDLNXSTG[01:99]:
+    PPCTDLNXSTG[01:99]:
 prod:
   hosts:
-    hsctdlnxprd[01:99]:
-    ppctdlnxprd[01:99]:
+    HSCTDLNXPRD[01:99]:
+    PPCTDLNXPRD[01:99]:
