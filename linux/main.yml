@@ -19,8 +19,8 @@
     ecs_anywhere_region: us-east-1
     ecs_anywhere_cluster: linux-staging
   roles:
-    - splunk
     - ecs-anywhere
+    - splunk
     - crowdstrike
     - tenable
 - hosts: prod
@@ -29,7 +29,7 @@
     ecs_anywhere_region: us-east-1
     ecs_anywhere_cluster: linux-prod
   roles:
-    - splunk
     - ecs-anywhere
+    - splunk
     - crowdstrike
     - tenable
