@@ -6,10 +6,10 @@
     password_lock: true
     shell: /bin/false
 - name: download Splunk universal forwarder
-  aws_s3:
+  amazon.aws.s3_object:
     region: "{{ s3_config_region }}"
     bucket: "{{ s3_config_bucket }}"
-    object: "{{ s3_config_prefix | trim }}/{{ splunk_deb }}"
+    object: "{{ s3_config_prefix }}/{{ splunk_deb }}"
     dest: "/home/splunk/{{ splunk_deb }}"
     mode: get
     overwrite: different
@@ -26,10 +26,10 @@
     cmd: /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt --seed-passwd $(cat /root/.splunk_admin_password)
     creates: /opt/splunkforwarder/var/run/splunk/splunkd.pid
 - name: Copy Splunkcloud configuration
-  aws_s3:
+  amazon.aws.s3_object:
     region: "{{ s3_config_region }}"
     bucket: "{{ s3_config_bucket }}"
-    object: "{{ s3_config_prefix | trim }}/splunkclouduf.spl"
+    object: "{{ s3_config_prefix }}/splunkclouduf.spl"
     dest: /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl
     mode: get
     overwrite: different

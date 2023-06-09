@@ -1,10 +1,10 @@
 ---
 - name: Download Nessus
   register: download_nessus
-  aws_s3:
+  amazon.aws.s3_object:
     region: "{{ s3_config_region }}"
     bucket: "{{ s3_config_bucket }}"
-    object: "{{ s3_config_prefix | trim }}/{{ tenable_path }}"
+    object: "{{ s3_config_prefix }}/{{ tenable_path }}"
     dest: /root/nessus.deb
     mode: get
     overwrite: different
