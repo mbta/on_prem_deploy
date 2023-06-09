@@ -10,6 +10,9 @@ devops_users:
   - username: kjohnson
     comment: Kris Johnson
     github: krisrjohnson21
+  - username: hlingutla
+    comment: Harini Lingutla
+    github: hlingutla-mbta
 
 itd_users:
   - username: ctzunuxpineda
