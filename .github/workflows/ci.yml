@@ -30,6 +30,12 @@ jobs:
           key: ${{ runner.os }}-asdf-${{ hashFiles('.tool-versions') }}
         id: asdf-cache
       # only run `asdf install` if we didn't hit the cache
+      - uses: asdf-vm/actions/setup@v2
+        if: steps.asdf-cache.outputs.cache-hit != 'true'
+      - run: asdf plugin-add ansible https://github.com/amrox/asdf-pyapp.git
+        env:
+          ASDF_PYAPP_INCLUDE_DEPS: 1
+        if: steps.asdf-cache.outputs.cache-hit != 'true'
       - uses: asdf-vm/actions/install@v2
         if: steps.asdf-cache.outputs.cache-hit != 'true'
 
