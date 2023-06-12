@@ -1,4 +1,8 @@
 ---
+- name: Install Ansible dependencies
+  community.general.ansible_galaxy_install:
+    type: collection
+    requirements_file: collections/requirements.yml
 - name: Ensure cron is present
   apt:
     name: cron
