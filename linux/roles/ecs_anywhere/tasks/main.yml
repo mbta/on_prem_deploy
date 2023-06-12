@@ -1,0 +1,117 @@
+---
+- name: Ensure required packages are installed
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - ca-certificates
+    - curl
+    - gnupg
+- name: Ensure old Docker packages are not installed
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - docker
+    - docker-engine
+    - docker.io
+    - containerd
+    - runc
+- name: Check if AWS GPG key is present
+  register: ecs_anywhere_aws_gpg_key_check
+  ansible.builtin.command: gpg --list-keys {{ ecs_anywhere_aws_gpg_key }} 2> /dev/null
+  failed_when: ecs_anywhere_aws_gpg_key_check.rc > 2
+  changed_when: ecs_anywhere_aws_gpg_key_check.rc != 0
+- name: Fetch AWS GPG key # noqa: no-handler
+  register: ecs_anywhere_fetch_aws_gpg_key
+  ansible.builtin.command: >-
+    gpg --keyserver hkps://keyserver.ubuntu.com
+    --recv {{ ecs_anywhere_aws_gpg_key }}
+  when: ecs_anywhere_aws_gpg_key_check.changed
+  changed_when: ecs_anywhere_fetch_aws_gpg_key.rc == 0
+- name: /etc/apt/keyrings directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+- name: GPG key for Docker
+  ansible.builtin.copy:
+    src: files/docker.gpg
+    dest: /etc/apt/keyrings/docker.gpg
+    owner: root
+    group: root
+    mode: "0644"
+- name: Generate docker.list output
+  register: ecs_anywhere_docker_list
+  ansible.builtin.shell:
+    cmd: >-
+      echo deb [arch=$(dpkg --print-architecture)
+      signed-by=/etc/apt/keyrings/docker.gpg]
+      https://download.docker.com/linux/ubuntu
+      $(. /etc/os-release && echo "$VERSION_CODENAME")
+      stable
+  changed_when: false
+- name: Add Docker repo to apt
+  ansible.builtin.copy:
+    content: "{{ ecs_anywhere_docker_list.stdout }}"
+    dest: /etc/apt/sources.list.d/docker.list
+    owner: root
+    group: root
+    mode: '0644'
+- name: Ensure new Docker packages are installed
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-buildx-plugin
+    - docker-compose-plugin
+- name: Fetch install script signature
+  ansible.builtin.get_url:
+    dest: /root/ecs-anywhere-install.sh.asc
+    owner: root
+    group: root
+    mode: '0600'
+    url: "{{ ecs_anywhere_install_prefix }}/ecs-anywhere-install-latest.sh.asc"
+  register: ecs_anywhere_sh_asc
+- name: Fetch install script
+  ansible.builtin.get_url:
+    dest: /root/ecs-anywhere-install.sh
+    owner: root
+    group: root
+    mode: '0600'
+    url: "{{ ecs_anywhere_install_prefix }}/ecs-anywhere-install-latest.sh"
+  register: ecs_anywhere_sh
+- name: Verify install script
+  ansible.builtin.command:
+    gpg --verify /root/ecs-anywhere-install.sh.asc /root/ecs-anywhere-install.sh
+  when: ecs_anywhere_sh_asc.changed or ecs_anywhere_sh.changed
+  changed_when: false
+- name: Install ECS Anywhere
+  when: |
+    ecs_anywhere_activation_id is defined and
+    ecs_anywhere_activation_code is defined
+  ansible.builtin.command:
+    cmd: >-
+      bash /root/ecs-anywhere-install.sh
+      --region {{ ecs_anywhere_region }}
+      --cluster {{ ecs_anywhere_cluster }}
+      --activation-id {{ ecs_anywhere_activation_id | trim | quote }}
+      --activation-code {{ ecs_anywhere_activation_code | trim | quote }}
+    creates: /etc/init/amazon-ssm-agent.conf
+- name: SSM is running
+  ansible.builtin.service:
+    name: amazon-ssm-agent
+    state: started
+- name: Pip is installed
+  ansible.builtin.apt:
+    name: python3-pip
+    state: present
+- name: Boto3 package is installed
+  ansible.builtin.pip:
+    name: boto3

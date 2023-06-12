@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: All hosts
+  hosts: all
   connection: local
   become: true
   roles:
@@ -8,29 +9,32 @@
   vars:
     github_repo: mbta/on_prem_deploy
     git_branch: main
-- hosts: local
+- name: Local development
+  hosts: local
   roles:
-    - ecs-anywhere
+    - ecs_anywhere
     - splunk
     - crowdstrike
     - tenable
-- hosts: staging
+- name: Staging environment
+  hosts: staging
   vars:
     splunk_index: onprem-linux-staging
     ecs_anywhere_region: us-east-1
     ecs_anywhere_cluster: linux-staging
   roles:
-    - ecs-anywhere
+    - ecs_anywhere
     - splunk
     - crowdstrike
     - tenable
-- hosts: prod
+- name: Production environment
+  hosts: prod
   vars:
     splunk_index: onprem-linux-prod
     ecs_anywhere_region: us-east-1
     ecs_anywhere_cluster: linux-prod
   roles:
-    - ecs-anywhere
+    - ecs_anywhere
     - splunk
     - crowdstrike
     - tenable
