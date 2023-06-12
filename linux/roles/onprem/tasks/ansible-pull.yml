@@ -4,16 +4,22 @@
     type: collection
     requirements_file: collections/requirements.yml
 - name: Ensure Ansible PPA is present
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "ppa:ansible/ansible"
     # matches what's generated from cloud-init/user-data
     filename: "ansible-ubuntu-ansible-jammy"
 - name: Ensure cron is present
-  apt:
+  ansible.builtin.apt:
     name: cron
 - name: Run ansible-pull every 15m
-  cron:
+  ansible.builtin.cron:
     name: ansible-pull
     user: root
-    job: "ansible-pull -C {{ git_branch }} -U https://github.com/{{ github_repo }}.git --vault-password-file /root/.ansible_vault_password -i linux/inventory.yml --extra-vars \"github_repo={{ github_repo }} git_branch={{ git_branch }}\" linux/main.yml"
+    job: >-
+      ansible-pull -C {{ git_branch }}
+      -U https://github.com/{{ github_repo }}.git
+      --vault-password-file /root/.ansible_vault_password
+      -i linux/inventory.yml
+      --extra-vars "github_repo={{ github_repo }} git_branch={{ git_branch }}"
+      linux/main.yml
     minute: "*/15"

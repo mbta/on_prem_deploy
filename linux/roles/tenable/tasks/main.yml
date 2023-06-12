@@ -1,6 +1,6 @@
 ---
 - name: Download Nessus
-  register: download_nessus
+  register: tenable_download
   amazon.aws.s3_object:
     region: "{{ s3_config_region }}"
     bucket: "{{ s3_config_bucket }}"
@@ -10,16 +10,16 @@
     overwrite: different
     ignore_nonexistent_bucket: true
 - name: Install Nessus
-  when: download_nessus.changed
-  register: install_nessus
-  apt:
+  when: tenable_download.changed # noqa: no-handler
+  register: tenable_install
+  ansible.builtin.apt:
     deb: /root/nessus.deb
 - name: Configure Nessus
-  when: install_nessus.changed
-  shell:
-    cmd: |
-      /opt/nessus_agent/sbin/nessuscli agent link \
-      --key={{ tenable_key | trim | quote }} \
-      --groups={{ tenable_groups | quote }} \
-      --host={{ tenable_host }} \
-      --port={{ tenable_port }}
+  when: tenable_install.changed # noqa: no-handler
+  changed_when: false
+  ansible.builtin.command: >-
+    /opt/nessus_agent/sbin/nessuscli agent link
+    --key={{ tenable_key | trim | quote }}
+    --groups={{ tenable_groups | quote }}
+    --host={{ tenable_host }}
+    --port={{ tenable_port }}

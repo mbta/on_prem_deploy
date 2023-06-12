@@ -1,17 +1,17 @@
 ---
 - name: Install libpam-google-authenticator
-  apt:
+  ansible.builtin.apt:
     name: libpam-google-authenticator
     state: present
 - name: Require Google Authenticator configuration on login
-  copy:
+  ansible.builtin.copy:
     src: files/google-authenticator.sh
     dest: /usr/local/sbin/enforce-google-authenticator
     owner: root
     group: root
     mode: '0755'
 - name: (sudo) Require google authenticator
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: /etc/pam.d/sudo
     marker: "# {mark} Google Authenticator"
     state: absent
@@ -19,20 +19,20 @@
     block: |
       auth required pam_google_authenticator.so
 - name: (sudo) Disable normal auth
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/pam.d/sudo
     regexp: '^@include common-auth'
     line: "#@include common-auth"
     state: absent
 - name: (ssh) Disable password auth
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^PasswordAuthentication yes'
     line: "PasswordAuthentication no"
     state: present
-  notify: ssh
+  notify: SSH
 - name: (ssh) Require google authenticator (if configured)
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: /etc/pam.d/sshd
     marker: "# {mark} Google Authenticator"
     state: present
@@ -40,16 +40,16 @@
     block: |
       auth required pam_google_authenticator.so nullok
       auth required pam_permit.so
-  notify: ssh
+  notify: SSH
 - name: (ssh) Disable normal auth
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/pam.d/sshd
     regexp: '^@include common-auth'
     line: "#@include common-auth"
     state: present
-  notify: ssh
+  notify: SSH
 - name: (ssh) Enable keyboard-interactive authentication
-  copy:
+  ansible.builtin.copy:
     dest: /etc/ssh/sshd_config.d/50-google-authenticator.conf
     owner: root
     group: root
@@ -58,4 +58,4 @@
      ForceCommand /usr/local/sbin/enforce-google-authenticator
      AuthenticationMethods publickey,keyboard-interactive
      ChallengeResponseAuthentication yes
-  notify: ssh
+  notify: SSH

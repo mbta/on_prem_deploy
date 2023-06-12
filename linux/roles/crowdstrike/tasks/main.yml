@@ -1,6 +1,6 @@
 ---
 - name: Download Falcon sensor
-  register: download_falcon_sensor
+  register: crowdstrike_download
   amazon.aws.s3_object:
     region: "{{ s3_config_region }}"
     bucket: "{{ s3_config_bucket }}"
@@ -10,15 +10,17 @@
     overwrite: different
     ignore_nonexistent_bucket: true
 - name: Install Falcon sensor
-  when: download_falcon_sensor.changed
-  register: install_falcon_sensor
-  apt:
+  when: crowdstrike_download.changed # noqa: no-handler
+  register: crowdstrike_install
+  ansible.builtin.apt:
     deb: /root/falcon-sensor.deb
 - name: Configure Falcon sensor
-  when: install_falcon_sensor.changed
-  shell:
-    cmd: /opt/CrowdStrike/falconctl -s --cid={{ crowdstrike_cid | trim | quote }}
+  when: crowdstrike_install.changed # noqa: no-handler
+  register: crowdstrike_configure
+  failed_when: crowdstrike_configure.rc > 0 and crowdstrike_configure.rc < 255
+  changed_when: crowdstrike_configure.rc == 0
+  ansible.builtin.command: /opt/CrowdStrike/falconctl -s --cid={{ crowdstrike_cid | trim | quote }}
 - name: Ensure falcon-sensor is running
-  service:
+  ansible.builtin.service:
     name: falcon-sensor
     state: started
