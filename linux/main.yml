@@ -3,7 +3,8 @@
   connection: local
   become: true
   roles:
-    - onprem
+    - role: onprem
+      tags: [initial]
   vars:
     github_repo: mbta/on_prem_deploy
     git_branch: main
