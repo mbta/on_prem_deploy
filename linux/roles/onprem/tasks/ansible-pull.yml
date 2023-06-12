@@ -3,6 +3,11 @@
   community.general.ansible_galaxy_install:
     type: collection
     requirements_file: collections/requirements.yml
+- name: Ensure Ansible PPA is present
+  apt_repository:
+    repo: "ppa:ansible/ansible"
+    # matches what's generated from cloud-init/user-data
+    filename: "ansible-ubuntu-ansible-jammy"
 - name: Ensure cron is present
   apt:
     name: cron
