@@ -9,6 +9,7 @@ So far, this only works on an Intel Mac. It would probably work on an Intel Linu
 
 ``` shell
 $ brew install virtualbox
+$ brew install vagrant
 ```
 
 ### Usage
