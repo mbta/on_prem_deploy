@@ -33,3 +33,8 @@
   user:
     name: ubuntu
     state: absent
+- name: delete users who should no longer have access
+  user:
+    name: "{{ item.username }}"
+    state: absent
+  loop: "{{ deleted_users }}"
