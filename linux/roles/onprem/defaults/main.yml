@@ -23,3 +23,5 @@ itd_users:
     github: rkuthuru12
 
 deleted_users:
+  - username: ubuntu # delete default user
+  - username: kjohnson # typo
