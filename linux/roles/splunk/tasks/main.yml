@@ -1,60 +1,64 @@
 ---
-- name: create Splunk user
-  user:
+- name: Create Splunk user
+  ansible.builtin.user:
     name: splunk
     password: "!"
     password_lock: true
     shell: /bin/false
-- name: download Splunk universal forwarder
-  aws_s3:
+- name: Download Splunk universal forwarder
+  amazon.aws.s3_object:
     region: "{{ s3_config_region }}"
     bucket: "{{ s3_config_bucket }}"
-    object: "{{ s3_config_prefix | trim }}/{{ splunk_deb }}"
+    object: "{{ s3_config_prefix }}/{{ splunk_deb }}"
     dest: "/home/splunk/{{ splunk_deb }}"
     mode: get
     overwrite: different
     ignore_nonexistent_bucket: true
 - name: Install Splunk universal forwarder
-  apt:
+  ansible.builtin.apt:
     deb: "/home/splunk/{{ splunk_deb }}"
 - name: Generate local Splunk admin password
-  shell:
+  ansible.builtin.shell:
     creates: /root/.splunk_admin_password
     cmd: python3 -c "import secrets; print(secrets.token_urlsafe())" > /root/.splunk_admin_password
 - name: Initialize Splunk
-  shell:
+  ansible.builtin.shell:
     cmd: /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt --seed-passwd $(cat /root/.splunk_admin_password)
     creates: /opt/splunkforwarder/var/run/splunk/splunkd.pid
 - name: Copy Splunkcloud configuration
-  aws_s3:
+  amazon.aws.s3_object:
     region: "{{ s3_config_region }}"
     bucket: "{{ s3_config_bucket }}"
-    object: "{{ s3_config_prefix | trim }}/splunkclouduf.spl"
+    object: "{{ s3_config_prefix }}/splunkclouduf.spl"
     dest: /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl
     mode: get
     overwrite: different
     ignore_nonexistent_bucket: true
 - name: Expand Splunkcloud configuration
-  unarchive:
+  ansible.builtin.unarchive:
     owner: splunk
     group: splunk
     src: /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl
     dest: /opt/splunkforwarder/etc/deployment-apps
 - name: Add Splunkcloud configuration to Splunk
-  shell:
+  ansible.builtin.shell:
     creates: /opt/splunkforwarder/etc/apps/100_mbta_splunkcloud
-    cmd: /opt/splunkforwarder/bin/splunk install app /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl  -auth admin:$(cat /root/.splunk_admin_password)
-  notify: splunk
+    cmd: |
+      /opt/splunkforwarder/bin/splunk install app \
+      /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl \
+      -auth admin:$(cat /root/.splunk_admin_password)
+  notify: Splunk
 - name: Configure Splunk inputs
-  template:
+  ansible.builtin.template:
     owner: splunk
     group: splunk
     src: inputs.conf.j2
     dest: /opt/splunkforwarder/etc/system/local/inputs.conf
-  notify: splunk
+    mode: '0600'
+  notify: Splunk
 - name: Verify SSL certificates
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /opt/splunkforwarder/etc/splunk-launch.conf
     regexp: "^PYTHONHTTPSVERIFY=0"
     line: "PYTHONHTTPSVERIFY=1"
-  notify: splunk
+  notify: Splunk

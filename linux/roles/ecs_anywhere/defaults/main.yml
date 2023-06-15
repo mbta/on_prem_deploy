@@ -1,0 +1,14 @@
+---
+
+ecs_anywhere_aws_gpg_key: BCE9D9A42D51784F
+ecs_anywhere_install_prefix: "https://amazon-ecs-agent.s3.amazonaws.com"
+ecs_anywhere_region: us-east-2
+ecs_anywhere_cluster: linux-test
+# these are encrypted, stored in group_vars/<group>/vault.yml
+ecs_anywhere_activation_id: "{{ vault_ecs_anywhere_activation_id }}"
+ecs_anywhere_activation_code: "{{ vault_ecs_anywhere_activation_code }}"
+
+s3_config_region: us-east-1
+# these are encrypted, stored in group_vars/all/s3_config.yml
+s3_config_bucket: "{{ vault_s3_config_bucket }}"
+s3_config_prefix: "{{ vault_s3_config_prefix }}"

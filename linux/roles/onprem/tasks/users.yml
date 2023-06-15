@@ -1,9 +1,9 @@
 ---
-- name: create docker group
-  group:
+- name: Create docker group
+  ansible.builtin.group:
     name: docker
-- name: create devops users
-  user:
+- name: Create devops users
+  ansible.builtin.user:
     name: "{{ item.username }}"
     comment: "{{ item.comment }}"
     password: "!"
@@ -15,14 +15,14 @@
     shell: /bin/bash
     append: false
   loop: "{{ devops_users + itd_users }}"
-- name: copy user's ssh key
-  authorized_key:
+- name: Copy user's ssh key
+  ansible.posix.authorized_key:
     user: "{{ item.username }}"
     key: "https://github.com/{{ item.github }}.keys"
   become: true
   loop: "{{ devops_users + itd_users }}"
 - name: Users in admin group do not need passwords
-  copy:
+  ansible.builtin.copy:
     dest: /etc/sudoers.d/mbta-admins
     owner: root
     group: root

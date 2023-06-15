@@ -1,5 +1,24 @@
 # Requirements
 
+## RTX
+
+[RTX](https://github.com/jdxcode/rtx) is an alternative to ASDF.
+
+``` shell
+$ rtx install
+```
+
+## ASDF
+
+Not needed if using RTX (above).
+
+``` shell
+$ ASDF_PYAPP_INCLUDE_DEPS=1 asdf plugin add ansible https://github.com/amrox/asdf-pyapp.git
+$ asdf plugin-add adr-tools
+$ asdf plugin-add shellcheck
+$ asdf install
+```
+
 You'll also need to put the Vault password (stored in 1Password) into
 `.ansible_vault_password` or the `ANSIBLE_VAULT_PASSWORD` environment variable.
 
