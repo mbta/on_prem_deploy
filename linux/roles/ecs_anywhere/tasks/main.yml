@@ -104,6 +104,14 @@
       --activation-id {{ ecs_anywhere_activation_id | trim | quote }}
       --activation-code {{ ecs_anywhere_activation_code | trim | quote }}
     creates: /etc/init/amazon-ssm-agent.conf
+- name: Configure ECS Anywhere
+  ansible.builtin.template:
+    owner: root
+    group: root
+    src: ecs.config.j2
+    dest: /etc/ecs/ecs.config
+    mode: '0644'
+  notify: ECS agent
 - name: SSM is running
   ansible.builtin.service:
     name: amazon-ssm-agent
