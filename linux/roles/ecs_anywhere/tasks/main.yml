@@ -71,6 +71,17 @@
     - containerd.io
     - docker-buildx-plugin
     - docker-compose-plugin
+- name: Apparmor profile for Docker
+  ansible.builtin.copy:
+    src: files/docker-default
+    dest: /etc/apparmor.d/docker-default
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Apparmor for Docker
+    - Docker
+    - ECS agent
 - name: Fetch install script signature
   ansible.builtin.get_url:
     dest: /root/ecs-anywhere-install.sh.asc
