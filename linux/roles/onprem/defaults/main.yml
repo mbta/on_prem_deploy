@@ -7,7 +7,7 @@ devops_users:
   - username: iwestcott
     comment: Ian Westcott
     github: ianwestcott
-  - username: kjohnson
+  - username: krisjohnson
     comment: Kris Johnson
     github: krisrjohnson21
   - username: hlingutla
@@ -21,3 +21,7 @@ itd_users:
   - username: rkuthuru
     comment: Raj Kuthuru
     github: rkuthuru12
+
+deleted_users:
+  - username: ubuntu # delete default user
+  - username: kjohnson # typo

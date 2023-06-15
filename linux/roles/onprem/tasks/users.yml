@@ -29,7 +29,8 @@
     mode: '0440'
     content: |
       %admin ALL=(ALL) NOPASSWD:ALL
-- name: Delete default `ubuntu` user
+- name: Delete users who should no longer have access
   ansible.builtin.user:
-    name: ubuntu
+    name: "{{ item.username }}"
     state: absent
+  loop: "{{ deleted_users }}"
