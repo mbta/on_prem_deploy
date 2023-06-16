@@ -7,6 +7,7 @@ ecs_anywhere_cluster: linux-test
 # these are encrypted, stored in group_vars/<group>/vault.yml
 ecs_anywhere_activation_id: "{{ vault_ecs_anywhere_activation_id }}"
 ecs_anywhere_activation_code: "{{ vault_ecs_anywhere_activation_code }}"
+ecs_anywhere_attributes: {}
 
 s3_config_region: us-east-1
 # these are encrypted, stored in group_vars/all/s3_config.yml

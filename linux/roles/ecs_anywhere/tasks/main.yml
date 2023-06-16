@@ -175,12 +175,24 @@
     mode: '0755'
 - name: Rerun Ansible setup
   ansible.builtin.setup: ~
-  when: ecs_anywhere_fact.changed
-- name: Try writing ECS Agent ARN
-  ansible.builtin.copy:
-    content: >
-      {{ ansible_local["ecs-agent"]["ContainerInstanceArn"] }}
-    dest: /root/container-instance-arn
-    owner: root
-    group: root
-    mode: '0644'
+  when: ecs_anywhere_fact.changed # noqa: no-handler
+- name: Write container attributes
+  loop: "{{ ecs_anywhere_attributes | dict2items }}"
+  when: item.value
+  changed_when: false
+  ansible.builtin.command:
+    cmd: >-
+      aws ecs put-attributes
+      --cluster {{ ecs_anywhere_cluster }}
+      --region {{ ecs_anywhere_region }}
+      --attributes "name={{ item.key }},value={{ item.value }},targetId={{ ansible_local["ecs-agent"]["ContainerInstanceArn"] }}"
+- name: Write container attributes (empty)
+  loop: "{{ ecs_anywhere_attributes | dict2items }}"
+  when: not item.value
+  changed_when: false
+  ansible.builtin.command:
+    cmd: >-
+      aws ecs put-attributes
+      --cluster {{ ecs_anywhere_cluster }}
+      --region {{ ecs_anywhere_region }}
+      --attributes "name={{ item.key }},targetId={{ ansible_local["ecs-agent"]["ContainerInstanceArn"] }}"
