@@ -134,3 +134,25 @@
 - name: Boto3 package is installed
   ansible.builtin.pip:
     name: boto3
+- name: Fetch CLI install script
+  ansible.builtin.get_url:
+    dest: /root/awscliv2.zip
+    owner: root
+    group: root
+    mode: '0600'
+    url: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+  register: ecs_anywhere_cli_zip
+- name: Unzip is installed
+  ansible.builtin.apt:
+    name: unzip
+    state: present
+- name: Expand AWSCLI
+  when: ecs_anywhere_cli_zip.changed # noqa: no-handler
+  ansible.builtin.unarchive:
+    src: /root/awscliv2.zip
+    dest: /root
+- name: Install AWSCLI
+  when: ecs_anywhere_cli_zip.changed # noqa: no-handler
+  changed_when: true
+  ansible.builtin.command:
+    /root/aws/install --bin-dir /usr/local/bin --update
