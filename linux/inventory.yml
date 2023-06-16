@@ -6,10 +6,16 @@ local:
   hosts:
     vagrant:
     qemu:
+      ecs_anywhere_attributes:
+        com.mbta.ctd.emulator: qemu
+        com.mbta.ctd.empty-attribute:
     local[01:99]:
 staging:
   hosts:
-    HSCTDLNXSTG[01:99]:
+    HSCTDLNXSTG01:
+      ecs_anywhere_attributes:
+        com.mbta.ctd.primary-instance:
+    HSCTDLNXSTG[02:99]:
     PPCTDLNXSTG[01:99]:
 prod:
   hosts:
