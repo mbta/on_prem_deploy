@@ -156,3 +156,31 @@
   changed_when: true
   ansible.builtin.command:
     /root/aws/install --bin-dir /usr/local/bin --update
+- name: Create /etc/ansible/facts.d
+  ansible.builtin.file:
+    state: directory
+    path: /etc/ansible/facts.d
+    owner: root
+    group: root
+    mode: '0755'
+- name: Create ECS agent facts
+  register: ecs_anywhere_fact
+  ansible.builtin.copy:
+    content: |
+      #!/bin/sh
+      curl -s http://localhost:51678/v1/metadata
+    dest: /etc/ansible/facts.d/ecs-agent.fact
+    owner: root
+    group: root
+    mode: '0755'
+- name: Rerun Ansible setup
+  ansible.builtin.setup: ~
+  when: ecs_anywhere_fact.changed
+- name: Try writing ECS Agent ARN
+  ansible.builtin.copy:
+    content: >
+      {{ ansible_local["ecs-agent"]["ContainerInstanceArn"] }}
+    dest: /root/container-instance-arn
+    owner: root
+    group: root
+    mode: '0644'
