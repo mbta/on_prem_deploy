@@ -164,7 +164,7 @@
     group: root
     mode: '0755'
 - name: Create ECS agent facts
-  register: ecs_anywhere_fact
+  register: ecs_anywhere_ecs_fact
   ansible.builtin.copy:
     content: |
       #!/bin/sh
@@ -173,9 +173,27 @@
     owner: root
     group: root
     mode: '0755'
+- name: Create SSM facts
+  register: ecs_anywhere_ssm_fact
+  ansible.builtin.copy:
+    content: |
+      #!/bin/sh
+      cat /var/lib/amazon/ssm/registration
+    dest: /etc/ansible/facts.d/ssm-agent.fact
+    owner: root
+    group: root
+    mode: '0755'
 - name: Rerun Ansible setup
   ansible.builtin.setup: ~
-  when: ecs_anywhere_fact.changed # noqa: no-handler
+  when: ecs_anywhere_ecs_fact.changed or ecs_anywhere_ssm_fact.changed # noqa: no-handler
+- name: Write hostname as Name tag
+  ansible.builtin.command: >-
+    aws ssm add-tags-to-resource
+    --region {{ ecs_anywhere_region }}
+    --resource-type ManagedInstance
+    --resource-id {{ ansible_local["ssm-agent"]["ManagedInstanceID"] }}
+    --tags Key=Name,Value={{ inventory_hostname }}
+  changed_when: false
 - name: Write container attributes
   loop: "{{ ecs_anywhere_attributes | dict2items }}"
   when: item.value
