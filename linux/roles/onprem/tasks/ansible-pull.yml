@@ -11,7 +11,7 @@
 - name: Ensure cron is present
   ansible.builtin.apt:
     name: cron
-- name: Run ansible-pull every 15m
+- name: Run ansible-pull periodically
   ansible.builtin.cron:
     name: ansible-pull
     user: root
@@ -25,4 +25,4 @@
       --extra-vars "github_repo={{ github_repo }} git_branch={{ git_branch }}"
       linux/main.yml
       | /usr/bin/logger -t ansible-pull --id="${PPID}" -S 4096
-    minute: "*/15"
+    minute: "59"
