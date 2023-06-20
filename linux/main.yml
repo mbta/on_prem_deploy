@@ -12,10 +12,14 @@
 - name: Local development
   hosts: local
   roles:
-    - ecs_anywhere
-    - splunk
-    - crowdstrike
-    - tenable
+    - role: ecs_anywhere
+      tags: [ecs_anywhere]
+    - role: splunk
+      tags: [splunk]
+    - role: crowdstrike
+      tags: [crowdstrike]
+    - role: tenable
+      tags: [tenable]
 - name: Staging environment
   hosts: staging
   vars:
