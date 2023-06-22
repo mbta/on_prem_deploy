@@ -107,6 +107,7 @@
   when: |
     ecs_anywhere_activation_id is defined and
     ecs_anywhere_activation_code is defined
+  changed_when: false
   ansible.builtin.command:
     cmd: >-
       bash /root/ecs-anywhere-install.sh
