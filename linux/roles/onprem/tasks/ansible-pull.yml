@@ -25,4 +25,4 @@
       --extra-vars "github_repo={{ github_repo }} git_branch={{ git_branch }}"
       linux/main.yml
       | /usr/bin/logger -t ansible-pull --id="${PPID}" -S 4096
-    minute: "59"
+    special_time: "hourly"
