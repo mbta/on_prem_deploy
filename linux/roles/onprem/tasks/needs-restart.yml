@@ -1,0 +1,15 @@
+---
+- name: Ensure packages are present
+  ansible.builtin.apt:
+    name: "{{ item }}"
+  loop:
+    - cron
+    - needrestart
+- name: Run needrestart daily
+  ansible.builtin.cron:
+    name: needrestart
+    user: root
+    job: >-
+      needrestart -b
+      | /usr/bin/logger -t needrestart --id="${PPID}" -S 4096
+    special_time: "daily"
