@@ -21,3 +21,10 @@
       test -f /var/run/reboot-required && cat /var/run/reboot-required
       | /usr/bin/logger -t reboot-required --id="${PPID}" -S 4096
     special_time: "daily"
+- name: Check if a reboot is required
+  register: onprem_reboot_required
+  ansible.builtin.stat:
+    path: /var/run/reboot-required
+- name: Restart the server if needed (and running remotely)
+  ansible.builtin.reboot:
+  when: ansible_connection != "local" and onprem_reboot_required.stat.exists
