@@ -40,6 +40,7 @@
     group: splunk
     src: /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl
     dest: /opt/splunkforwarder/etc/deployment-apps
+    remote_src: true
 - name: Add Splunkcloud configuration to Splunk
   ansible.builtin.shell:
     creates: /opt/splunkforwarder/etc/apps/100_mbta_splunkcloud

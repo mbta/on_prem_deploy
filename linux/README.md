@@ -67,7 +67,15 @@ bash run_qemu.sh
 And you can SSH into the VM with
 
 ``` shell
-$ ssh -p5555 <username>@localhsot
+$ ssh -p5555 <username>@localhost
+```
+
+You can also configure the hostname in `~/.ssh/config`:
+
+``` ssh-config
+Hostname qemu
+  Username <username>
+  Port 5555
 ```
 
 # Ansible
@@ -75,7 +83,13 @@ $ ssh -p5555 <username>@localhsot
 To iterate on the Ansible configuration, you can run `ansible-pull` directly from an SSH connection:
 
 ``` shell
-sudo ansible-pull -C main -U https://github.com/mbta/on_prem_deploy.git --vault-password-file /root/.ansible_vault_password -i linux/inventory.yml linux/main.yml
+ansible-pull -C main -U https://github.com/mbta/on_prem_deploy.git --vault-password-file /root/.ansible_vault_password -i linux/inventory.yml --become linux/main.yml
+```
+
+If you have the relevant hostname configured in `~/.ssh/config` (so that `ssh <host>` works), you can also run the playbook from your local machine:
+
+``` shell
+ansible-playbook main.yml -i inventory.yml --vault-password-file .ansible_vault_password -c ssh --become -l <hostname>
 ```
 
 Ansible Vault is used for storing some kinds of low-secrecy values, where they

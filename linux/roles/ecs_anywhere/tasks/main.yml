@@ -179,7 +179,7 @@
   ansible.builtin.copy:
     content: |
       #!/bin/sh
-      cat /var/lib/amazon/ssm/registration
+      sudo cat /var/lib/amazon/ssm/registration
     dest: /etc/ansible/facts.d/ssm-agent.fact
     owner: root
     group: root
