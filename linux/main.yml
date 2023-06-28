@@ -1,7 +1,6 @@
 ---
 - name: All hosts
   hosts: all
-  connection: local
   become: true
   roles:
     - role: onprem

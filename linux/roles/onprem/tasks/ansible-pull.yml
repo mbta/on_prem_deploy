@@ -1,4 +1,14 @@
 ---
+- name: Ensure collections directory exists
+  ansible.builtin.file:
+    path: collections
+    state: directory
+    mode: "0755"
+- name: Copy requirements file
+  ansible.builtin.copy:
+    src: collections/requirements.yml
+    dest: collections/requirements.yml
+    mode: "0644"
 - name: Install Ansible dependencies
   community.general.ansible_galaxy_install:
     type: collection
