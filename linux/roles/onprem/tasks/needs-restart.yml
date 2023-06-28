@@ -13,3 +13,11 @@
       needrestart -b
       | /usr/bin/logger -t needrestart --id="${PPID}" -S 4096
     special_time: "daily"
+- name: Cat /var/run/reboot-required daily
+  ansible.builtin.cron:
+    name: reboot-required
+    user: root
+    job: >-
+      test -f /var/run/reboot-required && cat /var/run/reboot-required
+      | /usr/bin/logger -t reboot-required --id="${PPID}" -S 4096
+    special_time: "daily"
