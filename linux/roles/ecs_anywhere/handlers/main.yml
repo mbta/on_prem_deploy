@@ -12,3 +12,14 @@
   ansible.builtin.service:
     name: ecs
     state: restarted
+- name: Update Grub
+  ansible.builtin.command: update-grub
+  changed_when: false
+- name: Reboot required
+  ansible.builtin.copy:
+    content: >-
+      *** Reboot required to update Grub ***
+    dest: /var/run/reboot-required
+    owner: root
+    group: root
+    mode: '0644'
