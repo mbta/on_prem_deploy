@@ -215,3 +215,11 @@
       --cluster {{ ecs_anywhere_cluster }}
       --region {{ ecs_anywhere_region }}
       --attributes "name={{ item.key }},targetId={{ ansible_local["ecs-agent"]["ContainerInstanceArn"] }}"
+- name: Configure Grub to use cgroups v1
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: "^GRUB_CMDLINE_LINUX="
+    line: 'GRUB_CMDLINE_LINUX="systemd.unified_cgroup_hierarchy=false"'
+  notify:
+    - Update Grub
+    - Reboot required
