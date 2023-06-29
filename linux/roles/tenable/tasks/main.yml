@@ -1,7 +1,7 @@
 ---
 - name: Download Nessus
   register: tenable_download
-  amazon.aws.s3_object:
+  amazon.aws.aws_s3: # noqa: fqcn[canonical]
     region: "{{ s3_config_region }}"
     bucket: "{{ s3_config_bucket }}"
     object: "{{ s3_config_prefix }}/{{ tenable_path }}"
