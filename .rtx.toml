@@ -1,2 +1,10 @@
+[tools]
+# listed here in order to add the `ansible-*` tools to the path
+ansible-core = "2.12.7"
+
 [plugins]
 ansible = "https://github.com/amrox/asdf-pyapp.git"
+ansible-core = "https://github.com/amrox/asdf-pyapp.git"
+
+[env]
+ASDF_PYAPP_INCLUDE_DEPS = "1"
