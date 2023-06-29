@@ -3,8 +3,8 @@
 # $ bash run_qemu.sh [hostname]
 
 set -e
-ISO_PATH=ubuntu-22.04-server-cloudimg-amd64.img
-ISO_URL=https://cloud-images.ubuntu.com/releases/jammy/release/"$ISO_PATH"
+ISO_PATH=ubuntu-20.04-server-cloudimg-amd64.img
+ISO_URL=https://cloud-images.ubuntu.com/releases/focal/release/"$ISO_PATH"
 
 if [ "$(arch)" = "arm64" ]; then
    QEMU_CPU=max

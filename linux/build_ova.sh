@@ -9,8 +9,8 @@ CPU=4
 MEMORY=16384 # MB
 DISK=102400 # MB
 
-VMDK_PATH=ubuntu-22.04-server-cloudimg-amd64.vmdk
-VMDK_URL=https://cloud-images.ubuntu.com/releases/jammy/release/"$VMDK_PATH"
+VMDK_PATH=ubuntu-20.04-server-cloudimg-amd64.vmdk
+VMDK_URL=https://cloud-images.ubuntu.com/releases/focal/release/"$VMDK_PATH"
 
 HOSTNAME=${1:-local01}
 IP_ADDRESS=$2

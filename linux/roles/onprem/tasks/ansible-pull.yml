@@ -7,7 +7,7 @@
   ansible.builtin.apt_repository:
     repo: "ppa:ansible/ansible"
     # matches what's generated from cloud-init/user-data
-    filename: "ansible-ubuntu-ansible-jammy"
+    filename: "ansible-ubuntu-ansible-focal"
 - name: Ensure cron is present
   ansible.builtin.apt:
     name: cron
