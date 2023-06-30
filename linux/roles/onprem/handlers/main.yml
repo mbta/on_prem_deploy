@@ -3,3 +3,8 @@
   ansible.builtin.service:
     name: ssh
     state: reloaded
+- name: Toggle NTP
+  changed_when: true
+  ansible.builtin.shell: |
+    timedatectl set-ntp false
+    timedatectl set-ntp true
