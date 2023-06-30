@@ -152,11 +152,17 @@
   ansible.builtin.unarchive:
     src: /root/awscliv2.zip
     dest: /root
+    remote_src: true
 - name: Install AWSCLI
   when: ecs_anywhere_cli_zip.changed # noqa: no-handler
+  register: ecs_anywhere_cli_installed
   changed_when: true
   ansible.builtin.command:
     /root/aws/install --bin-dir /usr/local/bin --update
+- name: Clean up expanded archive
+  ansible.builtin.file:
+    path: /root/aws
+    state: absent
 - name: Create /etc/ansible/facts.d
   ansible.builtin.file:
     state: directory
