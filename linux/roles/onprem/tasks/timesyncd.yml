@@ -1,0 +1,17 @@
+---
+- name: Configure NTP server (if defined)
+  when: ntp_server is defined
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/timesyncd.conf
+    regexp: "^#?NTP="
+    line: 'NTP={{ ntp_server }}'
+  notify:
+    - Toggle NTP
+- name: Unconfigure NTP server (if not defined)
+  when: ntp_server is not defined
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/timesyncd.conf
+    regexp: "^#?NTP="
+    line: '#NTP='
+  notify:
+    - Toggle NTP
