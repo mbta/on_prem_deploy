@@ -25,7 +25,7 @@ else
    wget -cN "$ISO_URL"
 
    cp $ISO_PATH boot-disk.img
-   qemu-img resize boot-disk.img +4G
+   qemu-img resize boot-disk.img +8G
    popd >/dev/null
 fi
 
