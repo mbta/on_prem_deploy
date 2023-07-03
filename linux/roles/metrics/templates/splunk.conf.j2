@@ -29,12 +29,12 @@ LoadPlugin interface
 LoadPlugin write_http
 <Plugin write_http>
   <Node "localhost">
-    URL "https://127.0.0.1:{{ splunk_forwarder_collectd_https_port }}/services/collector/raw?index={{ splunk_forwarder_collectd_index }}"
+    URL "https://localhost:{{ splunk_forwarder_collectd_https_port }}/services/collector/raw?index={{ splunk_forwarder_collectd_index }}"
     Header "Authorization: Splunk {{ splunk_forwarder_collectd_hec_token }}"
     Format "JSON"
     Metrics true
     StoreRates true
-    VerifyPeer false
-    VerifyHost false
+    CAcert "/opt/splunkforwarder/etc/auth/cacert.pem.default"
+    SSLVersion "TLSv1_2"
   </Node>
 </Plugin>
