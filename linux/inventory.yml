@@ -19,5 +19,8 @@ staging:
     PPCTDLNXSTG[01:99]:
 prod:
   hosts:
-    HSCTDLNXPRD[01:99]:
+    HSCTDLNXPRD01:
+      ecs_anywhere_attributes:
+        com.mbta.ctd.primary-instance:
+    HSCTDLNXPRD[02:99]:
     PPCTDLNXPRD[01:99]:
