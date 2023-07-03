@@ -1,0 +1,5 @@
+---
+- name: Collectd
+  ansible.builtin.service:
+    name: collectd
+    state: restarted

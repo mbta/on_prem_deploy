@@ -1,0 +1,15 @@
+- name: Ensure packages are installed
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - collectd
+    - net-tools
+- name: Configure collectd to send to Splunk
+  ansible.builtin.template:
+    src: templates/splunk.conf.j2
+    dest: /etc/collectd/collectd.conf.d/splunk.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Collectd

@@ -8,3 +8,13 @@ index = {{ splunk_index }}
 [monitor://var/log/ecs/ecs-agent.log]
 
 [monitor://var/log/ecs/ecs-init.log]
+
+[http]
+port = {{ splunk_forwarder_collectd_https_port }}
+disabled = 0
+acceptFrom = 127.0.0.1
+
+[http://collectd]
+token = {{ splunk_forwarder_collectd_hec_token }}
+index = {{ splunk_forwarder_collectd_index }}
+sourcetype = collectd_http

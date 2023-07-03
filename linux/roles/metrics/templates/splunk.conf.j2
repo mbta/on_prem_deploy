@@ -1,0 +1,40 @@
+LoadPlugin cpu
+<Plugin cpu>
+   ValuesPercentage true
+   ReportByCpu false
+</Plugin>
+
+LoadPlugin memory
+<Plugin memory>
+    ValuesAbsolute true
+    ValuesPercentage true
+</Plugin>
+
+LoadPlugin df
+<Plugin df>
+    ReportByDevice false
+    ValuesPercentage true
+</Plugin>
+
+LoadPlugin load
+<Plugin load>
+    ReportRelative true
+</Plugin>
+
+LoadPlugin interface
+<Plugin interface>
+    Interface "/^en/"
+</Plugin>
+
+LoadPlugin write_http
+<Plugin write_http>
+  <Node "localhost">
+    URL "https://127.0.0.1:{{ splunk_forwarder_collectd_https_port }}/services/collector/raw?index={{ splunk_forwarder_collectd_index }}"
+    Header "Authorization: Splunk {{ splunk_forwarder_collectd_hec_token }}"
+    Format "JSON"
+    Metrics true
+    StoreRates true
+    VerifyPeer false
+    VerifyHost false
+  </Node>
+</Plugin>
