@@ -63,3 +63,16 @@
     regexp: "^PYTHONHTTPSVERIFY=0"
     line: "PYTHONHTTPSVERIFY=1"
   notify: Splunk
+- name: Only bind to localhost
+  ansible.builtin.lineinfile:
+    path: /opt/splunkforwarder/etc/splunk-launch.conf
+    insertafter: EOF
+    line: "SPLUNK_BINDIP=127.0.0.1"
+  notify: Splunk
+- name: Generate SSL certificate for localhost
+  become: true
+  become_user: splunk
+  ansible.builtin.command:
+    creates: /opt/splunkforwarder/etc/auth/localhost.pem
+    cmd: /opt/splunkforwarder/bin/splunk createssl server-cert -d /opt/splunkforwarder/etc/auth -n localhost -c localhost
+  notify: Splunk

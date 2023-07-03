@@ -11,6 +11,7 @@ index = {{ splunk_index }}
 
 [http]
 port = {{ splunk_forwarder_collectd_https_port }}
+serverCert = $SPLUNK_HOME/etc/auth/localhost.pem
 disabled = 0
 acceptFrom = 127.0.0.1
 
