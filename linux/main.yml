@@ -11,6 +11,8 @@
       tags: [ecs_anywhere]
     - role: splunk
       tags: [splunk]
+    - role: metrics
+      tags: [metrics]
     - role: crowdstrike
       tags: [crowdstrike]
     - role: tenable
@@ -26,6 +28,7 @@
       tags: [initial]
     - role: ecs_anywhere
     - role: splunk
+    - role: metrics
     - role: crowdstrike
     - role: tenable
 - name: Production environment
@@ -39,5 +42,6 @@
       tags: [initial]
     - role: ecs_anywhere
     - role: splunk
+    - role: metrics
     - role: crowdstrike
     - role: tenable
