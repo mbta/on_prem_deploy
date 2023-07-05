@@ -5,6 +5,7 @@
     state: directory
     mode: "0755"
 - name: Copy requirements file
+  register: onprem_ansible_requirements
   ansible.builtin.copy:
     src: collections/requirements.yml
     dest: collections/requirements.yml
@@ -13,6 +14,7 @@
   community.general.ansible_galaxy_install:
     type: collection
     requirements_file: collections/requirements.yml
+  when: onprem_ansible_requirements.changed # noqa: no-handler
 - name: Ensure Ansible PPA is present
   ansible.builtin.apt_repository:
     repo: "ppa:ansible/ansible"
