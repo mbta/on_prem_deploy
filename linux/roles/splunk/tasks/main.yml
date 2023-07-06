@@ -36,6 +36,7 @@
     ignore_nonexistent_bucket: true
 - name: Expand Splunkcloud configuration
   ansible.builtin.unarchive:
+    creates: /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl
     owner: splunk
     group: splunk
     src: /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl
