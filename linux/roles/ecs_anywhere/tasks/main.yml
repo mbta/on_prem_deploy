@@ -1,22 +1,22 @@
 ---
 - name: Ensure required packages are installed
   ansible.builtin.apt:
-    name: "{{ item }}"
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+      - python3-pip
+      - unzip
     state: present
-  loop:
-    - ca-certificates
-    - curl
-    - gnupg
 - name: Ensure old Docker packages are not installed
   ansible.builtin.apt:
-    name: "{{ item }}"
+    name:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
     state: absent
-  loop:
-    - docker
-    - docker-engine
-    - docker.io
-    - containerd
-    - runc
 - name: Check if AWS GPG key is present
   register: ecs_anywhere_aws_gpg_key_check
   ansible.builtin.command: gpg --list-keys {{ ecs_anywhere_aws_gpg_key }} 2> /dev/null
@@ -54,6 +54,7 @@
       stable
   changed_when: false
 - name: Add Docker repo to apt
+  register: ecs_anywhere_add_docker_repo
   ansible.builtin.copy:
     content: "{{ ecs_anywhere_docker_list.stdout }}"
     dest: /etc/apt/sources.list.d/docker.list
@@ -62,15 +63,15 @@
     mode: '0644'
 - name: Ensure new Docker packages are installed
   ansible.builtin.apt:
-    name: "{{ item }}"
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
     state: present
-    update_cache: true
-  loop:
-    - docker-ce
-    - docker-ce-cli
-    - containerd.io
-    - docker-buildx-plugin
-    - docker-compose-plugin
+    update_cache: "{{ ecs_anywhere_add_docker_repo.changed }}"
+    cache_valid_time: 60
 - name: Apparmor profile for Docker
   ansible.builtin.copy:
     src: files/docker-default
@@ -128,10 +129,6 @@
   ansible.builtin.service:
     name: amazon-ssm-agent
     state: started
-- name: Pip is installed
-  ansible.builtin.apt:
-    name: python3-pip
-    state: present
 - name: Boto3 package is installed
   ansible.builtin.pip:
     name: boto3
@@ -143,10 +140,6 @@
     mode: '0600'
     url: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
   register: ecs_anywhere_cli_zip
-- name: Unzip is installed
-  ansible.builtin.apt:
-    name: unzip
-    state: present
 - name: Expand AWSCLI
   when: ecs_anywhere_cli_zip.changed # noqa: no-handler
   ansible.builtin.unarchive:
