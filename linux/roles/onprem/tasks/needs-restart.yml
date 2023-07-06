@@ -1,10 +1,9 @@
 ---
 - name: Ensure packages are present
   ansible.builtin.apt:
-    name: "{{ item }}"
-  loop:
-    - cron
-    - needrestart
+    name:
+      - cron
+      - needrestart
 - name: Run needrestart daily
   ansible.builtin.cron:
     name: needrestart

@@ -16,13 +16,18 @@
     requirements_file: collections/requirements.yml
   when: onprem_ansible_requirements.changed # noqa: no-handler
 - name: Ensure Ansible PPA is present
+  register: onprem_ansible_ppa
   ansible.builtin.apt_repository:
     repo: "ppa:ansible/ansible"
     # matches what's generated from cloud-init/user-data
     filename: "ansible-ubuntu-ansible-jammy"
-- name: Ensure cron is present
+- name: Ensure packages are present
   ansible.builtin.apt:
-    name: cron
+    name:
+      - cron
+      - ansible
+    update_cache: "{{ onprem_ansible_ppa.changed }}"
+    cache_valid_time: 60
 - name: Run ansible-pull periodically
   ansible.builtin.cron:
     name: ansible-pull
