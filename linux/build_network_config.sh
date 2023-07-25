@@ -1,11 +1,12 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 set -e
 
 IP_ADDRESS=${1:-}
 
-if [ -z "$IP_ADDRESS" ]; then
-cat <<EOF
+if [ -z "$IP_ADDRESS" ]
+then
+  cat <<EOF
 network:
   version: 2
   ethernets:
@@ -15,7 +16,9 @@ network:
       dhcp4: true
 EOF
 else
-cat <<EOF
+  # read first three octets into variables
+  read -r IP1 IP2 IP3 _IP4 <<< "${IP_ADDRESS//./ }"
+  cat <<EOF
 network:
   version: 2
   ethernets:
@@ -28,6 +31,6 @@ network:
         addresses: ["10.108.46.214", "10.108.46.215"]
       routes:
         - to: "0.0.0.0/0"
-          via: "10.108.45.1"
+          via: "${IP1}.${IP2}.${IP3}.1"
 EOF
 fi
