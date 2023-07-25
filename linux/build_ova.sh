@@ -207,7 +207,7 @@ openssl sha1 *.vmdk *.ovf > "$HOSTNAME".mf
 
 tar -cf ../"$HOSTNAME".ova \
     --format=ustar --no-acls --no-fflags --no-xattrs \
-    --uname root --gname root \
+    --uid 0 --gid 0 \
     "$HOSTNAME".* "$VMDK_PATH"
 cp "$HOSTNAME".ovf "$tmpdir"
 popd > /dev/null
