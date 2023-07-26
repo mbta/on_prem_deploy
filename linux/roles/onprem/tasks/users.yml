@@ -21,6 +21,7 @@
     key: "https://github.com/{{ item.github }}.keys"
   become: true
   loop: "{{ devops_users + itd_users }}"
+  when: item.github
 - name: Users in admin group do not need passwords
   ansible.builtin.copy:
     dest: /etc/sudoers.d/mbta-admins
