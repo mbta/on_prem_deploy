@@ -2,6 +2,11 @@
 - name: All hosts
   hosts: all
   become: true
+- name: CI
+  hosts: ci
+  roles:
+    - role: onprem
+      tags: [initial]
 - name: Local development
   hosts: local
   roles:
