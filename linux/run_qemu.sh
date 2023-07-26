@@ -22,7 +22,7 @@ if [ -f "$tmpdir"/boot-disk.img ]; then
    echo Boot disk exists, not rebuilding...
 else
    pushd "$tmpdir" >/dev/null
-   wget -cN "$ISO_URL"
+   wget -N "$ISO_URL"
 
    cp $ISO_PATH boot-disk.img
    qemu-img resize boot-disk.img +8G

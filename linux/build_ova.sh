@@ -19,7 +19,7 @@ tmpdir=$(realpath tmp) # ignored by .gitignore
 mkdir -p "$tmpdir"
 
 pushd "$tmpdir" > /dev/null
-wget -cN "$VMDK_URL"
+wget -N "$VMDK_URL"
 popd > /dev/null
 
 rm -rf "${tmpdir:?}"/"$HOSTNAME" "$tmpdir"/"$HOSTNAME".*
