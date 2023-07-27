@@ -12,8 +12,7 @@ devops_users:
     github: krisrjohnson21
   - username: hlingutla
     comment: Harini Lingutla
-    # no keys yet
-    github: "" # hlingutla-mbta
+    github: harinil-mbta
 
 itd_users:
   - username: ctzunuxpineda
