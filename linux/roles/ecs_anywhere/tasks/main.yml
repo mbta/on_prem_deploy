@@ -116,7 +116,7 @@
       --cluster {{ ecs_anywhere_cluster }}
       --activation-id {{ ecs_anywhere_activation_id | trim | quote }}
       --activation-code {{ ecs_anywhere_activation_code | trim | quote }}
-    creates: /etc/init/amazon-ssm-agent.conf
+    creates: /usr/libexec/amazon-ecs-init
 - name: Configure ECS Anywhere
   ansible.builtin.template:
     owner: root
