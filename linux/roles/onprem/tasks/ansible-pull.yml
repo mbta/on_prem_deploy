@@ -19,6 +19,7 @@
   register: onprem_ansible_ppa
   ansible.builtin.apt_repository:
     repo: "ppa:ansible/ansible"
+    update_cache: true
     # matches what's generated from cloud-init/user-data
     filename: "ansible-ubuntu-ansible-jammy"
 - name: Ensure packages are present
@@ -26,8 +27,6 @@
     name:
       - cron
       - ansible
-    update_cache: "{{ onprem_ansible_ppa.changed }}"
-    cache_valid_time: 60
 - name: Run ansible-pull periodically
   ansible.builtin.cron:
     name: ansible-pull
