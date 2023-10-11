@@ -9,7 +9,8 @@ ecs_anywhere_activation_id: "{{ vault_ecs_anywhere_activation_id }}"
 ecs_anywhere_activation_code: "{{ vault_ecs_anywhere_activation_code }}"
 ecs_anywhere_attributes: {}
 
-s3_config_region: us-east-1
+# also used by other roles, so no ecs_anywhere_ prefix
+s3_config_region: us-east-1 # noqa: var-naming[no-role-prefix]
 # these are encrypted, stored in group_vars/all/s3_config.yml
-s3_config_bucket: "{{ vault_s3_config_bucket }}"
-s3_config_prefix: "{{ vault_s3_config_prefix }}"
+s3_config_bucket: "{{ vault_s3_config_bucket }}"  # noqa: var-naming[no-role-prefix]
+s3_config_prefix: "{{ vault_s3_config_prefix }}"  # noqa: var-naming[no-role-prefix]
