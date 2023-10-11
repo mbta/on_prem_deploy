@@ -14,13 +14,13 @@
       - docker
     shell: /bin/bash
     append: false
-  loop: "{{ devops_users + itd_users }}"
+  loop: "{{ onprem_devops_users + onprem_itd_users }}"
 - name: Copy user's ssh key
   ansible.posix.authorized_key:
     user: "{{ item.username }}"
     key: "https://github.com/{{ item.github }}.keys"
   become: true
-  loop: "{{ devops_users + itd_users }}"
+  loop: "{{ onprem_devops_users + onprem_itd_users }}"
   when: item.github
 - name: Users in admin group do not need passwords
   ansible.builtin.copy:
@@ -34,4 +34,4 @@
   ansible.builtin.user:
     name: "{{ item.username }}"
     state: absent
-  loop: "{{ deleted_users }}"
+  loop: "{{ onprem_deleted_users }}"
