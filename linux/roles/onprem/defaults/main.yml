@@ -10,9 +10,6 @@ devops_users:
   - username: krisjohnson
     comment: Kris Johnson
     github: krisrjohnson21
-  - username: hlingutla
-    comment: Harini Lingutla
-    github: harinil-mbta
 
 itd_users:
   - username: ctzunuxpineda
@@ -25,3 +22,4 @@ itd_users:
 deleted_users:
   - username: ubuntu # delete default user
   - username: kjohnson # typo
+  - username: hlingutla
