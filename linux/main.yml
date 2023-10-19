@@ -22,7 +22,11 @@
       tags: [crowdstrike]
     - role: tenable
       tags: [tenable]
-- name: Staging environment
+    - role: pull
+      tags: [pull]
+    - role: users
+      tags: [users]
+  - name: Staging environment
   hosts: staging
   vars:
     splunk_index: onprem-linux-staging
@@ -36,7 +40,8 @@
     - role: metrics
     - role: crowdstrike
     - role: tenable
-    - role: paess
+    - role: pull
+    - role: users
 - name: Production environment
   hosts: prod
   vars:
@@ -51,3 +56,5 @@
     - role: metrics
     - role: crowdstrike
     - role: tenable
+    - role: pull
+    - role: users
