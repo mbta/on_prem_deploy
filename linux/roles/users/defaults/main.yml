@@ -21,3 +21,11 @@ onprem_deleted_users:
   - username: kjohnson # typo
   - username: hlingutla
   - username: ctzunuxpineda
+
+paess_users:
+  - username: bheathwlaz
+    comment: Brett Heath-Wlaz
+    github: panentheos
+  - username: pkim
+    comment: Paul Kim
+    github: PaulJKim

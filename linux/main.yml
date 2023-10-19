@@ -36,6 +36,7 @@
     - role: metrics
     - role: crowdstrike
     - role: tenable
+    - role: paess
 - name: Production environment
   hosts: prod
   vars:

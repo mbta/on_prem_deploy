@@ -1,0 +1,3 @@
+---
+- name: Ansible-pull configuration
+  ansible.builtin.include_tasks: ansible-pull.yml

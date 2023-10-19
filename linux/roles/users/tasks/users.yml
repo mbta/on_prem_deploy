@@ -15,12 +15,26 @@
     shell: /bin/bash
     append: false
   loop: "{{ onprem_devops_users + onprem_itd_users }}"
+- name: Create paess users
+  hosts:
+    PPCTDSCUTST01:
+      ansible.builtin.user:
+        name: "{{ item.username }}"
+        comment: "{{ item.comment }}"
+        password: "!"
+        password_lock: true
+        groups:
+          - users
+          - docker
+        shell: /bin/bash
+        append: false
+      loop: "{{ paess_users }}"
 - name: Copy user's ssh key
   ansible.posix.authorized_key:
     user: "{{ item.username }}"
     key: "https://github.com/{{ item.github }}.keys"
   become: true
-  loop: "{{ onprem_devops_users + onprem_itd_users }}"
+  loop: "{{ onprem_devops_users + onprem_itd_users + paess_users }}"
   when: item.github
 - name: Users in admin group do not need passwords
   ansible.builtin.copy:
