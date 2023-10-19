@@ -14,7 +14,7 @@
       - docker
     shell: /bin/bash
     append: false
-  loop: "{{ onprem_devops_users + onprem_itd_users }}"
+  loop: "{{ users_onprem_devops_users + users_onprem_itd_users }}"
 - name: Create paess users
   when: ansible_hostname == 'PPCTDSCUTST01'
   ansible.builtin.user:
@@ -33,7 +33,7 @@
     user: "{{ item.username }}"
     key: "https://github.com/{{ item.github }}.keys"
   become: true
-  loop: "{{ onprem_devops_users + onprem_itd_users + paess_users }}"
+  loop: "{{ users_onprem_devops_users + users_onprem_itd_users + users_paess_users }}"
   when: item.github
 - name: Users in admin group do not need passwords
   ansible.builtin.copy:
@@ -47,4 +47,4 @@
   ansible.builtin.user:
     name: "{{ item.username }}"
     state: absent
-  loop: "{{ onprem_deleted_users }}"
+  loop: "{{ users_onprem_deleted_users }}"
