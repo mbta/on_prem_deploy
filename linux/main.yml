@@ -26,7 +26,7 @@
       tags: [pull]
     - role: users
       tags: [users]
-  - name: Staging environment
+- name: Staging environment
   hosts: staging
   vars:
     splunk_index: onprem-linux-staging

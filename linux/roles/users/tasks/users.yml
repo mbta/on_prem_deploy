@@ -16,19 +16,18 @@
     append: false
   loop: "{{ onprem_devops_users + onprem_itd_users }}"
 - name: Create paess users
-  hosts:
-    PPCTDSCUTST01:
-      ansible.builtin.user:
-        name: "{{ item.username }}"
-        comment: "{{ item.comment }}"
-        password: "!"
-        password_lock: true
-        groups:
-          - users
-          - docker
-        shell: /bin/bash
-        append: false
-      loop: "{{ paess_users }}"
+  when: ansible_hostname == 'PPCTDSCUTST01'
+  ansible.builtin.user:
+    name: "{{ item.username }}"
+    comment: "{{ item.comment }}"
+    password: "!"
+    password_lock: true
+    groups:
+      - users
+      - docker
+    shell: /bin/bash
+    append: false
+  loop: "{{ paess_users }}"
 - name: Copy user's ssh key
   ansible.posix.authorized_key:
     user: "{{ item.username }}"
