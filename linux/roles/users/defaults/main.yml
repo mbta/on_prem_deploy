@@ -1,6 +1,6 @@
 ---
 
-onprem_devops_users:
+users_devops:
   - username: pswartz
     comment: Paul Swartz
     github: paulswartz
@@ -11,18 +11,18 @@ onprem_devops_users:
     comment: Kris Johnson
     github: krisrjohnson21
 
-onprem_itd_users:
+users_itd:
   - username: rkuthuru
     comment: Raj Kuthuru
     github: rkuthuru12
 
-onprem_deleted_users:
+users_deleted:
   - username: ubuntu # delete default user
   - username: kjohnson # typo
   - username: hlingutla
   - username: ctzunuxpineda
 
-paess_users:
+users_paess:
   - username: bheathwlaz
     comment: Brett Heath-Wlaz
     github: panentheos
