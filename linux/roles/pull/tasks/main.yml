@@ -1,3 +1,46 @@
 ---
 - name: Ansible-pull configuration
   ansible.builtin.include_tasks: ansible-pull.yml
+- name: Ensure collections directory exists
+  ansible.builtin.file:
+    path: /root/collections
+    state: directory
+    mode: "0700"
+- name: Copy requirements file
+  register: onprem_ansible_requirements
+  ansible.builtin.copy:
+    src: collections/requirements.yml
+    dest: /root/collections/requirements.yml
+    mode: "0600"
+- name: Install Ansible dependencies
+  community.general.ansible_galaxy_install:
+    type: collection
+    requirements_file: /root/collections/requirements.yml
+  when: onprem_ansible_requirements.changed # noqa: no-handler
+- name: Ensure Ansible PPA is present
+  register: onprem_ansible_ppa
+  ansible.builtin.apt_repository:
+    repo: "ppa:ansible/ansible"
+    update_cache: true
+    # matches what's generated from cloud-init/user-data
+    filename: "ansible-ubuntu-ansible-jammy"
+- name: Ensure packages are present
+  ansible.builtin.apt:
+    name:
+      - cron
+      - ansible
+- name: Run ansible-pull periodically
+  ansible.builtin.cron:
+    name: ansible-pull
+    user: root
+    job: >-
+      env
+      ANSIBLE_STDOUT_CALLBACK=ansible.posix.jsonl
+      ansible-pull -C {{ git_branch }}
+      -U https://github.com/{{ github_repo }}.git
+      --vault-password-file /root/.ansible_vault_password
+      -i linux/inventory.yml
+      --extra-vars "github_repo={{ github_repo }} git_branch={{ git_branch }}"
+      linux/main.yml
+      | /usr/bin/logger -t ansible-pull --id="${PPID}" -S 4096
+    special_time: "hourly"

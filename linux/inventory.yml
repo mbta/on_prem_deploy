@@ -17,6 +17,8 @@ staging:
         com.mbta.ctd.primary-instance:
     HSCTDLNXSTG[02:99]:
     PPCTDLNXSTG[01:99]:
+paess-testing:
+  hosts:
     PPCTDSCUTST01[01:99]:
 prod:
   hosts:

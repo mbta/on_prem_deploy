@@ -8,26 +8,9 @@
     comment: "{{ item.comment }}"
     password: "!"
     password_lock: true
-    groups:
-      - admin
-      - users
-      - docker
     shell: /bin/bash
     append: false
-  loop: "{{ users_devops + users_itd }}"
-- name: Create paess users
-  when: ansible_hostname == 'PPCTDSCUTST01'
-  ansible.builtin.user:
-    name: "{{ item.username }}"
-    comment: "{{ item.comment }}"
-    password: "!"
-    password_lock: true
-    groups:
-      - users
-      - docker
-    shell: /bin/bash
-    append: false
-  loop: "{{ paess_users }}"
+  loop: "{{ users }}"
 - name: Copy user's ssh key
   ansible.posix.authorized_key:
     user: "{{ item.username }}"

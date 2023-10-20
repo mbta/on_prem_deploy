@@ -10,6 +10,8 @@
 - name: Local development
   hosts: local
   roles:
+    - role: pull
+      tags: [pull]
     - role: onprem
       tags: [initial]
     - role: ecs_anywhere
@@ -22,10 +24,6 @@
       tags: [crowdstrike]
     - role: tenable
       tags: [tenable]
-    - role: pull
-      tags: [pull]
-    - role: users
-      tags: [users]
 - name: Staging environment
   hosts: staging
   vars:
@@ -33,6 +31,7 @@
     ecs_anywhere_region: us-east-1
     ecs_anywhere_cluster: linux-staging
   roles:
+    - role: pull
     - role: onprem
       tags: [initial]
     - role: ecs_anywhere
@@ -40,8 +39,6 @@
     - role: metrics
     - role: crowdstrike
     - role: tenable
-    - role: pull
-    - role: users
 - name: Production environment
   hosts: prod
   vars:
@@ -49,6 +46,7 @@
     ecs_anywhere_region: us-east-1
     ecs_anywhere_cluster: linux-prod
   roles:
+    - role: pull
     - role: onprem
       tags: [initial]
     - role: ecs_anywhere
@@ -56,5 +54,3 @@
     - role: metrics
     - role: crowdstrike
     - role: tenable
-    - role: pull
-    - role: users

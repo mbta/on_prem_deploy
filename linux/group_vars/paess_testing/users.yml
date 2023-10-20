@@ -1,31 +1,22 @@
----
-
-users_devops:
+# paess users
+users:
   - username: pswartz
     comment: Paul Swartz
     github: paulswartz
+    groups: [admin, users, docker]
   - username: iwestcott
     comment: Ian Westcott
     github: ianwestcott
+    groups: [admin, users, docker]
   - username: krisjohnson
     comment: Kris Johnson
     github: krisrjohnson21
-
-users_itd:
-  - username: rkuthuru
-    comment: Raj Kuthuru
-    github: rkuthuru12
-
-users_deleted:
-  - username: ubuntu # delete default user
-  - username: kjohnson # typo
-  - username: hlingutla
-  - username: ctzunuxpineda
-
-users_paess:
+    groups: [admin, users, docker]
   - username: bheathwlaz
     comment: Brett Heath-Wlaz
     github: panentheos
+    groups: [admin, users]
   - username: pkim
     comment: Paul Kim
     github: PaulJKim
+    groups: [admin, users]
