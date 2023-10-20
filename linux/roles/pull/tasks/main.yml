@@ -1,6 +1,4 @@
 ---
-- name: Ansible-pull configuration
-  ansible.builtin.include_tasks: ansible-pull.yml
 - name: Ensure collections directory exists
   ansible.builtin.file:
     path: /root/collections
