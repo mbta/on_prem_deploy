@@ -2,7 +2,7 @@
 - name: Create docker group
   ansible.builtin.group:
     name: docker
-- name: Create devops users
+- name: Create users
   ansible.builtin.user:
     name: "{{ item.username }}"
     comment: "{{ item.comment }}"
@@ -16,7 +16,7 @@
     user: "{{ item.username }}"
     key: "https://github.com/{{ item.github }}.keys"
   become: true
-  loop: "{{ users_devops + users_itd + users_paess }}"
+  loop: "{{ users }}"
   when: item.github
 - name: Users in admin group do not need passwords
   ansible.builtin.copy:
@@ -30,4 +30,4 @@
   ansible.builtin.user:
     name: "{{ item.username }}"
     state: absent
-  loop: "{{ onprem_deleted_users }}"
+  loop: "{{ users_deleted }}"
