@@ -12,6 +12,8 @@
   roles:
     - role: pull
       tags: [pull]
+    - role: users
+      tags: [users]
     - role: onprem
       tags: [initial]
     - role: ecs_anywhere
@@ -32,6 +34,7 @@
     ecs_anywhere_cluster: linux-staging
   roles:
     - role: pull
+    - role: users
     - role: onprem
       tags: [initial]
     - role: ecs_anywhere
@@ -39,6 +42,11 @@
     - role: metrics
     - role: crowdstrike
     - role: tenable
+- name: PA/ESS Testing
+  hosts: paess-testing
+  roles:
+    - role: pull
+    - role: users
 - name: Production environment
   hosts: prod
   vars:
@@ -47,6 +55,7 @@
     ecs_anywhere_cluster: linux-prod
   roles:
     - role: pull
+    - role: users
     - role: onprem
       tags: [initial]
     - role: ecs_anywhere

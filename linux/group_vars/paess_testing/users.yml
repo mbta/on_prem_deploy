@@ -3,15 +3,15 @@ users:
   - username: pswartz
     comment: Paul Swartz
     github: paulswartz
-    groups: [admin, users, docker]
+    groups: [admin, users]
   - username: iwestcott
     comment: Ian Westcott
     github: ianwestcott
-    groups: [admin, users, docker]
+    groups: [admin, users]
   - username: krisjohnson
     comment: Kris Johnson
     github: krisrjohnson21
-    groups: [admin, users, docker]
+    groups: [admin, users]
   - username: bheathwlaz
     comment: Brett Heath-Wlaz
     github: panentheos

@@ -8,6 +8,7 @@
     comment: "{{ item.comment }}"
     password: "!"
     password_lock: true
+    groups: "{{ item.groups }}"
     shell: /bin/bash
     append: false
   loop: "{{ users }}"

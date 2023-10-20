@@ -19,7 +19,7 @@ staging:
     PPCTDLNXSTG[01:99]:
 paess-testing:
   hosts:
-    PPCTDSCUTST01[01:99]:
+    PPCTDSCUTST[01:99]:
 prod:
   hosts:
     HSCTDLNXPRD01:
