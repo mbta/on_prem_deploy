@@ -1,0 +1,22 @@
+# paess users
+users:
+  - username: pswartz
+    comment: Paul Swartz
+    github: paulswartz
+    groups: [admin, users]
+  - username: iwestcott
+    comment: Ian Westcott
+    github: ianwestcott
+    groups: [admin, users]
+  - username: krisjohnson
+    comment: Kris Johnson
+    github: krisrjohnson21
+    groups: [admin, users]
+  - username: bheathwlaz
+    comment: Brett Heath-Wlaz
+    github: panentheos
+    groups: [admin, users]
+  - username: pkim
+    comment: Paul Kim
+    github: PaulJKim
+    groups: [admin, users]

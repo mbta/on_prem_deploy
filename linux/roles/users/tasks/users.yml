@@ -2,25 +2,22 @@
 - name: Create docker group
   ansible.builtin.group:
     name: docker
-- name: Create devops users
+- name: Create users
   ansible.builtin.user:
     name: "{{ item.username }}"
     comment: "{{ item.comment }}"
     password: "!"
     password_lock: true
-    groups:
-      - admin
-      - users
-      - docker
+    groups: "{{ item.groups }}"
     shell: /bin/bash
     append: false
-  loop: "{{ onprem_devops_users + onprem_itd_users }}"
+  loop: "{{ users }}"
 - name: Copy user's ssh key
   ansible.posix.authorized_key:
     user: "{{ item.username }}"
     key: "https://github.com/{{ item.github }}.keys"
   become: true
-  loop: "{{ onprem_devops_users + onprem_itd_users }}"
+  loop: "{{ users }}"
   when: item.github
 - name: Users in admin group do not need passwords
   ansible.builtin.copy:
@@ -34,4 +31,4 @@
   ansible.builtin.user:
     name: "{{ item.username }}"
     state: absent
-  loop: "{{ onprem_deleted_users }}"
+  loop: "{{ users_deleted }}"

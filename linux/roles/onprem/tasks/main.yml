@@ -1,10 +1,4 @@
 ---
-- name: Ansible-pull configuration
-  ansible.builtin.include_tasks: ansible-pull.yml
-- name: TOTP configuration
-  ansible.builtin.include_tasks: google-authenticator.yml
-- name: User configuration
-  ansible.builtin.include_tasks: users.yml
 - name: Unattended-upgrades configuration
   ansible.builtin.include_tasks: unattended-upgrades.yml
 - name: Timesyncd
