@@ -61,7 +61,11 @@ $ brew install qemu
 ### Usage
 
 ``` shell
-bash run_qemu.sh
+# optional: set a different remote branch to test (default: main)
+# this branch must exist and be current on the remote in order to test it
+export GIT_BRANCH="my_branch_to_test"
+# start the VM with the specified hostname
+bash run_qemu.sh <hostname>
 ```
 
 And you can SSH into the VM with
@@ -73,9 +77,10 @@ $ ssh -p5555 <username>@localhost
 You can also configure the hostname in `~/.ssh/config`:
 
 ``` ssh-config
-Hostname qemu
-  Username <username>
-  Port 5555
+Host <hostname>
+    Hostname localhost
+    User <username>
+    Port 5555
 ```
 
 # Ansible
@@ -83,10 +88,10 @@ Hostname qemu
 To iterate on the Ansible configuration, you can run `ansible-pull` directly from an SSH connection:
 
 ``` shell
-ansible-pull -C main -U https://github.com/mbta/on_prem_deploy.git --vault-password-file /root/.ansible_vault_password -i linux/inventory.yml --become linux/main.yml
+ansible-pull -C main -U https://github.com/mbta/on_prem_deploy.git --vault-password-file /root/.ansible_vault_password -i linux/inventory.yml linux/main.yml
 ```
 
-If you have the relevant hostname configured in `~/.ssh/config` (so that `ssh <host>` works), you can also run the playbook from your local machine:
+If you have the relevant hostname configured in `~/.ssh/config` (so that `ssh <hostname>` works), you can also run the playbook from your local machine:
 
 ``` shell
 ansible-playbook main.yml -i inventory.yml --vault-password-file .ansible_vault_password -c ssh --become -l <hostname>
