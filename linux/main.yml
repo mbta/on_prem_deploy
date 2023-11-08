@@ -43,7 +43,7 @@
     - role: crowdstrike
     - role: tenable
 - name: PA/ESS Testing
-  hosts: paess-testing
+  hosts: paess_testing
   roles:
     - role: pull
     - role: users
