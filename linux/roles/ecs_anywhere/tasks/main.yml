@@ -64,7 +64,7 @@
 - name: Ensure new Docker packages are installed
   ansible.builtin.apt:
     name:
-      - docker-ce
+      # - docker-ce
       - docker-ce-cli
       - containerd.io
       - docker-buildx-plugin
@@ -72,6 +72,19 @@
     state: present
     update_cache: "{{ ecs_anywhere_add_docker_repo.changed }}"
     cache_valid_time: 60
+# TODO remove the next two tasks once Docker 25.x is confirmed to work
+- name: hold docker package
+  ansible.builtin.dpkg_selections:
+    name: docker-ce
+    # TODO change to "install" to remove the hold
+    selection: hold
+- name: install docker
+  ansible.builtin.apt:
+    # TODO remove everything after the package name to un-hold when ready
+    name: docker-ce=5:24.*
+    allow_change_held_packages: true
+    allow_downgrade: true
+# END TODO
 - name: Apparmor profile for Docker
   ansible.builtin.copy:
     src: files/docker-default
