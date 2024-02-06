@@ -96,6 +96,19 @@
     - Apparmor for Docker
     - Docker
     - ECS agent
+- name: Fetch ECS agent
+  ansible.builtin.get_url:
+    dest: /root/amazon-ecs-init.deb
+    owner: root
+    group: root
+    mode: '0600'
+    url: "https://s3.us-east-1.amazonaws.com/amazon-ecs-agent-us-east-1/amazon-ecs-init-latest.amd64.deb"
+  register: ecs_agent
+- name: Install ECS agent
+  when: ecs_agent.changed # noqa: no-handler
+  ansible.builtin.apt:
+    deb: /root/amazon-ecs-init.deb
+  notify: ECS agent
 - name: Fetch install script signature
   ansible.builtin.get_url:
     dest: /root/ecs-anywhere-install.sh.asc
