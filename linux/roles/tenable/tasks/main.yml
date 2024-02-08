@@ -18,7 +18,7 @@
   ansible.builtin.apt:
     deb: /root/nessus.deb
 - name: Configure Nessus
-  when: tenable_install.changed # noqa: no-handler
+  when: tenable_install.changed and tenable_link_nessus_agent is true  # noqa: no-handler
   changed_when: false
   ansible.builtin.command: >-
     /opt/nessus_agent/sbin/nessuscli agent link

@@ -1,4 +1,5 @@
 ---
+splunk_enable_forwarding: true
 splunk_version: "9.0.4"
 splunk_deb: "splunkforwarder-{{ splunk_version }}-de405f4a7979-linux-2.6-amd64.deb"
 splunk_index: test
