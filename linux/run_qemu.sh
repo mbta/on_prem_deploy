@@ -3,8 +3,13 @@
 # $ bash run_qemu.sh [hostname]
 
 set -e
-ISO_PATH=ubuntu-22.04-server-cloudimg-amd64.img
-ISO_URL=https://cloud-images.ubuntu.com/releases/jammy/release/"$ISO_PATH"
+ISO_NAME=ubuntu-22.04-server-cloudimg-amd64.img
+ISO_URL=https://cloud-images.ubuntu.com/releases/jammy/release/"$ISO_NAME"
+
+ISO_DIR="iso"
+mkdir -p "${ISO_DIR}"
+ISO_PATH="${ISO_DIR}/${ISO_NAME}"
+
 
 if [ "$(arch)" = "arm64" ]; then
    QEMU_CPU_TYPE=max
@@ -24,10 +29,13 @@ mkdir -p "$tmpdir"
 if [ -f "$tmpdir"/boot-disk.img ]; then
    echo Boot disk exists, not rebuilding...
 else
-   pushd "$tmpdir" >/dev/null
-   wget -N "$ISO_URL"
+   if [ ! -f "${ISO_PATH}" ]; then
+      echo "Could not find a cached OS image; downloading..."
+      wget -N "$ISO_URL" -O "${ISO_PATH}"
+   fi
+   cp "${ISO_PATH}" "${tmpdir}/boot-disk.img"
 
-   cp $ISO_PATH boot-disk.img
+   pushd "$tmpdir" >/dev/null
    qemu-img resize boot-disk.img +8G
    popd >/dev/null
 fi
