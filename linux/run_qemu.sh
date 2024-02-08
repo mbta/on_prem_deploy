@@ -7,12 +7,15 @@ ISO_PATH=ubuntu-22.04-server-cloudimg-amd64.img
 ISO_URL=https://cloud-images.ubuntu.com/releases/jammy/release/"$ISO_PATH"
 
 if [ "$(arch)" = "arm64" ]; then
-   QEMU_CPU=max
+   QEMU_CPU_TYPE=max
    QEMU_MACHINE=q35
 else
-   QEMU_CPU=host
+   QEMU_CPU_TYPE=host
    QEMU_MACHINE="accel=hvf"
 fi
+
+QEMU_CPUS="${QEMU_CPUS:-2}"
+QEMU_MEMORY="${QEMU_MEMORY:-1024}"
 
 HOSTNAME=${1:-qemu}
 tmpdir=tmp # ignored by .gitignore
@@ -35,9 +38,9 @@ qemu-system-x86_64 \
 	 -net 'nic,model=virtio-net-pci' \
 	 -net 'user,hostfwd=tcp::5555-:22' \
 	 -machine $QEMU_MACHINE \
-	 -cpu $QEMU_CPU \
-	 -smp 2 \
-	 -m 1024 \
+	 -cpu $QEMU_CPU_TYPE \
+	 -smp $QEMU_CPUS \
+	 -m $QEMU_MEMORY \
 	 -nographic \
 	 -hda "$tmpdir"/boot-disk.img \
 	 -cdrom "$tmpdir"/"$HOSTNAME".iso
