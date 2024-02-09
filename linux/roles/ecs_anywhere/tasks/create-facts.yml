@@ -1,0 +1,37 @@
+---
+
+- name: Ensure cURL is installed
+  ansible.builtin.apt:
+    name:
+      - curl
+    state: present
+- name: Create /etc/ansible/facts.d
+  ansible.builtin.file:
+    state: directory
+    path: /etc/ansible/facts.d
+    owner: root
+    group: root
+    mode: '0755'
+- name: Create ECS agent facts
+  register: ecs_anywhere_ecs_fact
+  ansible.builtin.copy:
+    content: |
+      #!/bin/sh
+      curl -s http://localhost:51678/v1/metadata
+    dest: /etc/ansible/facts.d/ecs-agent.fact
+    owner: root
+    group: root
+    mode: '0755'
+- name: Create SSM facts
+  register: ecs_anywhere_ssm_fact
+  ansible.builtin.copy:
+    content: |
+      #!/bin/sh
+      sudo cat /var/lib/amazon/ssm/registration
+    dest: /etc/ansible/facts.d/ssm-agent.fact
+    owner: root
+    group: root
+    mode: '0755'
+- name: Rerun Ansible setup
+  ansible.builtin.setup: ~
+  when: ecs_anywhere_ecs_fact.changed or ecs_anywhere_ssm_fact.changed # noqa: no-handler

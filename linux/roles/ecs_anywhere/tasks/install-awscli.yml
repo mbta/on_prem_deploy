@@ -1,0 +1,36 @@
+---
+
+- name: Ensure required packages for AWSCLI are installed
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - python3-pip
+      - unzip
+    state: present
+- name: Boto3 package is installed
+  ansible.builtin.pip:
+    name: boto3
+- name: Fetch CLI install script
+  ansible.builtin.get_url:
+    dest: /root/awscliv2.zip
+    owner: root
+    group: root
+    mode: '0600'
+    url: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+  register: ecs_anywhere_cli_zip
+- name: Expand AWSCLI
+  when: ecs_anywhere_cli_zip.changed # noqa: no-handler
+  ansible.builtin.unarchive:
+    src: /root/awscliv2.zip
+    dest: /root
+    remote_src: true
+- name: Install AWSCLI
+  when: ecs_anywhere_cli_zip.changed # noqa: no-handler
+  register: ecs_anywhere_cli_installed
+  changed_when: true
+  ansible.builtin.command:
+    /root/aws/install --bin-dir /usr/local/bin --update
+- name: Clean up expanded archive
+  ansible.builtin.file:
+    path: /root/aws
+    state: absent
