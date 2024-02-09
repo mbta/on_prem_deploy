@@ -5,16 +5,22 @@
     password: "!"
     password_lock: true
     shell: /bin/false
+- name: Gather package facts
+  ansible.builtin.package_facts:
+- name: Get the installed version of Splunk Forwarder
+  ansible.builtin.set_fact:
+    splunk_installed_version: "{{ ansible_facts.packages['splunkforwarder']['version'] | default(None) }}"
 - name: Download Splunk universal forwarder
-  amazon.aws.s3_object:
-    region: "{{ s3_config_region }}"
-    bucket: "{{ s3_config_bucket }}"
-    object: "{{ s3_config_prefix }}/{{ splunk_deb }}"
+  register: splunk_download
+  when: "splunk_installed_version != splunk_version"
+  ansible.builtin.get_url:
+    url: "https://{{ s3_config_bucket }}.s3.amazonaws.com/{{ s3_package_prefix }}/{{ splunk_deb }}"
     dest: "/home/splunk/{{ splunk_deb }}"
-    mode: get
-    overwrite: different
-    ignore_nonexistent_bucket: true
+    mode: '0644'
+    checksum: "sha256:21fdd8c5af99f47fa8a2a7a1c2771491371fbf3bb83c854c9b82b55caf0e1588"
 - name: Install Splunk universal forwarder
+  when: splunk_download.changed  # noqa: no-handler
+  register: splunk_install
   ansible.builtin.apt:
     deb: "/home/splunk/{{ splunk_deb }}"
 - name: Generate local Splunk admin password
@@ -52,3 +58,8 @@
     creates: /opt/splunkforwarder/etc/auth/localhost.pem
     cmd: /opt/splunkforwarder/bin/splunk createssl server-cert -d /opt/splunkforwarder/etc/auth -n localhost -c localhost
   notify: Splunk
+- name: Remove Splunk Forwarder package after installation
+  when: splunk_install.changed # noqa: no-handler
+  ansible.builtin.file:
+    name: "/home/splunk/{{ splunk_deb }}"
+    state: absent
