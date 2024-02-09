@@ -1,0 +1,26 @@
+---
+- name: Copy Splunkcloud configuration
+  amazon.aws.s3_object:
+    region: "{{ s3_config_region }}"
+    bucket: "{{ s3_config_bucket }}"
+    object: "{{ s3_config_prefix }}/splunkclouduf.spl"
+    dest: /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl
+    mode: get
+    overwrite: different
+    ignore_nonexistent_bucket: true
+- name: Expand Splunkcloud configuration
+  ansible.builtin.unarchive:
+    creates: /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl
+    owner: splunk
+    group: splunk
+    src: /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl
+    dest: /opt/splunkforwarder/etc/deployment-apps
+    remote_src: true
+- name: Add Splunkcloud configuration to Splunk
+  ansible.builtin.shell:
+    creates: /opt/splunkforwarder/etc/apps/100_mbta_splunkcloud
+    cmd: |
+      /opt/splunkforwarder/bin/splunk install app \
+      /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl \
+      -auth admin:$(cat /root/.splunk_admin_password)
+  notify: Splunk
