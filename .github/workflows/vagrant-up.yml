@@ -1,9 +1,12 @@
 name: vagrant-up
 
 on:
-  push:
-    paths:
-      - linux/**
+  workflow_dispatch:
+  # disabled due to consistent failures on macOS runners
+  # https://github.com/actions/runner-images/issues/8730
+  # push:
+  #   paths:
+  #     - linux/**
 
 jobs:
   vagrant-up:
