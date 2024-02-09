@@ -1,0 +1,30 @@
+---
+
+- name: Write hostname as Name tag
+  ansible.builtin.command: >-
+    aws ssm add-tags-to-resource
+    --region {{ ecs_anywhere_region }}
+    --resource-type ManagedInstance
+    --resource-id {{ ansible_local["ssm-agent"]["ManagedInstanceID"] }}
+    --tags Key=Name,Value={{ inventory_hostname }}
+  changed_when: false
+- name: Write container attributes
+  loop: "{{ ecs_anywhere_attributes | dict2items }}"
+  when: item.value
+  changed_when: false
+  ansible.builtin.command:
+    cmd: >-
+      aws ecs put-attributes
+      --cluster {{ ecs_anywhere_cluster }}
+      --region {{ ecs_anywhere_region }}
+      --attributes "name={{ item.key }},value={{ item.value }},targetId={{ ansible_local["ecs-agent"]["ContainerInstanceArn"] }}"
+- name: Write container attributes (empty)
+  loop: "{{ ecs_anywhere_attributes | dict2items }}"
+  when: not item.value
+  changed_when: false
+  ansible.builtin.command:
+    cmd: >-
+      aws ecs put-attributes
+      --cluster {{ ecs_anywhere_cluster }}
+      --region {{ ecs_anywhere_region }}
+      --attributes "name={{ item.key }},targetId={{ ansible_local["ecs-agent"]["ContainerInstanceArn"] }}"
