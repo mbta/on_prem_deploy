@@ -1,4 +1,5 @@
 ---
+
 - name: Configure NTP server (if defined)
   when: ntp_server is defined
   ansible.builtin.lineinfile:

@@ -1,4 +1,5 @@
 ---
+
 - name: Ensure packages are present
   ansible.builtin.apt:
     name:

@@ -1,4 +1,5 @@
 ---
+
 - name: Install unattended-upgrades
   ansible.builtin.apt:
     name: unattended-upgrades

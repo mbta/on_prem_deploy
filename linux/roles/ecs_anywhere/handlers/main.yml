@@ -1,4 +1,5 @@
 ---
+
 - name: Apparmor for Docker
   register: ecs_anywhere_apparmor_docker
   ansible.builtin.command: apparmor_parser -r /etc/apparmor.d/docker-default

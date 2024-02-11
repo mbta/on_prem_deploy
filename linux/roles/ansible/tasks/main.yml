@@ -1,4 +1,5 @@
 ---
+
 - name: Ensure Ansible PPA is present
   register: onprem_ansible_ppa
   ansible.builtin.apt_repository:

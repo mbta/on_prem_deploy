@@ -1,4 +1,5 @@
 ---
+
 # deleted users
 users_deleted:
   - username: ubuntu # delete default user

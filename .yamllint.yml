@@ -17,7 +17,9 @@ rules:
   comments-indentation:
     level: warning
   document-end: disable
-  document-start: enable
+  document-start:
+    ignore: |
+      /**/vault*
   empty-lines: enable
   empty-values: disable
   float-values: disable

@@ -1,4 +1,5 @@
 ---
+
 - name: Install libpam-google-authenticator
   ansible.builtin.apt:
     name: libpam-google-authenticator

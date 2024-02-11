@@ -1,4 +1,5 @@
 ---
+
 - name: Gather package facts
   ansible.builtin.package_facts:
 - name: Get the installed version of Falcon Sensor

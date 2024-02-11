@@ -1,4 +1,5 @@
 ---
+
 - name: Unattended-upgrades configuration
   ansible.builtin.include_tasks: unattended-upgrades.yml
 - name: Timesyncd

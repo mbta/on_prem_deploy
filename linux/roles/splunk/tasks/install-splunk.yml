@@ -1,4 +1,5 @@
 ---
+
 - name: Create Splunk user
   ansible.builtin.user:
     name: splunk

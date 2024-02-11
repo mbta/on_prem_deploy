@@ -1,4 +1,5 @@
 ---
+
 - name: TOTP configuration
   ansible.builtin.include_tasks: google-authenticator.yml
 - name: User configuration

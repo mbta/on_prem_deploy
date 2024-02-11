@@ -1,3 +1,5 @@
+---
+
 - name: Ensure packages are installed
   ansible.builtin.apt:
     name:

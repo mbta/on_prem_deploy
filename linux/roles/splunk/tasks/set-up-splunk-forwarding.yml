@@ -1,4 +1,5 @@
 ---
+
 - name: Copy Splunkcloud configuration
   amazon.aws.s3_object:
     region: "{{ s3_config_region }}"
