@@ -8,6 +8,7 @@
     line: 'NTP={{ ntp_server }}'
   notify:
     - Toggle NTP
+
 - name: Unconfigure NTP server (if not defined)
   when: ntp_server is not defined
   ansible.builtin.lineinfile:

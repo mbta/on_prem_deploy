@@ -6,11 +6,14 @@
     password: "!"
     password_lock: true
     shell: /bin/false
+
 - name: Gather package facts
   ansible.builtin.package_facts:
+
 - name: Get the installed version of Splunk Forwarder
   ansible.builtin.set_fact:
     splunk_installed_version: "{{ ansible_facts.packages['splunkforwarder']['version'] | default(None) }}"
+
 - name: Download Splunk universal forwarder
   register: splunk_download
   when: "splunk_installed_version != splunk_version"
@@ -19,15 +22,18 @@
     dest: "/home/splunk/{{ splunk_deb }}"
     mode: '0644'
     checksum: "sha256:21fdd8c5af99f47fa8a2a7a1c2771491371fbf3bb83c854c9b82b55caf0e1588"
+
 - name: Install Splunk universal forwarder
   when: splunk_download.changed  # noqa: no-handler
   register: splunk_install
   ansible.builtin.apt:
     deb: "/home/splunk/{{ splunk_deb }}"
+
 - name: Generate local Splunk admin password
   ansible.builtin.shell:
     creates: /root/.splunk_admin_password
     cmd: python3 -c "import secrets; print(secrets.token_urlsafe())" > /root/.splunk_admin_password
+
 - name: Initialize Splunk
   ansible.builtin.shell:
     cmd: >-
@@ -37,6 +43,7 @@
       --no-prompt
       --seed-passwd $(cat /root/.splunk_admin_password)
     creates: /opt/splunkforwarder/var/run/splunk/splunkd.pid
+
 - name: Configure Splunk inputs
   ansible.builtin.template:
     owner: splunk
@@ -45,18 +52,21 @@
     dest: /opt/splunkforwarder/etc/system/local/inputs.conf
     mode: '0600'
   notify: Splunk
+
 - name: Verify SSL certificates
   ansible.builtin.lineinfile:
     path: /opt/splunkforwarder/etc/splunk-launch.conf
     regexp: "^PYTHONHTTPSVERIFY=0"
     line: "PYTHONHTTPSVERIFY=1"
   notify: Splunk
+
 - name: Only bind to localhost
   ansible.builtin.lineinfile:
     path: /opt/splunkforwarder/etc/splunk-launch.conf
     insertafter: EOF
     line: "SPLUNK_BINDIP=127.0.0.1"
   notify: Splunk
+
 - name: Generate SSL certificate for localhost
   become: true
   become_user: splunk
@@ -68,6 +78,7 @@
       -n localhost
       -c localhost
   notify: Splunk
+
 - name: Remove Splunk Forwarder package after installation
   when: splunk_install.changed  # noqa: no-handler
   ansible.builtin.file:

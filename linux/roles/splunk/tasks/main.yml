@@ -2,6 +2,7 @@
 
 - name: Install and configure Splunk
   ansible.builtin.include_tasks: install-splunk.yml
+
 - name: Set up Splunk forwarding
   when: splunk_enable_forwarding is true
   ansible.builtin.include_tasks: set-up-splunk-forwarding.yml

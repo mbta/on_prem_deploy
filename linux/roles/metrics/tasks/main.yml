@@ -6,6 +6,7 @@
       - collectd
       - net-tools
     state: present
+
 - name: Configure collectd to send to Splunk
   ansible.builtin.template:
     src: templates/splunk.conf.j2

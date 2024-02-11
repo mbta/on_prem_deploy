@@ -5,17 +5,21 @@
   ansible.builtin.command: apparmor_parser -r /etc/apparmor.d/docker-default
   failed_when: ecs_anywhere_apparmor_docker.rc > 0
   changed_when: false
+
 - name: Docker
   ansible.builtin.service:
     name: docker
     state: restarted
+
 - name: ECS agent
   ansible.builtin.service:
     name: ecs
     state: restarted
+
 - name: Update Grub
   ansible.builtin.command: update-grub
   changed_when: false
+
 - name: Reboot required
   ansible.builtin.copy:
     content: >-

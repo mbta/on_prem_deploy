@@ -5,6 +5,7 @@
     name:
       - cron
       - needrestart
+
 - name: Run needrestart daily
   ansible.builtin.cron:
     name: needrestart
@@ -13,6 +14,7 @@
       needrestart -b
       | /usr/bin/logger -t needrestart --id="${PPID}" -S 4096
     special_time: "daily"
+
 - name: Cat /var/run/reboot-required daily
   ansible.builtin.cron:
     name: reboot-required
@@ -21,10 +23,12 @@
       test -f /var/run/reboot-required && cat /var/run/reboot-required
       | /usr/bin/logger -t reboot-required --id="${PPID}" -S 4096
     special_time: "daily"
+
 - name: Check if a reboot is required
   register: onprem_reboot_required
   ansible.builtin.stat:
     path: /var/run/reboot-required
+
 - name: Restart the server if needed (and running remotely)
   ansible.builtin.reboot:
   when: ansible_connection != "local" and onprem_reboot_required.stat.exists

@@ -4,6 +4,7 @@
   ansible.builtin.apt:
     name: libpam-google-authenticator
     state: present
+
 - name: Require Google Authenticator configuration on login
   ansible.builtin.copy:
     src: files/google-authenticator.sh
@@ -11,6 +12,7 @@
     owner: root
     group: root
     mode: '0755'
+
 - name: (sudo) Require google authenticator
   ansible.builtin.blockinfile:
     path: /etc/pam.d/sudo
@@ -19,12 +21,14 @@
     insertafter: EOF
     block: |
       auth required pam_google_authenticator.so
+
 - name: (sudo) Disable normal auth
   ansible.builtin.lineinfile:
     path: /etc/pam.d/sudo
     regexp: '^@include common-auth'
     line: "#@include common-auth"
     state: absent
+
 - name: (ssh) Disable password auth
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
@@ -32,6 +36,7 @@
     line: "PasswordAuthentication no"
     state: present
   notify: SSH
+
 - name: (ssh) Require google authenticator (if configured)
   ansible.builtin.blockinfile:
     path: /etc/pam.d/sshd
@@ -42,6 +47,7 @@
       auth required pam_google_authenticator.so nullok
       auth required pam_permit.so
   notify: SSH
+
 - name: (ssh) Disable normal auth
   ansible.builtin.lineinfile:
     path: /etc/pam.d/sshd
@@ -49,6 +55,7 @@
     line: "#@include common-auth"
     state: present
   notify: SSH
+
 - name: (ssh) Enable keyboard-interactive authentication
   ansible.builtin.copy:
     dest: /etc/ssh/sshd_config.d/50-google-authenticator.conf

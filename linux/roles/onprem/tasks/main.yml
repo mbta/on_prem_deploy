@@ -2,7 +2,9 @@
 
 - name: Unattended-upgrades configuration
   ansible.builtin.include_tasks: unattended-upgrades.yml
+
 - name: Timesyncd
   ansible.builtin.include_tasks: timesyncd.yml
+
 - name: Needs Restart configuration
   ansible.builtin.include_tasks: needs-restart.yml

@@ -5,11 +5,13 @@
     name:
       - gnupg
     state: present
+
 - name: Check if AWS GPG key is present
   register: ecs_anywhere_aws_gpg_key_check
   ansible.builtin.command: gpg --list-keys {{ ecs_anywhere_aws_gpg_key }} 2> /dev/null
   failed_when: ecs_anywhere_aws_gpg_key_check.rc > 2
   changed_when: ecs_anywhere_aws_gpg_key_check.rc != 0
+
 - name: Fetch AWS GPG key  # noqa: no-handler
   register: ecs_anywhere_fetch_aws_gpg_key
   ansible.builtin.command: >-
@@ -17,6 +19,7 @@
     --recv {{ ecs_anywhere_aws_gpg_key }}
   when: ecs_anywhere_aws_gpg_key_check.changed
   changed_when: ecs_anywhere_fetch_aws_gpg_key.rc == 0
+
 - name: Fetch ECS agent
   ansible.builtin.get_url:
     dest: /root/amazon-ecs-init.deb
@@ -25,11 +28,13 @@
     mode: '0600'
     url: "https://s3.us-east-1.amazonaws.com/amazon-ecs-agent-us-east-1/amazon-ecs-init-latest.amd64.deb"
   register: ecs_agent
+
 - name: Install ECS agent
   when: ecs_agent.changed  # noqa: no-handler
   ansible.builtin.apt:
     deb: /root/amazon-ecs-init.deb
   notify: ECS agent
+
 - name: Fetch install script signature
   ansible.builtin.get_url:
     dest: /root/ecs-anywhere-install.sh.asc
@@ -38,6 +43,7 @@
     mode: '0600'
     url: "{{ ecs_anywhere_install_prefix }}/ecs-anywhere-install-latest.sh.asc"
   register: ecs_anywhere_sh_asc
+
 - name: Fetch install script
   ansible.builtin.get_url:
     dest: /root/ecs-anywhere-install.sh
@@ -46,11 +52,13 @@
     mode: '0600'
     url: "{{ ecs_anywhere_install_prefix }}/ecs-anywhere-install-latest.sh"
   register: ecs_anywhere_sh
+
 - name: Verify install script
   ansible.builtin.command:
     gpg --verify /root/ecs-anywhere-install.sh.asc /root/ecs-anywhere-install.sh
   when: ecs_anywhere_sh_asc.changed or ecs_anywhere_sh.changed
   changed_when: false
+
 - name: Install ECS Anywhere
   when: |
     ecs_anywhere_activation_id is defined and
@@ -65,6 +73,7 @@
       --activation-id {{ ecs_anywhere_activation_id | trim | quote }}
       --activation-code {{ ecs_anywhere_activation_code | trim | quote }}
     creates: /usr/libexec/amazon-ecs-init
+
 - name: Configure ECS Anywhere
   ansible.builtin.template:
     owner: root
@@ -73,11 +82,13 @@
     dest: /etc/ecs/ecs.config
     mode: '0644'
   notify: ECS agent
+
 - name: SSM is running
   when: ecs_anywhere_activate is true
   ansible.builtin.service:
     name: amazon-ssm-agent
     state: started
+
 # TODO this may no longer be necessary as of ecs-agent v1.61.0:
 # https://github.com/aws/containers-roadmap/issues/1535
 - name: Configure Grub to use cgroups v1

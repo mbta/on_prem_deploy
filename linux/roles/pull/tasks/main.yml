@@ -5,6 +5,7 @@
     name:
       - cron
       - ansible
+
 - name: Run ansible-pull periodically
   ansible.builtin.cron:
     name: ansible-pull

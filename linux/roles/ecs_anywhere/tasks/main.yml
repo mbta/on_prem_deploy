@@ -2,13 +2,17 @@
 
 - name: Install Docker
   ansible.builtin.include_tasks: install-docker.yml
+
 - name: Install ECS Agent
   ansible.builtin.include_tasks: install-ecs-agent.yml
+
 - name: Install AWSCLI
   ansible.builtin.include_tasks: install-awscli.yml
+
 - name: Create Ansible Facts
   when: ecs_anywhere_activate is true
   ansible.builtin.include_tasks: create-facts.yml
+
 - name: Write ECS Attributes
   when: ecs_anywhere_activate is true
   ansible.builtin.include_tasks: write-ecs-attributes.yml
