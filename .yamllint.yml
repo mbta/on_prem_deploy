@@ -27,6 +27,9 @@ rules:
   key-ordering: disable
   line-length:
     max: 120
+    ignore: |
+      /.github/
+      /pull_ecr_stack_deploy.cmd.yml
   new-line-at-end-of-file: enable
   new-lines: enable
   octal-values: disable

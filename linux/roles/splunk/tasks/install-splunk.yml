@@ -29,7 +29,12 @@
     cmd: python3 -c "import secrets; print(secrets.token_urlsafe())" > /root/.splunk_admin_password
 - name: Initialize Splunk
   ansible.builtin.shell:
-    cmd: /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt --seed-passwd $(cat /root/.splunk_admin_password)
+    cmd: >-
+      /opt/splunkforwarder/bin/splunk start
+      --accept-license
+      --answer-yes
+      --no-prompt
+      --seed-passwd $(cat /root/.splunk_admin_password)
     creates: /opt/splunkforwarder/var/run/splunk/splunkd.pid
 - name: Configure Splunk inputs
   ansible.builtin.template:
@@ -56,7 +61,11 @@
   become_user: splunk
   ansible.builtin.command:
     creates: /opt/splunkforwarder/etc/auth/localhost.pem
-    cmd: /opt/splunkforwarder/bin/splunk createssl server-cert -d /opt/splunkforwarder/etc/auth -n localhost -c localhost
+    cmd: >-
+      /opt/splunkforwarder/bin/splunk createssl server-cert
+      -d /opt/splunkforwarder/etc/auth
+      -n localhost
+      -c localhost
   notify: Splunk
 - name: Remove Splunk Forwarder package after installation
   when: splunk_install.changed # noqa: no-handler
