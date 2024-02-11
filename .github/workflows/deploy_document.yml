@@ -10,7 +10,7 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       id-token: write
       contents: read
     env:
