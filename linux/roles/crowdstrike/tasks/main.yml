@@ -14,7 +14,7 @@
     mode: '0644'
     checksum: "sha256:d792dfb2d3252be684bb04b34949a91da5de3ff6f87f672452e8d1a607a7af31"
 - name: Install Falcon sensor
-  when: crowdstrike_download.changed # noqa: no-handler
+  when: crowdstrike_download.changed  # noqa: no-handler
   register: crowdstrike_install
   ansible.builtin.apt:
     deb: /root/falcon-sensor.deb
@@ -30,7 +30,7 @@
     name: falcon-sensor
     state: started
 - name: Remove Falcon Sensor package after installation
-  when: crowdstrike_install.changed # noqa: no-handler
+  when: crowdstrike_install.changed  # noqa: no-handler
   ansible.builtin.file:
     name: /root/falcon-sensor.deb
     state: absent

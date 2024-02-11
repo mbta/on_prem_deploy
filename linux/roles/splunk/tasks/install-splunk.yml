@@ -69,7 +69,7 @@
       -c localhost
   notify: Splunk
 - name: Remove Splunk Forwarder package after installation
-  when: splunk_install.changed # noqa: no-handler
+  when: splunk_install.changed  # noqa: no-handler
   ansible.builtin.file:
     name: "/home/splunk/{{ splunk_deb }}"
     state: absent

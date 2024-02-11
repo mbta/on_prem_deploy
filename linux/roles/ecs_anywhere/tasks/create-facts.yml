@@ -34,4 +34,4 @@
     mode: '0755'
 - name: Rerun Ansible setup
   ansible.builtin.setup: ~
-  when: ecs_anywhere_ecs_fact.changed or ecs_anywhere_ssm_fact.changed # noqa: no-handler
+  when: ecs_anywhere_ecs_fact.changed or ecs_anywhere_ssm_fact.changed  # noqa: no-handler

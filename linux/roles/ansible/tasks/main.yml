@@ -31,4 +31,4 @@
   community.general.ansible_galaxy_install:
     type: collection
     requirements_file: /root/collections/requirements.yml
-  when: onprem_ansible_requirements.changed # noqa: no-handler
+  when: onprem_ansible_requirements.changed  # noqa: no-handler

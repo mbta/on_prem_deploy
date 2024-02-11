@@ -10,7 +10,7 @@
   ansible.builtin.command: gpg --list-keys {{ ecs_anywhere_aws_gpg_key }} 2> /dev/null
   failed_when: ecs_anywhere_aws_gpg_key_check.rc > 2
   changed_when: ecs_anywhere_aws_gpg_key_check.rc != 0
-- name: Fetch AWS GPG key # noqa: no-handler
+- name: Fetch AWS GPG key  # noqa: no-handler
   register: ecs_anywhere_fetch_aws_gpg_key
   ansible.builtin.command: >-
     gpg --keyserver hkps://keyserver.ubuntu.com
@@ -26,7 +26,7 @@
     url: "https://s3.us-east-1.amazonaws.com/amazon-ecs-agent-us-east-1/amazon-ecs-init-latest.amd64.deb"
   register: ecs_agent
 - name: Install ECS agent
-  when: ecs_agent.changed # noqa: no-handler
+  when: ecs_agent.changed  # noqa: no-handler
   ansible.builtin.apt:
     deb: /root/amazon-ecs-init.deb
   notify: ECS agent
