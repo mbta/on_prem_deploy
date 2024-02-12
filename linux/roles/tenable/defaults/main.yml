@@ -1,5 +1,6 @@
 ---
-tenable_path: NessusAgent-10.4.0-ubuntu1404_amd64.deb
+tenable_version: "10.4.0"
+tenable_path: "NessusAgent-{{ tenable_version }}-ubuntu1404_amd64.deb"
 tenable_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           64663163613032323034663239313164636539383966393236653137646565356138303464653639
