@@ -4,4 +4,4 @@ s3_config_region: us-east-1 # noqa: var-naming[no-role-prefix]
 # these are encrypted, stored in vault_s3_config.yml
 s3_config_bucket: "{{ vault_s3_config_bucket }}"
 s3_config_prefix: "{{ vault_s3_config_prefix }}"
-s3_package_prefix: "{{ vault_s3_pagkage_prefix }}"
+s3_package_prefix: "{{ vault_s3_package_prefix }}"
