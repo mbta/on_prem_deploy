@@ -55,6 +55,8 @@
   roles:
     - role: pull
     - role: users
+    - role: crowdstrike
+    - role: tenable
 
 - name: Production environment
   hosts: prod
