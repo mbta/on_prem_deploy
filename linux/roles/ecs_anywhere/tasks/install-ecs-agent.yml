@@ -54,7 +54,8 @@
 - name: Install ECS Anywhere
   when: |
     ecs_anywhere_activation_id is defined and
-    ecs_anywhere_activation_code is defined
+    ecs_anywhere_activation_code is defined and
+    ecs_anywhere_activate is true
   changed_when: false
   ansible.builtin.command:
     cmd: >-
@@ -73,6 +74,7 @@
     mode: '0644'
   notify: ECS agent
 - name: SSM is running
+  when: ecs_anywhere_activate is true
   ansible.builtin.service:
     name: amazon-ssm-agent
     state: started

@@ -18,12 +18,13 @@
   ansible.builtin.apt:
     deb: /root/falcon-sensor.deb
 - name: Configure Falcon sensor
-  when: crowdstrike_install.changed # noqa: no-handler
+  when: crowdstrike_install.changed and crowdstrike_configure_falcon_sensor is true  # noqa: no-handler
   register: crowdstrike_configure
   failed_when: crowdstrike_configure.rc > 0 and crowdstrike_configure.rc < 255
   changed_when: crowdstrike_configure.rc == 0
   ansible.builtin.command: /opt/CrowdStrike/falconctl -s --cid={{ crowdstrike_cid | trim | quote }}
 - name: Ensure falcon-sensor is running
+  when: crowdstrike_configure_falcon_sensor is true
   ansible.builtin.service:
     name: falcon-sensor
     state: started

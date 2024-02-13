@@ -1,5 +1,6 @@
 ---
 
+ecs_anywhere_activate: true
 ecs_anywhere_aws_gpg_key: BCE9D9A42D51784F
 ecs_anywhere_install_prefix: "https://amazon-ecs-agent.s3.amazonaws.com"
 ecs_anywhere_region: us-east-2
