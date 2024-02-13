@@ -1,16 +1,16 @@
 # Requirements
 
-## RTX
+## Mise
 
-[RTX](https://github.com/jdxcode/rtx) is an alternative to ASDF.
+[Mise](https://mise.jdx.dev/) is an alternative to ASDF.
 
 ``` shell
-$ rtx install
+$ mise install
 ```
 
 ## ASDF
 
-Not needed if using RTX (above).
+Not needed if using Mise (above).
 
 ``` shell
 $ ASDF_PYAPP_INCLUDE_DEPS=1 asdf plugin add ansible https://github.com/amrox/asdf-pyapp.git
