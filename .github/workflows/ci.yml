@@ -69,9 +69,13 @@ jobs:
           key: ${{ runner.os }}-asdf-${{ hashFiles('.tool-versions') }}
       - name: Install ansible-lint
         run: ~/.asdf/installs/ansible/*/venv/bin/python3 -m pip install ansible-lint
+      - name: Install yamllint
+        run: ~/.asdf/installs/ansible/*/venv/bin/python3 -m pip install yamllint
       - uses: mbta/actions/reshim-asdf@v1
       - name: Install Ansible Galaxy collections
         run: ansible-galaxy collection install -r linux/collections/requirements.yml
       - name: Run ansible-lint
         run: ~/.asdf/installs/ansible/*/venv/bin/ansible-lint --format full
         working-directory: linux
+      - name: Run yamllint
+        run: ~/.asdf/installs/ansible/*/venv/bin/yamllint .
