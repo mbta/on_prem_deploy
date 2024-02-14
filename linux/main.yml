@@ -58,6 +58,25 @@
     - role: crowdstrike
     - role: tenable
 
+- name: Screens for realtime arrival info
+  hosts: arrival_screen
+  vars:
+    # TODO remove these overrides to enable registration
+    ecs_anywhere_activate: false
+    crowdstrike_configure_falcon_sensor: false
+    splunk_enable_forwarding: false
+    tenable_link_nessus_agent: false
+  roles:
+    - role: pull
+    - role: users
+    - role: onprem
+      tags: [initial]
+    # TODO decide whether to send logs to Splunk
+    # - role: splunk
+    - role: crowdstrike
+    - role: tenable
+    - role: kiosk
+
 - name: Production environment
   hosts: prod
   vars:

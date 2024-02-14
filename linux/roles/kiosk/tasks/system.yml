@@ -1,0 +1,87 @@
+---
+
+- name: Ensure kiosk requirements are installed
+  ansible.builtin.apt:
+    name:
+      - gstreamer1.0-libav
+      - unclutter
+
+- name: Ensure unneeded packages are removed
+  ansible.builtin.apt:
+    name:
+      - gnome-initial-setup
+      - ubuntu-advantage-desktop-daemon
+      - ubuntu-advantage-tools
+      - ubuntu-report
+      - update-notifier
+    state: absent
+    purge: true
+
+# required by community.general.dconf module
+- name: Ensure psutil Python package is installed
+  ansible.builtin.pip:
+    name:
+      - psutil
+
+- name: Create kiosk user
+  ansible.builtin.user:
+    name: "{{ kiosk_user }}"
+    password: "!"
+    password_lock: true
+    shell: /bin/bash
+
+- name: Enable automatic login
+  ansible.builtin.lineinfile:
+    path: /etc/gdm3/custom.conf
+    regexp: "^#  AutomaticLoginEnable = true"
+    line: "AutomaticLoginEnable = true"
+  notify: Reboot
+
+- name: Automatically log in as kiosk user
+  ansible.builtin.lineinfile:
+    path: /etc/gdm3/custom.conf
+    regexp: "^#  AutomaticLogin = user1"
+    line: "AutomaticLogin = {{ kiosk_user }}"
+  notify: Reboot
+
+- name: Disable Wayland in favor of Xorg
+  ansible.builtin.lineinfile:
+    path: /etc/gdm3/custom.conf
+    regexp: '^#\s?WaylandEnable=false'
+    line: "WaylandEnable=false"
+  notify: Reboot
+
+- name: Copy monitors.xml file (set screen rotation)
+  ansible.builtin.copy:
+    src: monitors.xml
+    dest: "/home/{{ kiosk_user }}/.config/monitors.xml"
+    mode: '0644'
+  notify: Reboot
+
+- name: Set dconf configuration for kiosk user
+  become: true
+  become_user: "{{ kiosk_user }}"
+  loop: "{{ kiosk_dconf_settings | dict2items }}"
+  community.general.dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+  notify: Reboot
+
+# TODO set background to black with white MBTA logo
+
+- name: Ensure autostart directory exists
+  ansible.builtin.file:
+    path: "/home/{{ kiosk_user }}/.config/autostart"
+    state: directory
+    owner: "{{ kiosk_user }}"
+    group: "{{ kiosk_user }}"
+    mode: '0755'
+
+- name: Autostart unclutter
+  ansible.builtin.copy:
+    src: unclutter.desktop
+    dest: "/home/{{ kiosk_user }}/.config/autostart/unclutter.desktop"
+    owner: "{{ kiosk_user }}"
+    group: "{{ kiosk_user }}"
+    mode: '0644'
+  notify: Reboot
