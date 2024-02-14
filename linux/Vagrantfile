@@ -30,15 +30,17 @@ Vagrant.configure("2") do |config|
 
   config.vm.cloud_init :user_data do |cloud_init|
     cloud_init.content_type = "text/cloud-config"
+    cloud_init_header = <<-EOF
+---
+
+hostname: #{vm_name}
+EOF
     user_data = File.read("cloud-init/user-data")
+                          .gsub("---\n", cloud_init_header)
                           .gsub("GITHUB_REPO", github_repo)
                           .gsub("GIT_BRANCH", git_branch)
                           .gsub("ANSIBLE_VAULT_PASSWORD", ansible_vault_password)
-    cloud_init.inline = <<-EOF
-#cloud-config
-hostname: #{vm_name}
+    cloud_init.inline = user_data
 
-#{user_data}
-EOF
   end
 end

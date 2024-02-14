@@ -1,7 +1,9 @@
 ---
+
 ci:
   hosts:
     github:
+
 local:
   hosts:
     vagrant:
@@ -10,6 +12,7 @@ local:
         com.mbta.ctd.emulator: qemu
         com.mbta.ctd.empty-attribute:
     local[01:99]:
+
 staging:
   hosts:
     HSCTDLNXSTG01:
@@ -17,9 +20,11 @@ staging:
         com.mbta.ctd.primary-instance:
     HSCTDLNXSTG[02:99]:
     PPCTDLNXSTG[01:99]:
+
 paess_testing:
   hosts:
     PPCTDSCUTST[01:99]:
+
 prod:
   hosts:
     HSCTDLNXPRD01:

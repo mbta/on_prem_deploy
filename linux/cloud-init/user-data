@@ -1,4 +1,5 @@
 #cloud-config
+---
 
 apt:
   sources:
@@ -6,8 +7,9 @@ apt:
       source: "ppa:ansible/ansible"
 
 packages:
-- git
-- ansible
+  - git
+  - ansible
+
 package_update: true
 package_upgrade: true
 
@@ -29,24 +31,24 @@ write_files:
 
 # Remove userdata from VMware
 redact:
-- userdata
+  - userdata
 
 # Run the `initial` tag first, followed by the full run This allows the
 # `ansible-galaxy` command to run first, before the other roles which use that
 # collection.
 runcmd:
- - ["ansible-pull",
-    "--vault-password-file", "/root/.ansible_vault_password",
-    "-e", "github_repo=GITHUB_REPO git_branch=GIT_BRANCH",
-    "-i", "linux/inventory.yml",
-    "-U", "https://github.com/GITHUB_REPO.git",
-    "-C", "GIT_BRANCH",
-    "-t", "initial",
-    "linux/main.yml"]
- - ["ansible-pull",
-    "--vault-password-file", "/root/.ansible_vault_password",
-    "-e", "github_repo=GITHUB_REPO git_branch=GIT_BRANCH",
-    "-i", "linux/inventory.yml",
-    "-U", "https://github.com/GITHUB_REPO.git",
-    "-C", "GIT_BRANCH",
-    "linux/main.yml"]
+  - ["ansible-pull",
+     "--vault-password-file", "/root/.ansible_vault_password",
+     "-e", "github_repo=GITHUB_REPO git_branch=GIT_BRANCH",
+     "-i", "linux/inventory.yml",
+     "-U", "https://github.com/GITHUB_REPO.git",
+     "-C", "GIT_BRANCH",
+     "-t", "initial",
+     "linux/main.yml"]
+  - ["ansible-pull",
+     "--vault-password-file", "/root/.ansible_vault_password",
+     "-e", "github_repo=GITHUB_REPO git_branch=GIT_BRANCH",
+     "-i", "linux/inventory.yml",
+     "-U", "https://github.com/GITHUB_REPO.git",
+     "-C", "GIT_BRANCH",
+     "linux/main.yml"]

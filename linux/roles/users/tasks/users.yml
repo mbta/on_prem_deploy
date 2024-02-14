@@ -1,7 +1,9 @@
 ---
+
 - name: Create docker group
   ansible.builtin.group:
     name: docker
+
 - name: Create users
   ansible.builtin.user:
     name: "{{ item.username }}"
@@ -12,6 +14,7 @@
     shell: /bin/bash
     append: false
   loop: "{{ users }}"
+
 - name: Copy user's ssh key
   ansible.posix.authorized_key:
     user: "{{ item.username }}"
@@ -19,6 +22,7 @@
   become: true
   loop: "{{ users }}"
   when: item.github
+
 - name: Users in admin group do not need passwords
   ansible.builtin.copy:
     dest: /etc/sudoers.d/mbta-admins
@@ -27,6 +31,7 @@
     mode: '0440'
     content: |
       %admin ALL=(ALL) NOPASSWD:ALL
+
 - name: Delete users who should no longer have access
   ansible.builtin.user:
     name: "{{ item.username }}"

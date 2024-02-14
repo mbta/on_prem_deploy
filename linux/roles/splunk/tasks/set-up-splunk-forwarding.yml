@@ -1,4 +1,5 @@
 ---
+
 - name: Copy Splunkcloud configuration
   amazon.aws.s3_object:
     region: "{{ s3_config_region }}"
@@ -8,6 +9,7 @@
     mode: get
     overwrite: different
     ignore_nonexistent_bucket: true
+
 - name: Expand Splunkcloud configuration
   ansible.builtin.unarchive:
     creates: /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl
@@ -16,6 +18,7 @@
     src: /opt/splunkforwarder/etc/deployment-apps/splunkclouduf.spl
     dest: /opt/splunkforwarder/etc/deployment-apps
     remote_src: true
+
 - name: Add Splunkcloud configuration to Splunk
   ansible.builtin.shell:
     creates: /opt/splunkforwarder/etc/apps/100_mbta_splunkcloud

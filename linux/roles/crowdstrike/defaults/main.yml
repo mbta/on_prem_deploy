@@ -1,4 +1,5 @@
 ---
+
 crowdstrike_configure_falcon_sensor: true
 crowdstrike_version: "6.51.0-14812"
 crowdstrike_path: "falcon-sensor_{{ crowdstrike_version }}_amd64.deb"

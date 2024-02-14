@@ -1,7 +1,8 @@
 ---
+
 # deleted users
 users_deleted:
-  - username: ubuntu # delete default user
-  - username: kjohnson # typo
+  - username: ubuntu  # delete default user
+  - username: kjohnson  # typo
   - username: hlingutla
   - username: ctzunuxpineda

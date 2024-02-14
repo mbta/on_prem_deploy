@@ -1,5 +1,6 @@
----
 # staging users
+---
+
 users:
   - username: pswartz
     comment: Paul Swartz

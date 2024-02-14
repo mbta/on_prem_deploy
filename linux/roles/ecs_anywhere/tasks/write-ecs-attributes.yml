@@ -1,3 +1,4 @@
+# yamllint disable rule:line-length
 ---
 
 - name: Write hostname as Name tag
@@ -8,6 +9,7 @@
     --resource-id {{ ansible_local["ssm-agent"]["ManagedInstanceID"] }}
     --tags Key=Name,Value={{ inventory_hostname }}
   changed_when: false
+
 - name: Write container attributes
   loop: "{{ ecs_anywhere_attributes | dict2items }}"
   when: item.value
@@ -18,6 +20,7 @@
       --cluster {{ ecs_anywhere_cluster }}
       --region {{ ecs_anywhere_region }}
       --attributes "name={{ item.key }},value={{ item.value }},targetId={{ ansible_local["ecs-agent"]["ContainerInstanceArn"] }}"
+
 - name: Write container attributes (empty)
   loop: "{{ ecs_anywhere_attributes | dict2items }}"
   when: not item.value

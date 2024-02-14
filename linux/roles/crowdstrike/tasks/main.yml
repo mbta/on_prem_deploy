@@ -1,9 +1,12 @@
 ---
+
 - name: Gather package facts
   ansible.builtin.package_facts:
+
 - name: Get the installed version of Falcon Sensor
   ansible.builtin.set_fact:
     crowdstrike_installed_version: "{{ ansible_facts.packages['falcon-sensor']['version'] | default(None) }}"
+
 - name: Download Falcon sensor
   register: crowdstrike_download
   when: "crowdstrike_installed_version != crowdstrike_version"
@@ -12,24 +15,28 @@
     dest: /root/falcon-sensor.deb
     mode: '0644'
     checksum: "sha256:d792dfb2d3252be684bb04b34949a91da5de3ff6f87f672452e8d1a607a7af31"
+
 - name: Install Falcon sensor
-  when: crowdstrike_download.changed # noqa: no-handler
+  when: crowdstrike_download.changed  # noqa: no-handler
   register: crowdstrike_install
   ansible.builtin.apt:
     deb: /root/falcon-sensor.deb
+
 - name: Configure Falcon sensor
   when: crowdstrike_install.changed and crowdstrike_configure_falcon_sensor is true  # noqa: no-handler
   register: crowdstrike_configure
   failed_when: crowdstrike_configure.rc > 0 and crowdstrike_configure.rc < 255
   changed_when: crowdstrike_configure.rc == 0
   ansible.builtin.command: /opt/CrowdStrike/falconctl -s --cid={{ crowdstrike_cid | trim | quote }}
+
 - name: Ensure falcon-sensor is running
   when: crowdstrike_configure_falcon_sensor is true
   ansible.builtin.service:
     name: falcon-sensor
     state: started
+
 - name: Remove Falcon Sensor package after installation
-  when: crowdstrike_install.changed # noqa: no-handler
+  when: crowdstrike_install.changed  # noqa: no-handler
   ansible.builtin.file:
     name: /root/falcon-sensor.deb
     state: absent

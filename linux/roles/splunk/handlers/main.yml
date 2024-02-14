@@ -1,4 +1,5 @@
 ---
+
 - name: Splunk
   ansible.builtin.service:
     name: SplunkForwarder

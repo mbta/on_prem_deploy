@@ -1,0 +1,23 @@
+---
+
+yaml-files:
+  - '*.yaml'
+  - '*.yml'
+  - '.yamllint'
+  - 'user-data'
+
+rules:
+  comments:
+    level: warning
+    ignore: user-data
+  document-start:
+    ignore: |
+      /**/vault*
+  line-length:
+    max: 120
+    ignore: |
+      /.github/
+      /pull_ecr_stack_deploy.cmd.yml
+
+ignore: |
+  .vagrant

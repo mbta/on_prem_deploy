@@ -1,6 +1,8 @@
+---
+
 name: Update version of Command document
 
-on:
+on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
   push:
     branches: [master]
@@ -8,7 +10,7 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       id-token: write
       contents: read
     env:

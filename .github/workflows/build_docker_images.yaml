@@ -1,6 +1,8 @@
+---
+
 name: Build Erlang/Elixir images
 
-on:
+on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
   push:
     branches: [main]

@@ -1,15 +1,18 @@
 ---
+
 - name: All hosts
   hosts: all
   become: true
   roles:
     - role: ansible
       tags: [initial]
+
 - name: CI
   hosts: ci
   roles:
     - role: onprem
       tags: [initial]
+
 - name: Local development
   hosts: local
   roles:
@@ -29,6 +32,7 @@
       tags: [crowdstrike]
     - role: tenable
       tags: [tenable]
+
 - name: Staging environment
   hosts: staging
   vars:
@@ -45,11 +49,13 @@
     - role: metrics
     - role: crowdstrike
     - role: tenable
+
 - name: PA/ESS Testing
   hosts: paess_testing
   roles:
     - role: pull
     - role: users
+
 - name: Production environment
   hosts: prod
   vars:
