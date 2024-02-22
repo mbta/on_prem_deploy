@@ -5,20 +5,20 @@ users:
   - username: pswartz
     comment: Paul Swartz
     github: paulswartz
-    groups: [admin, users]
+    groups: [sudo, users]
   - username: iwestcott
     comment: Ian Westcott
     github: ianwestcott
-    groups: [admin, users]
+    groups: [sudo, users]
   - username: krisjohnson
     comment: Kris Johnson
     github: krisrjohnson21
-    groups: [admin, users]
+    groups: [sudo, users]
   - username: bheathwlaz
     comment: Brett Heath-Wlaz
     github: panentheos
-    groups: [admin, users]
+    groups: [sudo, users]
   - username: pkim
     comment: Paul Kim
     github: PaulJKim
-    groups: [admin, users]
+    groups: [sudo, users]
