@@ -1,5 +1,27 @@
 ---
 
+users_tid_infrastructure:
+  - username: pswartz
+    comment: Paul Swartz
+    github: paulswartz
+    groups: [admin, users, docker]
+  - username: iwestcott
+    comment: Ian Westcott
+    github: ianwestcott
+    groups: [admin, users, docker]
+  - username: krisjohnson
+    comment: Kris Johnson
+    github: krisrjohnson21
+    groups: [admin, users, docker]
+
+users_infosec:
+  - username: rkuthuru
+    comment: Raj Kuthuru
+    github: rkuthuru12
+    groups: [admin, users, docker]
+
+users_screens: []
+
 # deleted users
 users_deleted:
   - username: ubuntu  # delete default user
