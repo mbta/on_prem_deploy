@@ -1,0 +1,7 @@
+---
+
+rdp_dconf_settings:
+  /org/gnome/desktop/remote-desktop/rdp/enable: "true"
+  /org/gnome/desktop/remote-desktop/rdp/tls-cert: "/home/{{ rdp_user }}/.local/share/gnome-remote-desktop/rdp-tls.crt"
+  /org/gnome/desktop/remote-desktop/rdp/tls-key: "/home/{{ rdp_user }}/.local/share/gnome-remote-desktop/rdp-tls.key"
+  /org/gnome/desktop/remote-desktop/rdp/view-only: "false"

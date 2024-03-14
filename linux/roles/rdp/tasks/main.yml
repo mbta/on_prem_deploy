@@ -1,0 +1,36 @@
+---
+
+- name: Ensure secret storage requirements are installed
+  ansible.builtin.apt:
+    name:
+      - dbus-x11
+      - libsecret
+
+- name: Generate private key for RDP certificate
+  become: true
+  become_user: "{{ rdp_user }}"
+  community.crypto.openssl_privatekey:
+    path: "/home/{{ rdp_user }}/.local/share/gnome-remote-desktop/rdp-tls.key"
+
+- name: Generate self-signed certificate for RDP
+  become: true
+  become_user: "{{ rdp_user }}"
+  community.crypto.x509_certificate:
+    path: "/home/{{ rdp_user }}/.local/share/gnome-remote-desktop/rdp-tls.crt"
+    privatekey_path: "/home/{{ rdp_user }}/.local/share/gnome-remote-desktop/rdp-tls.key"
+    provider: selfsigned
+
+# TODO:
+# - get keyring password from 1Password and use it to unlock GNOME keyring
+#   https://docs.ansible.com/ansible/latest/collections/community/general/onepassword_lookup.html
+# - get RDP password from 1Password and add it to Keyring
+#   https://docs.ansible.com/ansible/latest/collections/community/general/keyring_module.html
+
+- name: Set dconf configuration for RDP
+  become: true
+  become_user: "{{ rdp_user }}"
+  loop: "{{ rdp_dconf_settings | dict2items }}"
+  community.general.dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+  notify: Reboot
