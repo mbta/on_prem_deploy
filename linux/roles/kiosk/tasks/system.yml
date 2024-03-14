@@ -47,7 +47,7 @@
 - name: Disable Wayland in favor of Xorg
   ansible.builtin.lineinfile:
     path: /etc/gdm3/custom.conf
-    regexp: '^#\s?WaylandEnable=false'
+    regexp: '^(#\s+)?WaylandEnable.*'
     line: "WaylandEnable=false"
   notify: Reboot
 
