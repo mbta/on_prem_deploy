@@ -51,6 +51,14 @@
     line: "WaylandEnable=false"
   notify: Reboot
 
+- name: Ensure user config directory exists
+  ansible.builtin.file:
+    path: "/home/{{ kiosk_user }}/.config"
+    state: directory
+    owner: "{{ kiosk_user }}"
+    group: "{{ kiosk_user }}"
+    mode: '0755'
+
 - name: Copy monitors.xml file (set screen rotation)
   ansible.builtin.copy:
     src: monitors.xml
