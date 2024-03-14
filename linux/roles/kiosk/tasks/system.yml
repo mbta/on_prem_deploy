@@ -33,14 +33,14 @@
 - name: Enable automatic login
   ansible.builtin.lineinfile:
     path: /etc/gdm3/custom.conf
-    regexp: "^#  AutomaticLoginEnable = true"
+    regexp: '^(#\s+)?AutomaticLoginEnable.*'
     line: "AutomaticLoginEnable = true"
   notify: Reboot
 
 - name: Automatically log in as kiosk user
   ansible.builtin.lineinfile:
     path: /etc/gdm3/custom.conf
-    regexp: "^#  AutomaticLogin = user1"
+    regexp: '^(#\s+)?AutomaticLogin.*'
     line: "AutomaticLogin = {{ kiosk_user }}"
   notify: Reboot
 
