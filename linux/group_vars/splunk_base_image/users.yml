@@ -1,0 +1,8 @@
+# prod users
+---
+
+users:
+  - username: rkuthuru
+    comment: Raj Kuthuru
+    github: rkuthuru12
+    groups: [admin, users]

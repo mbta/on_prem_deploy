@@ -32,3 +32,14 @@ prod:
         com.mbta.ctd.primary-instance:
     HSCTDLNXPRD[02:99]:
     PPCTDLNXPRD[01:99]:
+
+splunk_base_image:
+  children:
+    splunk_heavy_forwarder:
+      hosts:
+        HSSPLNKHF[01:99]:
+        PPSPLNKHF[01:99]:
+    splunk_deployment_server:
+      hosts:
+        HSSPLNKDS[01:99]:
+        PPSPLNKDS[01:99]:

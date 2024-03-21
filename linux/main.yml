@@ -74,3 +74,14 @@
     - role: metrics
     - role: crowdstrike
     - role: tenable
+
+
+- name: Splunk base image
+  hosts: splunk_base_image
+  roles:
+    - role: pull
+    - role: users
+    - role: onprem
+      tags: [initial]
+    - role: crowdstrike
+    - role: tenable
