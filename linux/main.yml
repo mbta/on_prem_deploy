@@ -58,6 +58,19 @@
     - role: crowdstrike
     - role: tenable
 
+- name: Screens for realtime arrival info
+  hosts: arrival_screen
+  roles:
+    - role: pull
+    - role: users
+    - role: onprem
+      tags: [initial]
+    # TODO decide whether to send logs to Splunk
+    # - role: splunk
+    - role: crowdstrike
+    - role: tenable
+    - role: kiosk
+
 - name: Production environment
   hosts: prod
   vars:

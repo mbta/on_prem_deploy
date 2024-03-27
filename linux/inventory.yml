@@ -25,6 +25,10 @@ paess_testing:
   hosts:
     PPCTDSCUTST[01:99]:
 
+arrival_screen:
+  hosts:
+    SCREEN-BUS-[100:999]:
+
 prod:
   hosts:
     HSCTDLNXPRD01:

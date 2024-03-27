@@ -4,6 +4,10 @@
   ansible.builtin.group:
     name: docker
 
+- name: Ensure admin group exists
+  ansible.builtin.group:
+    name: admin
+
 - name: Create users
   ansible.builtin.user:
     name: "{{ item.username }}"

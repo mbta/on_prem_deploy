@@ -1,0 +1,18 @@
+---
+
+kiosk_dconf_settings:
+  /com/ubuntu/update-notifier/hide-reboot-notification: "true"
+  /com/ubuntu/update-notifier/no-show-notifications: "true"
+  /com/ubuntu/update-notifier/notify-ubuntu-advantage-available: "false"
+  /org/gnome/desktop/notifications/show-banners: "false"
+  # TODO generate certs and set up an RDP password with libsecret
+  # https://gitlab.gnome.org/-/snippets/1778
+  # /org/gnome/desktop/remote-desktop/rdp/enable: "true"
+  # /org/gnome/desktop/remote-desktop/rdp/tls-cert: '/home/mbta/.local/share/gnome-remote-desktop/rdp-tls.crt'
+  # /org/gnome/desktop/remote-desktop/rdp/tls-key: '/home/mbta/.local/share/gnome-remote-desktop/rdp-tls.key'
+  # /org/gnome/desktop/remote-desktop/rdp/view-only: "false"
+  /org/gnome/desktop/screensaver/lock-enabled: "false"
+  /org/gnome/desktop/session/idle-delay: "uint32 0"
+  /org/gnome/shell/extensions/dash-to-dock/dock-fixed: "false"
+  /org/gnome/shell/extensions/dash-to-dock/manualhide: "true"
+  /org/gnome/shell/extensions/ding/show-home: "false"

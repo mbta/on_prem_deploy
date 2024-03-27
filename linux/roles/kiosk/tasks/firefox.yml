@@ -1,0 +1,95 @@
+---
+
+- name: Check whether Firefox Snap is installed
+  register: firefox_snap_path
+  ansible.builtin.stat:
+    path: '/var/snap/firefox'
+
+- name: Uninstall Firefox snap
+  when: firefox_snap_path.stat.exists
+  community.general.snap:
+    name:
+      - firefox
+    state: absent
+
+- name: Uninstall Firefox snap transitional apt package
+  when: firefox_snap_path.stat.exists
+  ansible.builtin.apt:
+    name:
+      - firefox
+    state: absent
+
+- name: Install Mozilla GPG key
+  ansible.builtin.copy:
+    src: mozilla.gpg
+    dest: "/etc/apt/keyrings/packages.mozilla.org.asc"
+    mode: '0644'
+
+- name: Add Mozilla repo to apt sources
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main"
+    filename: mozilla
+
+- name: Prioritize apt packages from Mozilla
+  ansible.builtin.copy:
+    dest: "/etc/apt/preferences.d/mozilla"
+    content: |
+      Package: *
+      Pin: origin packages.mozilla.org
+      Pin-Priority: 1000
+    mode: '0644'
+
+- name: Ensure Firefox requirements are installed
+  ansible.builtin.apt:
+    name:
+      - firefox
+      - wmctrl
+
+- name: Ensure Firefox policies directory exists
+  ansible.builtin.file:
+    path: "/etc/firefox/policies/"
+    state: directory
+    mode: '0755'
+
+# TODO make sure prod URL is set in vault_kiosk_screens_base_url
+- name: Copy Firefox policies
+  ansible.builtin.template:
+    src: "policies.json.j2"
+    dest: "/etc/firefox/policies/policies.json"
+    mode: '0644'
+  notify: Reboot
+
+- name: Copy Firefox configuration file
+  ansible.builtin.copy:
+    src: mozilla.cfg
+    dest: /usr/lib/firefox/mozilla.cfg
+    mode: '0644'
+  notify: Reboot
+
+- name: Copy Firefox local settings file
+  ansible.builtin.copy:
+    src: local-settings.js
+    dest: /usr/lib/firefox/defaults/pref/local-settings.js
+    mode: '0644'
+  notify: Reboot
+
+- name: Autostart Firefox
+  ansible.builtin.copy:
+    src: firefox.desktop
+    dest: "/home/{{ kiosk_user }}/.config/autostart/firefox.desktop"
+    owner: "{{ kiosk_user }}"
+    group: "{{ kiosk_user }}"
+    mode: '0644'
+  notify: Reboot
+
+- name: Install script to force Firefox into foreground
+  ansible.builtin.copy:
+    src: bring-firefox-to-foreground.sh
+    dest: "/usr/local/bin/bring-firefox-to-foreground"
+    mode: '0755'
+
+- name: Run foreground script every minute via cron
+  ansible.builtin.cron:
+    name: bring-firefox-to-foreground
+    user: "{{ kiosk_user }}"
+    job: "/usr/local/bin/bring-firefox-to-foreground"
