@@ -18,8 +18,12 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = vm_name
 
   config.vm.provider "virtualbox" do |vb|
-    # Display the VirtualBox GUI when booting the machine
     vb.name = vm_name
+
+    # show GUI if building an arrival screen
+    if vm_name.start_with?("SCREEN")
+      vb.gui = true
+    end
 
     # Customize the amount of memory on the VM:
     vb.memory = "1024"

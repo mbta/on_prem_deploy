@@ -1,0 +1,8 @@
+---
+
+# these are encrypted, stored in roles/kiosk/vars/vault.yml
+kiosk_screens_base_url: "{{ vault_kiosk_screens_base_url }}"
+kiosk_screens_path: "{{ vault_kiosk_screens_path }}"
+kiosk_screen_id: "{{ inventory_hostname_short | upper | replace('SCREEN-', '') }}"
+kiosk_screen_verification_param: "{{ vault_kiosk_screen_verification_param }}"
+kiosk_user: "mbta"

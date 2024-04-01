@@ -1,0 +1,11 @@
+---
+
+- name: Configure kiosk system settings
+  ansible.builtin.include_tasks: system.yml
+
+- name: Configure Firefox
+  ansible.builtin.include_tasks: firefox.yml
+
+# TODO:
+# - Fix user lists across all groups
+# - Fix "admin" vs. "sudo" groups

@@ -1,0 +1,9 @@
+[Desktop Entry]
+ Version=1.0
+ Name=unclutter
+ Exec=unclutter -idle 0
+ Terminal=false
+ Type=Application
+ StartupNotify=true
+ Categories=Development
+ X-GNOME-Autostart-Delay=5

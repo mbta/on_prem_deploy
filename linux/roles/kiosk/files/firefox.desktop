@@ -1,0 +1,9 @@
+[Desktop Entry]
+ Version=1.0
+ Name=Firefox
+ Exec=firefox --kiosk
+ Terminal=false
+ Type=Application
+ StartupNotify=true
+ Categories=Internet
+ X-GNOME-Autostart-Delay=30

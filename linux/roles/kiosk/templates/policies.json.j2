@@ -1,0 +1,26 @@
+{
+  "policies": {
+    "FirefoxHome": {
+      "Search": false,
+      "TopSites": false,
+      "SponsoredTopSites": false,
+      "Highlights": false,
+      "Pocket": false,
+      "SponsoredPocket": false,
+      "Snippets": false,
+      "Locked": true
+    },
+    "Homepage": {
+      "URL": "{{ kiosk_screens_base_url }}{{ kiosk_screens_path }}{{ kiosk_screen_id }}{{ kiosk_screen_verification_param }}",
+      "StartPage": "homepage"
+    },
+    "OverrideFirstRunPage": "",
+    "OverridePostUpdatePage": "",
+    "Permissions": {
+      "Autoplay": {
+        "Allow": ["{{ kiosk_screens_base_url }}"],
+        "Default": "allow-audio-video"
+      }
+    }
+  }
+}
