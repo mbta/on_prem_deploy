@@ -13,3 +13,23 @@ users:
     comment: Kris Johnson
     github: krisrjohnson21
     groups: [admin, users]
+  - username: jzimbel
+    comment: Jon Zimbel
+    github: jzimbel-mbta
+    groups: [admin, users]
+  - username: cmaddox
+    comment: Christian Maddox
+    github: cmaddox5
+    groups: [admin, users]
+  - username: pkim
+    comment: Paul Kim
+    github: PaulJKim
+    groups: [admin, users]
+  - username: bheathwlaz
+    comment: Brett Heath-Wlaz
+    github: panentheos
+    groups: [admin, users]
+  - username: cgrant
+    comment: Cora Grant
+    github: digitalcora
+    groups: [admin, users]
