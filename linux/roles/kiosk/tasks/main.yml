@@ -6,6 +6,9 @@
 - name: Configure Firefox
   ansible.builtin.include_tasks: firefox.yml
 
+- name: Configure debugging
+  ansible.builtin.include_tasks: debug.yml
+
 # TODO:
 # - Fix user lists across all groups
 # - Fix "admin" vs. "sudo" groups
