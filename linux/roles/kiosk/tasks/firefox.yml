@@ -5,6 +5,11 @@
   ansible.builtin.stat:
     path: '/var/snap/firefox'
 
+- name: Check whether Mozilla Firefox is isntalled
+  register: mozilla_firefox_path
+  ansible.builtin.stat:
+    path: '/usr/lib/firefox/firefox'
+
 - name: Uninstall Firefox snap
   when: firefox_snap_path.stat.exists
   community.general.snap:
@@ -13,11 +18,12 @@
     state: absent
 
 - name: Uninstall Firefox snap transitional apt package
-  when: firefox_snap_path.stat.exists
+  when: firefox_snap_path.stat.exists or not mozilla_firefox_path.stat.exists
   ansible.builtin.apt:
     name:
       - firefox
     state: absent
+    purge: true
 
 - name: Install Mozilla GPG key
   ansible.builtin.copy:
@@ -44,6 +50,8 @@
     name:
       - firefox
       - wmctrl
+    allow_downgrade: true
+  notify: Reboot
 
 - name: Ensure Firefox policies directory exists
   ansible.builtin.file:
