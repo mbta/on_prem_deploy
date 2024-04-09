@@ -11,6 +11,7 @@
 - name: Ensure packages are present
   ansible.builtin.apt:
     name:
+      - git
       - ansible
       - python3-pip
 
