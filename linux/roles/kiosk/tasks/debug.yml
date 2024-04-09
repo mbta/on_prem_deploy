@@ -1,0 +1,6 @@
+---
+
+- name: Ensure X11vnc is available for debugging (if necessary)
+  ansible.builtin.apt:
+    name:
+      - x11vnc
