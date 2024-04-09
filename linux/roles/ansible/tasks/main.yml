@@ -32,9 +32,23 @@
 - name: Ensure boto3 package is installed
   ansible.builtin.pip:
     name: boto3
-- name: Install Ansible dependencies
 
+- name: Install Ansible dependencies
   community.general.ansible_galaxy_install:
     type: collection
     requirements_file: /root/collections/requirements.yml
   when: onprem_ansible_requirements.changed  # noqa: no-handler
+
+- name: Check for local Ansible Vault password
+  delegate_to: localhost
+  become: false
+  ansible.builtin.stat:
+    path: .ansible_vault_password
+  register: local_ansible_vault_password
+
+- name: Write Ansible Vault password
+  when: local_ansible_vault_password.stat.exists
+  ansible.builtin.copy:
+    src: .ansible_vault_password
+    dest: /root/.ansible_vault_password
+    mode: "0600"
