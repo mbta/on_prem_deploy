@@ -48,5 +48,5 @@
     state: file  # this is a no-op if the file doesn't exist
     owner: "{{ item.username }}"
     group: "{{ item.username }}"
-    mode: 0600
+    mode: '0600'
   loop: "{{ users }}"

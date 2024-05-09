@@ -56,7 +56,7 @@
 - name: Verify install script
   ansible.builtin.command:
     gpg --verify /root/ecs-anywhere-install.sh.asc /root/ecs-anywhere-install.sh
-  when: ecs_anywhere_sh_asc.changed or ecs_anywhere_sh.changed
+  when: ecs_anywhere_sh_asc.changed or ecs_anywhere_sh.changed  # noqa: no-handler
   changed_when: false
 
 - name: Install ECS Anywhere
