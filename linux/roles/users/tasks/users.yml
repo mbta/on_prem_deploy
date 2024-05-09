@@ -41,3 +41,12 @@
     name: "{{ item.username }}"
     state: absent
   loop: "{{ users_deleted }}"
+
+- name: Enforce file permissions on Google Authenticator file if it exists
+  ansible.builtin.file:
+    path: "/home/{{ item.username }}/.google_authenticator"
+    state: file  # this is a no-op if the file doesn't exist
+    owner: "{{ item.username }}"
+    group: "{{ item.username }}"
+    mode: 0600
+  loop: "{{ users }}"
