@@ -2,6 +2,10 @@
 ---
 
 users:
+  - username: apullorthody
+    comment: Arun Pullorthody
+    github: arunpullo
+    groups: [admin, users]
   - username: iwestcott
     comment: Ian Westcott
     github: ianwestcott
