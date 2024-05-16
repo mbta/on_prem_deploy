@@ -50,3 +50,4 @@
     group: "{{ item.username }}"
     mode: '0600'
   loop: "{{ users }}"
+  ignore_errors: true
