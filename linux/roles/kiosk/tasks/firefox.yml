@@ -40,9 +40,9 @@
   ansible.builtin.copy:
     dest: "/etc/apt/preferences.d/mozilla"
     content: |
-      Package: *
-      Pin: origin packages.mozilla.org
-      Pin-Priority: 1000
+      Package: firefox*
+      Pin: release o=Ubuntu*
+      Pin-Priority: -1
     mode: '0644'
 
 - name: Ensure Firefox requirements are installed
