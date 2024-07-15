@@ -14,3 +14,7 @@ users:
     comment: Raj Kuthuru
     github: rkuthuru12
     groups: [admin, users]
+  - username: ecgregory
+    comment: Edward C. Gregory
+    github: ecgregory
+    groups: [admin, users]
