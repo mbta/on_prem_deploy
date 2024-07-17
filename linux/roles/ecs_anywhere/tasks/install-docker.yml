@@ -46,12 +46,6 @@
     group: root
     mode: '0644'
 
-# TODO remove this task as it's no longer needed
-- name: Allow upgrading Docker package
-  ansible.builtin.dpkg_selections:
-    name: docker-ce
-    selection: install
-
 - name: Ensure new Docker packages are installed
   ansible.builtin.apt:
     name:
