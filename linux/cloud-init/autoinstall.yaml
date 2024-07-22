@@ -1,0 +1,11 @@
+---
+version: 1
+interactive-sections:
+  - identity
+  - network
+identity:
+  username: ubuntu
+  password: ""
+  hostname: ""
+late-commands:
+  - sed -i "s/\(.*\)/\U\1/g" /target/etc/hostname

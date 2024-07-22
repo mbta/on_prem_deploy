@@ -26,7 +26,7 @@ rm -rf "${tmpdir:?}"/"$HOSTNAME" "$tmpdir"/"$HOSTNAME".*
 mkdir -p "$tmpdir"/"$HOSTNAME"
 cp "$tmpdir"/"$VMDK_PATH" "$tmpdir"/"$HOSTNAME"/
 
-b64_user_data=$(bash build_user_data.sh "$HOSTNAME" | base64)
+b64_user_data=$(bash build_vm_user_data.sh "$HOSTNAME" | base64)
 b64_network_config=$(bash build_network_config.sh "$IP_ADDRESS" | base64)
 vmdk_size=$(stat -f "%z" "$tmpdir"/"$VMDK_PATH")
 

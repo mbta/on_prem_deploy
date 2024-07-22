@@ -50,13 +50,14 @@
     - role: crowdstrike
     - role: tenable
 
-- name: PA/ESS Testing
-  hosts: paess_testing
+- name: Station Control Unit
+  hosts: scu
   roles:
     - role: pull
     - role: users
     - role: crowdstrike
     - role: tenable
+    - role: scu
 
 - name: Screens for realtime arrival info
   hosts: arrival_screen

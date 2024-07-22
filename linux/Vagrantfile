@@ -3,9 +3,6 @@
 
 Vagrant.configure("2") do |config|
   vm_name = ENV["VAGRANT_HOSTNAME"] || "vagrant"
-  github_repo = ENV["GITHUB_REPO"] || "mbta/on_prem_deploy"
-  git_branch = ENV["GIT_BRANCH"] || "main"
-  ansible_vault_password = ENV["ANSIBLE_VAULT_PASSWORD"] || File.read(".ansible_vault_password")
 
   config.vagrant.plugins = ["vagrant-env", "vagrant-vbguest"]
   config.env.enable # enable .env support plugin (it will let us easily enable cloud_init support)
@@ -34,17 +31,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.cloud_init :user_data do |cloud_init|
     cloud_init.content_type = "text/cloud-config"
-    cloud_init_header = <<-EOF
----
-
+    cloud_init.inline = <<-EOF
+#{`bash build_vm_user_data.sh`}
 hostname: #{vm_name}
 EOF
-    user_data = File.read("cloud-init/user-data")
-                          .gsub("---\n", cloud_init_header)
-                          .gsub("GITHUB_REPO", github_repo)
-                          .gsub("GIT_BRANCH", git_branch)
-                          .gsub("ANSIBLE_VAULT_PASSWORD", ansible_vault_password)
-    cloud_init.inline = user_data
-
   end
 end

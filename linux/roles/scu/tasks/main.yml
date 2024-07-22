@@ -1,0 +1,10 @@
+---
+
+- name: Ensure AudioScience PPA is present
+  ansible.builtin.apt_repository:
+    repo: "ppa:audioscience/release"
+
+- name: Ensure AudioScience drivers are installed
+  ansible.builtin.apt:
+    name:
+      - snd-asihpi-dkms-4
