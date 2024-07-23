@@ -13,6 +13,7 @@ rules:
   document-start:
     ignore: |
       /**/vault*
+      user-data
   line-length:
     max: 120
     ignore: |

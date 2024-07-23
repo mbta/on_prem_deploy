@@ -1,6 +1,3 @@
-#cloud-config
----
-
 apt:
   sources:
     ansible:
@@ -28,10 +25,6 @@ write_files:
   - path: /root/.ansible_vault_password
     permissions: '0400'
     content: "ANSIBLE_VAULT_PASSWORD"
-
-# Remove userdata from VMware
-redact:
-  - userdata
 
 # Run the `initial` tag first, followed by the full run This allows the
 # `ansible-galaxy` command to run first, before the other roles which use that
