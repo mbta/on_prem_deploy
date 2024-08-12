@@ -21,7 +21,7 @@
     url: "https://{{ s3_config_bucket }}.s3.amazonaws.com/{{ s3_package_prefix }}/{{ splunk_deb }}"
     dest: "/home/splunk/{{ splunk_deb }}"
     mode: '0644'
-    checksum: "sha256:21fdd8c5af99f47fa8a2a7a1c2771491371fbf3bb83c854c9b82b55caf0e1588"
+    checksum: "sha256:87db540f35d5318ee218cb7c6a14cb7bc11a26f08e5ddc663dfed7a4497c3b3c"
 
 - name: Install Splunk universal forwarder
   when: splunk_download.changed  # noqa: no-handler
