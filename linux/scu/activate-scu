@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+
+import getpass
+import requests
+
+while True:
+    key = getpass.getpass('SCU activation password: ')
+    try:
+        response = requests.post('CREATE_ACTIVATION_URL', headers={'x-password': key})
+    except requests.ConnectionError:
+        print('Error: unable to connect')
+        continue
+    if response.ok:
+        activation = response.json()
+        with open('/target/root/activation-id', mode='w') as f:
+            f.write(activation['ActivationId'])
+        with open('/target/root/activation-code', mode='w') as f:
+            f.write(activation['ActivationCode'])
+        print('Success: created activation code')
+        break
+    elif response.status_code == 403:
+        print('Error: invalid password')
+    else:
+        print('Error: unknown failure')

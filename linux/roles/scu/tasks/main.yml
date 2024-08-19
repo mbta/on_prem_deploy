@@ -7,4 +7,4 @@
 - name: Ensure AudioScience drivers are installed
   ansible.builtin.apt:
     name:
-      - snd-asihpi-dkms-4
+      - asihpi-dkms-4

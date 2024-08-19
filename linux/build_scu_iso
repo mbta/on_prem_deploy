@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+import subprocess
+import re
+
+parser = argparse.ArgumentParser(description='Modify an ubuntu install image with SCU-specific scripts')
+parser.add_argument('--staging', action='store_true', help='create a staging image')
+parser.add_argument('--input', required=True, help='ubuntu install image', metavar='FILE')
+parser.add_argument('--output', help='output file or device', default='tmp/output.iso', metavar='PATH')
+args = parser.parse_args()
+
+os.makedirs('tmp', exist_ok=True)
+with open('tmp/autoinstall.yaml', mode='w') as f:
+  f.write(f"""\
+{open('scu/autoinstall.yaml').read()}
+user-data:
+{re.sub(r'(?m)^', '  ', subprocess.run(['bash', 'build_user_data.sh'], capture_output=True, text=True).stdout)}
+""")
+
+if args.staging:
+  url = 'https://iberoqdiq3nramjlh2drwlps3a0dlkpk.lambda-url.us-east-1.on.aws/'
+else:
+  url = 'https://fppswi6qjjzqdaamucbns45jvu0qsdyu.lambda-url.us-east-1.on.aws/'
+
+with open('tmp/activate-scu', mode='w') as f:
+  f.write(open('scu/activate-scu').read().replace('CREATE_ACTIVATION_URL', url))
+os.chmod('tmp/activate-scu', 0o755)
+
+subprocess.run([
+  'xorriso',
+  '-indev', args.input,
+  '-outdev', args.output,
+  '-blank', 'as_needed',
+  '-map', 'tmp/autoinstall.yaml', '/autoinstall.yaml',
+  '-map', 'tmp/activate-scu', '/activate-scu',
+  '-boot_image', 'any', 'replay'
+])
