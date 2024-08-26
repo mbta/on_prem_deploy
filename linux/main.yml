@@ -56,7 +56,9 @@
     - role: pull
     - role: users
     - role: crowdstrike
+      tags: [crowdstrike]
     - role: tenable
+      tags: [tenable]
     - role: scu
 
 - name: Screens for realtime arrival info
