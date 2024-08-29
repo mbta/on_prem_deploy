@@ -10,6 +10,7 @@ index = {{ splunk_index }}
 [monitor://var/log/ecs/ecs-init.log]
 
 [http]
+route=has_key:_dstrx:typingQueue;has_key:_linebreaker:rulesetQueue;absent_key:_linebreaker:parsingQueue
 port = {{ splunk_forwarder_collectd_https_port }}
 serverCert = $SPLUNK_HOME/etc/auth/localhost.pem
 disabled = 0
