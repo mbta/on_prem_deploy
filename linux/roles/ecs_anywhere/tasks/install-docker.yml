@@ -1,62 +1,8 @@
 ---
 
-- name: Ensure old Docker packages are not installed
-  ansible.builtin.apt:
-    name:
-      - docker
-      - docker-engine
-      - docker.io
-      - containerd
-      - runc
-    state: absent
-
-- name: /etc/apt/keyrings directory
-  ansible.builtin.file:
-    path: /etc/apt/keyrings
-    state: directory
-    owner: root
-    group: root
-    mode: "0755"
-
-- name: GPG key for Docker
-  ansible.builtin.copy:
-    src: files/docker.gpg
-    dest: /etc/apt/keyrings/docker.gpg
-    owner: root
-    group: root
-    mode: "0644"
-
-- name: Generate docker.list output
-  register: ecs_anywhere_docker_list
-  ansible.builtin.shell:
-    cmd: >-
-      echo deb [arch=$(dpkg --print-architecture)
-      signed-by=/etc/apt/keyrings/docker.gpg]
-      https://download.docker.com/linux/ubuntu
-      $(. /etc/os-release && echo "$VERSION_CODENAME")
-      stable
-  changed_when: false
-
-- name: Add Docker repo to apt
-  register: ecs_anywhere_add_docker_repo
-  ansible.builtin.copy:
-    content: "{{ ecs_anywhere_docker_list.stdout }}"
-    dest: /etc/apt/sources.list.d/docker.list
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Ensure new Docker packages are installed
-  ansible.builtin.apt:
-    name:
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
-      - docker-buildx-plugin
-      - docker-compose-plugin
-    state: present
-    update_cache: "{{ ecs_anywhere_add_docker_repo.changed }}"
-    cache_valid_time: 60
+- name: Install Docker
+  ansible.builtin.include_role:
+    name: docker
 
 - name: Apparmor profile for Docker
   ansible.builtin.copy:

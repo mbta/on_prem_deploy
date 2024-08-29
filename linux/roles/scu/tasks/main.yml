@@ -40,3 +40,7 @@
     name: snap.amazon-ssm-agent.amazon-ssm-agent.service
     state: started
   when: not ssm_registration.stat.exists
+
+- name: Install Docker
+  ansible.builtin.include_role:
+    name: docker
