@@ -28,7 +28,7 @@
   register: splunk_install
   ansible.builtin.apt:
     deb: "/home/splunk/{{ splunk_deb }}"
-    allow_downgrade: yes
+    allow_downgrade: "yes"
 
 - name: Generate local Splunk admin password
   ansible.builtin.shell:
