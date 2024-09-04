@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -e
+
+SERVER=434035161053.dkr.ecr.us-east-1.amazonaws.com
+IMAGE=$SERVER/scully:{{ scu_env }}
+CONTAINER=scully
+
+docker stop $CONTAINER || true
+docker rm $CONTAINER || true
+aws ecr get-login-password --region us-east-1 \
+    | docker login --username AWS --password-stdin $SERVER
+docker pull $IMAGE
+API_KEY=$(aws secretsmanager get-secret-value \
+    --secret-id scully-{{ scu_env }}-api-key \
+    --region us-east-1 \
+    --query "SecretString" \
+    --output text)
+docker run --rm --name $CONTAINER \
+    --device=/dev/asihpi:/dev/asihpi \
+    -p 80:80 \
+    --env SCULLY_STATION_ID=$(hostname) \
+    --env SCULLY_API_KEY=$API_KEY \
+    $IMAGE

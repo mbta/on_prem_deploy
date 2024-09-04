@@ -4,10 +4,11 @@
   ansible.builtin.apt_repository:
     repo: "ppa:audioscience/release"
 
-- name: Ensure AudioScience drivers are installed
+- name: Install packages
   ansible.builtin.apt:
     name:
       - asihpi-dkms-4
+      - awscli
 
 - name: Install SSM Agent
   community.general.snap:
@@ -38,9 +39,28 @@
 - name: Start SSM Agent
   ansible.builtin.systemd_service:
     name: snap.amazon-ssm-agent.amazon-ssm-agent.service
+    enabled: true
     state: started
-  when: not ssm_registration.stat.exists
 
 - name: Install Docker
   ansible.builtin.include_role:
     name: docker
+
+- name: Write scully systemd unit
+  ansible.builtin.copy:
+    src: scully.service
+    dest: /etc/systemd/system/scully.service
+    mode: "0644"
+
+- name: Write scully startup script
+  ansible.builtin.template:
+    src: run-scully.j2
+    dest: /root/run-scully
+    mode: "0755"
+
+- name: Enable and start systemd unit
+  ansible.builtin.systemd_service:
+    name: scully.service
+    enabled: true
+    state: started
+  when: scu_autostart
