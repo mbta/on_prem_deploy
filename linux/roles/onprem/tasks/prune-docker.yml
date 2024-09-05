@@ -1,0 +1,14 @@
+---
+
+- name: Ensure packages are present
+  ansible.builtin.apt:
+    name:
+      - cron
+
+- name: Run docker prune weekly
+  ansible.builtin.cron:
+    name: weekly_docker_prune
+    user: root
+    job: >-
+      docker prune -a -f
+    special_time: "weekly"
