@@ -51,6 +51,7 @@
     - role: metrics
     - role: crowdstrike
     - role: tenable
+    - role: qualys
 
 - name: Station Control Unit
   hosts: scu
@@ -92,6 +93,7 @@
     - role: metrics
     - role: crowdstrike
     - role: tenable
+    - role: qualys
 
 
 - name: Splunk base image
