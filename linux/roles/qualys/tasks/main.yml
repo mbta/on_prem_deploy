@@ -23,7 +23,7 @@
     deb: /root/qualys.deb
 
 - name: Configure Qualys Cloud Agent
-  when: qualys_install.changed and qualys_link_agent is true  
+  when: qualys_install.changed
   changed_when: false
   ansible.builtin.command: >-
      /usr/local/qualys/cloud-agent/bin/qualys-cloud-agent.sh 
