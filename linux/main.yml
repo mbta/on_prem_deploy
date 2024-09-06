@@ -51,7 +51,7 @@
     - role: metrics
     - role: crowdstrike
     - role: tenable
-      tabs: [tenable]
+      tags: [tenable]
     - role: qualys
 
 - name: Station Control Unit

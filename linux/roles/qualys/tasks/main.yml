@@ -5,7 +5,7 @@
 
 - name: Get the installed version of Qualys Cloud Agent
   ansible.builtin.set_fact:
-    tenable_installed_version: "{{ ansible_facts.packages['qualys-cloud-agent']['version'] | default(None) }}"
+    qualys_installed_version: "{{ ansible_facts.packages['qualys-cloud-agent']['version'] | default(None) }}"
 
 - name: Download Qualys Cloud Agent Agent
   register: qualys_download
