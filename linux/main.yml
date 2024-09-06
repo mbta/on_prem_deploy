@@ -32,6 +32,8 @@
       tags: [crowdstrike]
     - role: tenable
       tags: [tenable]
+    - role: qualys
+      tags: [qualys]
 
 - name: Staging environment
   hosts: staging
