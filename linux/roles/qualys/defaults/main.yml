@@ -1,3 +1,7 @@
 ---
 
-# you may or may not need this
+qualys_version: "6.3.0"
+qualys_path   : "qualyscloudagent-{{ qualys_version }}-linux-x86_64.deb"
+ServerUri     : "https://qagpublic.qg4.apps.qualys.com/CloudAgent/"
+ActivationId  : f2a40cd0-52c9-46d0-b37d-b0f55f7e8910
+CustomerId    : e325bad6-d93f-63bb-8316-0ef719fdd3fe
