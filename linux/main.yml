@@ -32,6 +32,8 @@
       tags: [crowdstrike]
     - role: tenable
       tags: [tenable]
+    - role: qualys
+      tags: [qualys]
 
 - name: Staging environment
   hosts: staging
@@ -49,6 +51,8 @@
     - role: metrics
     - role: crowdstrike
     - role: tenable
+      tags: [tenable]
+    - role: qualys
 
 - name: Station Control Unit
   hosts: scu
@@ -90,6 +94,7 @@
     - role: metrics
     - role: crowdstrike
     - role: tenable
+    - role: qualys
 
 
 - name: Splunk base image
