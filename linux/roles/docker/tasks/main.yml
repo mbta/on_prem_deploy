@@ -57,3 +57,7 @@
     state: present
     update_cache: "{{ add_docker_repo.changed }}"
     cache_valid_time: 60
+
+- name: Prune resources weekly
+  ansible.builtin.include_tasks:
+    file: prune-docker.yml
