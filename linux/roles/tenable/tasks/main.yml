@@ -13,4 +13,4 @@
 - name: Remove Nessus Agent configuration and data directories
   ansible.builtin.file:
     state: absent
-    path: /opt/nessus_agent 
+    path: /opt/nessus_agent
