@@ -2,18 +2,18 @@
 
 set -e
 
-SERVER=434035161053.dkr.ecr.us-east-1.amazonaws.com
+SERVER={{ aws_account_id }}.dkr.ecr.{{ aws_region }}.amazonaws.com
 IMAGE=$SERVER/scully:{{ scu_env }}
 CONTAINER=scully
 
 docker stop $CONTAINER || true
 docker rm $CONTAINER || true
-aws ecr get-login-password --region us-east-1 \
+aws ecr get-login-password --region {{ aws_region }} \
     | docker login --username AWS --password-stdin $SERVER
 docker pull $IMAGE
 API_KEY=$(aws secretsmanager get-secret-value \
     --secret-id scully-{{ scu_env }}-api-key \
-    --region us-east-1 \
+    --region {{ aws_region }} \
     --query "SecretString" \
     --output text)
 docker run --rm --name $CONTAINER \

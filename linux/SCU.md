@@ -1,5 +1,5 @@
 # SCU installation instructions
-This document describes the process for installing MBTA software on a System Control Unit (SCU) server.
+This document describes the process for installing MBTA software on a Station Control Unit (SCU) server.
 
 ## Required items and information
 * SCU installation USB drive
