@@ -16,13 +16,13 @@
     mode: '0644'
     checksum: "sha256:eca555a71ef4d1e1f87312c4ce9ddbd801ba4b18ce6173da87d5c0a9a4d40374"
 
-- name: Install Qualys Cloud Agent
+- name: Install Qualys Cloud Agent # noqa: no-handler
   when: qualys_download.changed
   register: qualys_install
   ansible.builtin.apt:
     deb: /root/qualys.deb
 
-- name: Configure Qualys Cloud Agent
+- name: Configure Qualys Cloud Agent # noqa: no-handler
   when: qualys_install.changed
   changed_when: false
   ansible.builtin.command: >-
@@ -31,7 +31,7 @@
      CustomerId={{ qualys_customer_id }}
      ServerUri={{ qualys_server_uri }}
 
-- name: Remove Qualys Cloud Agent package after installation
+- name: Remove Qualys Cloud Agent package after installation # noqa: no-handler
   when: qualys_install.changed
   ansible.builtin.file:
     name: /root/qualys.deb
