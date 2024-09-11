@@ -1,39 +1,16 @@
 ---
 
-- name: Gather package facts
-  ansible.builtin.package_facts:
+- name: Stop Nessus Agent service
+  ansible.builtin.service:
+    name: nessusagent
+    state: stopped
 
-- name: Get the installed version of Nessus Agent
-  ansible.builtin.set_fact:
-    tenable_installed_version: "{{ ansible_facts.packages['nessusagent']['version'] | default(None) }}"
-
-- name: Download Nessus Agent
-  register: tenable_download
-  when: "tenable_installed_version != tenable_version"
-  ansible.builtin.get_url:
-    url: "https://{{ s3_config_bucket }}.s3.amazonaws.com/{{ s3_package_prefix }}/{{ tenable_path }}"
-    dest: /root/nessus.deb
-    mode: '0644'
-    checksum: "sha256:244646d7e48155d1714e2effa2c62b35e71f99172246a6245b3f6e166fed5c2f"
-
-- name: Install Nessus
-  when: tenable_download.changed  # noqa: no-handler
-  register: tenable_install
+- name: Uninstall Nessus Agent package
   ansible.builtin.apt:
-    deb: /root/nessus.deb
-
-- name: Configure Nessus
-  when: tenable_install.changed and tenable_link_nessus_agent is true  # noqa: no-handler
-  changed_when: false
-  ansible.builtin.command: >-
-    /opt/nessus_agent/sbin/nessuscli agent link
-    --key={{ tenable_key | trim | quote }}
-    --groups={{ tenable_groups | quote }}
-    --host={{ tenable_host }}
-    --port={{ tenable_port }}
-
-- name: Remove Nessus Agent package after installation
-  when: tenable_install.changed  # noqa: no-handler
-  ansible.builtin.file:
-    name: /root/nessus.deb
+    name: nessusagent
     state: absent
+
+- name: Remove Nessus Agent configuration and data directories
+  ansible.builtin.file:
+    state: absent
+    path: /opt/nessus_agent
