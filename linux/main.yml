@@ -30,8 +30,6 @@
       tags: [metrics]
     - role: crowdstrike
       tags: [crowdstrike]
-    - role: tenable
-      tags: [tenable]
     - role: qualys
       tags: [qualys]
 
@@ -50,8 +48,6 @@
     - role: splunk
     - role: metrics
     - role: crowdstrike
-    - role: tenable
-      tags: [tenable]
     - role: qualys
       tags: [qualys]
 
@@ -64,8 +60,6 @@
     - role: users
     - role: crowdstrike
       tags: [crowdstrike]
-    - role: tenable
-      tags: [tenable]
     - role: qualys
       tags: [qualys]
     - role: scu
@@ -80,7 +74,6 @@
     # TODO decide whether to send logs to Splunk
     # - role: splunk
     - role: crowdstrike
-    - role: tenable
     - role: qualys
     - role: kiosk
 
@@ -99,7 +92,6 @@
     - role: splunk
     - role: metrics
     - role: crowdstrike
-    - role: tenable
     - role: qualys
 
 
@@ -111,5 +103,4 @@
     - role: onprem
       tags: [initial]
     - role: crowdstrike
-    - role: tenable
     - role: qualys
