@@ -18,3 +18,7 @@ users:
     comment: Edward C. Gregory
     github: ecgregory
     groups: [admin, users]
+  - username: crayford
+    comment: Christian Rayford
+    github: crayford28
+    groups: [admin, users]
