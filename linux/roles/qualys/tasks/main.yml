@@ -16,7 +16,7 @@
     mode: '0644'
     checksum: "sha256:eca555a71ef4d1e1f87312c4ce9ddbd801ba4b18ce6173da87d5c0a9a4d40374"
 
-- name: Install Qualys Cloud Agent # noqa: no-handler
+- name: Install Qualys Cloud Agent  # noqa: no-handler
   when: qualys_download.changed
   register: qualys_install
   ansible.builtin.apt:
