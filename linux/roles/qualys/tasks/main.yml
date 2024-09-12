@@ -22,7 +22,7 @@
   ansible.builtin.apt:
     deb: /root/qualys.deb
 
-- name: Configure Qualys Cloud Agent # noqa: no-handler
+- name: Configure Qualys Cloud Agent  # noqa: no-handler
   when: qualys_install.changed
   changed_when: false
   ansible.builtin.command: >-
