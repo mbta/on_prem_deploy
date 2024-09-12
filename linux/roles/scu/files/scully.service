@@ -1,0 +1,12 @@
+[Unit]
+Description=Scully service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+ExecStart=/root/run-scully
+
+[Install]
+WantedBy=default.target

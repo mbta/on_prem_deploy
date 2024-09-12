@@ -103,3 +103,18 @@ should not be public but are not otherwise secret inside the MBTA.
 While they are encrypted, long-term credentials (such as AWS access keys or
 passwords) should not be stored with `ansible-vault encrypt`. Instead, fetch
 those credentials from a more secure source, such as S3 using SSM credentials.
+
+# SCU installer
+
+To create an SCU installation USB drive:
+
+Install the `xorriso` package using your system's package manager.
+
+Download an [Ubuntu Server 22.04](https://ubuntu.com/download/server) image.
+
+Create the installer image with the following command. To create an installer for the test environments, add the `--staging` option
+``` shell
+./build_scu_iso --input PATH_TO_UBUNTU_IMAGE
+```
+
+Write `tmp/output.iso` to the USB drive with your tool of choice.

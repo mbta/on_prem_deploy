@@ -52,6 +52,8 @@
 
 - name: Station Control Unit
   hosts: scu
+  vars:
+    aws_region: us-east-1
   roles:
     - role: pull
     - role: users
