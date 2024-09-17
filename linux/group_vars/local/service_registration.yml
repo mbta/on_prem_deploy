@@ -4,4 +4,3 @@
 ecs_anywhere_activate: false
 crowdstrike_configure_falcon_sensor: false
 splunk_enable_forwarding: false
-tenable_link_nessus_agent: false
