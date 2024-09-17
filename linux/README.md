@@ -24,7 +24,10 @@ You'll also need to put the Vault password (stored in 1Password) into
 
 ## Virtualbox 
 
-So far, this only works on an Intel Mac. It would probably work on an Intel Linux machine as well.
+~~So far, this only works on an Intel Mac. It would probably work on an Intel Linux machine as well.~~
+
+Update: VirtualBox in combination with Vagrant currently (September 2024) having issues starting on MBTA-issued Mac hardware.  It is suggested to utilize QEMU.
+
 
 ``` shell
 $ brew install virtualbox
@@ -52,7 +55,14 @@ $ ssh -p2222 <username>@localhost
 
 ## QEMU
 
-QEMU will work on an M1.
+QEMU will work on an M1.  
+
+Things learned the hard-way:
+
+*hostname* taken from inventory.yml file.  You can add any user manually by duplicating a user block in linux/cloud-init/group_vars.  This is useful if Ansible isn't running (and thus not adding your user).  If you're running qemu with no specific hostname, you would add the user in local/.
+
+Once QEMU has finished loading the operating sysetm, Ctrl-A + C will get you to a QEMU console prompt.
+
 
 ``` shell
 $ brew install qemu
