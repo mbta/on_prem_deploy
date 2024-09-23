@@ -17,6 +17,13 @@ API_KEY=$(aws secretsmanager get-secret-value \
     --query "SecretString" \
     --output text)
 docker run --rm --name $CONTAINER \
+    --privileged \
+    --device=/dev/asihpi:/dev/asihpi \
+    --env SCULLY_STATION_ID=$(hostname) \
+    --env SCULLY_API_KEY=$API_KEY \
+    $IMAGE \
+    /scully/bin/scully eval "AudioTasks.set_audio_mode()"
+docker run --rm --name $CONTAINER \
     --device=/dev/asihpi:/dev/asihpi \
     -p 80:80 \
     --env SCULLY_STATION_ID=$(hostname) \
