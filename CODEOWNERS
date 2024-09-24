@@ -1,0 +1,10 @@
+# The Infrastructure team will be the default owners for everything in
+# the ON_PREM_DEPLOY repo.
+*       @mbta/tid-infrastructure
+
+# Extablish file patterns that shouldn't be have a code owner. As ownership is
+# given to the last matched pattern of any file, keep this block at the end of
+# the CODEOWNERS file.
+# * application README's
+/README.md
+/*/README.md
