@@ -10,5 +10,5 @@ fi
 
 < cloud-init/user-data \
 sed "s/GITHUB_REPO/${GITHUB_REPO/\//\\/}/g" \
-| sed "s/GIT_BRANCH/$GIT_BRANCH/g" \
+| sed "s/GIT_BRANCH/${GIT_BRANCH/\//\\/}/g" \
 | sed "s/ANSIBLE_VAULT_PASSWORD/$ANSIBLE_VAULT_PASSWORD/g" \

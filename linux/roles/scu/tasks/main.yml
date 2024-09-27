@@ -12,8 +12,8 @@
 
 - name: Install SSM Agent
   community.general.snap:
-    name:
-      - amazon-ssm-agent
+    name: amazon-ssm-agent
+    classic: true
 
 - name: Check SSM registration
   ansible.builtin.stat:
