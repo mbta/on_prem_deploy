@@ -5,28 +5,28 @@ users:
   - username: pswartz
     comment: Paul Swartz
     github: paulswartz
-    groups: [admin, users]
+    groups: [admin, users, docker]
   - username: iwestcott
     comment: Ian Westcott
     github: ianwestcott
-    groups: [admin, users]
+    groups: [admin, users, docker]
   - username: krisjohnson
     comment: Kris Johnson
     github: krisrjohnson21
-    groups: [admin, users]
+    groups: [admin, users, docker]
   - username: bheathwlaz
     comment: Brett Heath-Wlaz
     github: panentheos
-    groups: [admin, users]
+    groups: [admin, users, docker]
   - username: pkim
     comment: Paul Kim
     github: PaulJKim
-    groups: [admin, users]
+    groups: [admin, users, docker]
   - username: cgrant2
     comment: Cora Grant
     github: digitalcora
-    groups: [admin, users]
+    groups: [admin, users, docker]
   - username: cmaddox
     comment: Christian Maddox
     github: cmaddox5
-    groups: [admin, users]
+    groups: [admin, users, docker]
