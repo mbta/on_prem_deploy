@@ -22,3 +22,11 @@ users:
     comment: Paul Kim
     github: PaulJKim
     groups: [admin, users]
+  - username: cgrant2
+    comment: Cora Grant
+    github: digitalcora
+    groups: [admin, users]
+  - username: cmaddox
+    comment: Christian Maddox
+    github: cmaddox5
+    groups: [admin, users]
