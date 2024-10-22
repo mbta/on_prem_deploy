@@ -25,7 +25,7 @@ docker run --rm --name $CONTAINER \
     /scully/bin/scully eval "AudioTasks.set_audio_mode()"
 docker run --rm --name $CONTAINER \
     --device=/dev/asihpi:/dev/asihpi \
-    -p 80:80 \
+    -p 80:4010 \
     --env SCULLY_STATION_ID=$(hostname) \
     --env SCULLY_API_KEY=$API_KEY \
     $IMAGE
