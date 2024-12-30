@@ -104,6 +104,30 @@ While they are encrypted, long-term credentials (such as AWS access keys or
 passwords) should not be stored with `ansible-vault encrypt`. Instead, fetch
 those credentials from a more secure source, such as S3 using SSM credentials.
 
+# OVA installer
+
+To create an OVA for running in MBTA's VMware environment, you'll need:
+
+- the hostname
+- the IP address
+
+You'll also want to generate a random temporary password (i.e. with 1Password) to use in case there's an issue with running Ansible.
+
+```shell
+$ INITIAL_PASSWORD=<initial password> bash build_ova.sh <hostname> <IP address>
+```
+
+This will create `tmp/<hostname>.ova`. Upload this file to SharePoint, and share it with ITD for them to install.
+
+If everything goes well, Ansible will run on the VM, create normal user accounts, and connect up to AWS and Splunk.
+
+If that doesn't happen, you can try:
+
+- logging into the server directly with your username/SSH key
+- logging into the server directly with `ubuntu` and the random initial password
+
+If neither of those work, you'll need to work with ITD to ensure the VM is running and perform any additional debugging.
+
 # SCU installer
 
 To create an SCU installation USB drive:
