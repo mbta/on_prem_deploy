@@ -20,7 +20,7 @@ jobs:
 
   setup:
     name: Setup
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
 
       - uses: actions/checkout@v3
@@ -43,7 +43,7 @@ jobs:
 
   lint_scripts:
     name: Lint Scripts
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: setup
     steps:
       - uses: actions/checkout@v3
@@ -58,7 +58,7 @@ jobs:
 
   lint_ansible:
     name: Lint Ansible
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: setup
     steps:
       - uses: actions/checkout@v3
