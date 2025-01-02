@@ -79,7 +79,7 @@ You can also configure the hostname in `~/.ssh/config`:
 ``` ssh-config
 Host <hostname>
     Hostname localhost
-    User <username>
+    User <username, use `ubuntu` if testing startup>
     Port 5555
 ```
 
