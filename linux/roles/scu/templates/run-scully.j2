@@ -22,6 +22,7 @@ docker pull $IMAGE
 API_KEY=$(read_secret scully-{{ scu_env }}-api-key)
 SPLUNK_TOKEN=$(read_secret lambda-generic-splunk-token)
 SPLUNK_INDEX=scully-{{ scu_env }}
+SECRET_KEY_BASE=$(read_secret scully-{{ scu_env }}-secret-key-base)
 docker run --rm --name $CONTAINER \
     --privileged \
     --device=/dev/asihpi:/dev/asihpi \
@@ -29,6 +30,7 @@ docker run --rm --name $CONTAINER \
     --env SCULLY_API_KEY=$API_KEY \
     --env SCULLY_SPLUNK_INDEX=$SPLUNK_INDEX \
     --env SPLUNK_TOKEN=$SPLUNK_TOKEN \
+    --env SECRET_KEY_BASE=$SECRET_KEY_BASE \
     $IMAGE \
     /scully/bin/scully eval "AudioTasks.set_audio_mode()"
 docker run --rm --name $CONTAINER \
@@ -38,4 +40,5 @@ docker run --rm --name $CONTAINER \
     --env SCULLY_API_KEY=$API_KEY \
     --env SCULLY_SPLUNK_INDEX=$SPLUNK_INDEX \
     --env SPLUNK_TOKEN=$SPLUNK_TOKEN \
+    --env SECRET_KEY_BASE=$SECRET_KEY_BASE \
     $IMAGE
