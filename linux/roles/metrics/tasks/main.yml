@@ -4,6 +4,7 @@
   ansible.builtin.apt:
     name:
       - collectd
+      - cron
       - net-tools
     state: present
 
@@ -15,3 +16,14 @@
     group: root
     mode: '0644'
   notify: Collectd
+
+- name: Configure a cronjob to expire metric files older than 30 days
+  ansible.builtin.cron:
+    name: collectd-expire
+    user: root
+    special_time: "weekly"
+    job: >-
+      find /var/lib/collectd/rrd/ -mtime +30 -type f -delete
+      | /usr/bin/logger -t collectd-expire --id="${PPID}" -S 4096;
+      find /var/lib/collectd/rrd/ -mtime +30 -type d -empty -delete
+      | /usr/bin/logger -t collectd-expire --id="${PPID}" -S 4096
