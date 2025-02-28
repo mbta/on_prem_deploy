@@ -4,6 +4,7 @@
   ansible.builtin.apt:
     name:
       - ca-certificates
+      - cron
       - python3-pip
       - unzip
     state: present
@@ -39,3 +40,15 @@
   ansible.builtin.file:
     path: /root/aws
     state: absent
+
+- name: Configure a cronjob to expire old versions of the CLI (excluding the current version)
+  ansible.builtin.cron:
+    name: aws-cli-expire
+    user: root
+    special_time: "weekly"
+    job: >-
+      find /usr/local/aws-cli/v2
+      -maxdepth 1 -type d -mtime +30
+      -not \( -wholename $(realpath /usr/local/aws-cli/v2/current) \)
+      -exec rm -r '{}' \;
+      | /usr/bin/logger -t aws-cli-expire --id="${PPID}" -S 4096
