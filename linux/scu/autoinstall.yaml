@@ -10,5 +10,11 @@ identity:
 ssh:
   install-server: true
   allow-pw: false
+apt:
+  preserve_sources_list: false
+  sources_list: |
+    deb https://us.archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse
+    deb https://us.archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse
+    deb https://security.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
 late-commands:
   - sed -i "s/\(.*\)/\U\1/g" /target/etc/hostname
