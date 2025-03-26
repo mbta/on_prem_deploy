@@ -1,8 +1,16 @@
 ---
 
+- name: Install AudioScience signing key
+  ansible.builtin.copy:
+    src: audioscience.asc
+    dest: /etc/apt/keyrings/audioscience.asc
+    mode: "0644"
+
 - name: Ensure AudioScience PPA is present
   ansible.builtin.apt_repository:
-    repo: "ppa:audioscience/release"
+    repo: "deb [signed-by=/etc/apt/keyrings/audioscience.asc]
+      https://ppa.launchpadcontent.net/audioscience/release/ubuntu jammy main"
+    filename: audioscience
 
 - name: Install packages
   ansible.builtin.apt:
