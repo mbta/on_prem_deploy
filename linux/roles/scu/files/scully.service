@@ -2,10 +2,12 @@
 Description=Scully service
 After=docker.service
 Requires=docker.service
+StartLimitIntervalSec=0
 
 [Service]
 TimeoutStartSec=0
 Restart=always
+RestartSec=10
 ExecStart=/root/run-scully
 
 [Install]
