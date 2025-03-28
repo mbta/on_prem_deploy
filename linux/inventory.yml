@@ -149,7 +149,8 @@ scu:
     SDUDSCU001:
     SEAVSCU001:
     SWTCSCU001:
-    TESTSCU[001:899]:
+    TESTSCU[001:099]:
+    TESTSCU[100:899]:
       scu_env: staging
     TESTSCU[900:999]:
       scu_env: staging
