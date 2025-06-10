@@ -15,6 +15,38 @@
       - ansible
       - python3-pip
 
+- name: Install SSM Agent
+  community.general.snap:
+    name: amazon-ssm-agent
+    classic: true
+
+- name: Check SSM registration
+  ansible.builtin.stat:
+    path: /var/lib/amazon/ssm/registration
+  register: ssm_registration
+
+- name: Stop SSM Agent
+  ansible.builtin.systemd_service:
+    name: snap.amazon-ssm-agent.amazon-ssm-agent.service
+    state: stopped
+  when: not ssm_registration.stat.exists
+
+- name: Register SSM Agent
+  ansible.builtin.command:
+    cmd: >-
+      /snap/amazon-ssm-agent/current/amazon-ssm-agent -register
+      -code {{ lookup('file', '/root/activation-code') }}
+      -id {{ lookup('file', '/root/activation-id') }}
+      -region us-east-1
+  changed_when: true
+  when: not ssm_registration.stat.exists
+
+- name: Start SSM Agent
+  ansible.builtin.systemd_service:
+    name: snap.amazon-ssm-agent.amazon-ssm-agent.service
+    enabled: true
+    state: started
+
 - name: Ensure collections directory exists
   ansible.builtin.file:
     path: /root/collections
