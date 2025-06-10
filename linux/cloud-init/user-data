@@ -16,7 +16,7 @@ ssh:
 
 # Provide a key for the default Ubuntu user as a failsafe. Ansible will delete it once the other users are set up.
 users:
-  - name: ubuntu
+  - name: on_prem_deploy cloud-init SSH key
     sudo: "ALL=(ALL) NOPASSWD:ALL"
     ssh_authorized_keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBCjUF91KR24vSxdet//lijSSayNkWzsVNyILOsxIeOm
