@@ -73,7 +73,7 @@
   ansible.builtin.command:
     cmd: >-
       /snap/amazon-ssm-agent/current/amazon-ssm-agent -register
-      -code {{ lookup('file', '/root/ansible_vault_password') }}
+      -code {{ lookup('file', '/root/.ansible_vault_password') }}
       -region us-east-1
   changed_when: true
   when: not ssm_registration.stat.exists
