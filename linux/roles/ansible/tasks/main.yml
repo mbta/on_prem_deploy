@@ -54,9 +54,9 @@
     mode: "0600"
 
 - name: Install SSM Agent
-  community.general.snap:
-    name: amazon-ssm-agent
-    classic: true
+  ansible.builtin.command:
+    cmd: >-
+     sudo snap install amazon-ssm-agent --classic
 
 - name: Check SSM registration
   ansible.builtin.stat:
