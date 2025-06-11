@@ -20,6 +20,11 @@
     name: amazon-ssm-agent
     classic: true
 
+- name: Check SSM registration
+  ansible.builtin.stat:
+    path: /var/lib/amazon/ssm/registration
+  register: ssm_registration
+
 - name: Register SSM Agent
   ansible.builtin.command:
     cmd: >-
@@ -29,11 +34,6 @@
       -region us-east-1
   changed_when: true
   when: not ssm_registration.stat.exists
-
-- name: Check SSM registration
-  ansible.builtin.stat:
-    path: /var/lib/amazon/ssm/registration
-  register: ssm_registration
 
 - name: Stop SSM Agent
   ansible.builtin.systemd_service:
