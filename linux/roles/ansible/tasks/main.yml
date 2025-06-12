@@ -52,35 +52,3 @@
     src: .ansible_vault_password
     dest: /root/.ansible_vault_password
     mode: "0600"
-
-- name: Install SSM Agent
-  ansible.builtin.command:
-    cmd: >-
-     sudo snap install amazon-ssm-agent --classic
-
-- name: Check SSM registration
-  ansible.builtin.stat:
-    path: /var/lib/amazon/ssm/registration
-  register: ssm_registration
-
-- name: Stop SSM Agent
-  ansible.builtin.systemd_service:
-    name: snap.amazon-ssm-agent.amazon-ssm-agent.service
-    state: stopped
-  when: not ssm_registration.stat.exists
-
-- name: Register SSM Agent
-  ansible.builtin.command:
-    cmd: >-
-      /snap/amazon-ssm-agent/current/amazon-ssm-agent -register
-      -code {{ lookup('file', '/root/.ansible_vault_password') }}
-      -id {{ lookup('file', '/root/activation-id') }}
-      -region us-east-1
-  changed_when: true
-  when: not ssm_registration.stat.exists
-
-- name: Start SSM Agent
-  ansible.builtin.systemd_service:
-    name: snap.amazon-ssm-agent.amazon-ssm-agent.service
-    enabled: true
-    state: started
