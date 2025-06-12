@@ -19,7 +19,7 @@ users:
   - name: ubuntu
     sudo: "ALL=(ALL) NOPASSWD:ALL"
     ssh_authorized_keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOV3T6Da+IyAFLcND2qAeuTdtrKUUJCL2zaastUNQ5je
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBCjUF91KR24vSxdet//lijSSayNkWzsVNyILOsxIeOm
 
 write_files:
   - path: /root/.ansible_vault_password
