@@ -27,12 +27,12 @@ arrival_screen:
 
 prod:
   hosts:
+    MLLTIDAPP[01:99]P:
     HSCTDLNXPRD01:
       ecs_anywhere_attributes:
         com.mbta.ctd.primary-instance:
     HSCTDLNXPRD[02:99]:
     PPCTDLNXPRD[01:99]:
-    MLLTIDAPP[01:99]P:
 
 splunk_base_image:
   children:
