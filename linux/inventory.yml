@@ -27,7 +27,7 @@ arrival_screen:
 
 prod:
   hosts:
-    MLLTIDAPP[01:99]P:
+    MLLTIDAPP01P:
     HSCTDLNXPRD01:
       ecs_anywhere_attributes:
         com.mbta.ctd.primary-instance:
