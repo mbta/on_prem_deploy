@@ -10,15 +10,12 @@ rules:
   comments:
     level: warning
     ignore: user-data
+    min-spaces-from-content: 1
   document-start:
     ignore: |
       /**/vault*
       user-data
-  line-length:
-    max: 120
-    ignore: |
-      /.github/
-      /pull_ecr_stack_deploy.cmd.yml
 
 ignore: |
   .vagrant
+  .venv
