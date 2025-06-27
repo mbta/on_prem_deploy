@@ -1,26 +1,21 @@
 # Requirements
 
-## Mise
-
-[Mise](https://mise.jdx.dev/) is an alternative to ASDF.
-
 ``` shell
-$ mise install
-```
-
-## ASDF
-
-Not needed if using Mise (above).
-
-``` shell
-$ ASDF_PYAPP_INCLUDE_DEPS=1 asdf plugin add ansible https://github.com/amrox/asdf-pyapp.git
-$ asdf plugin-add adr-tools
-$ asdf plugin-add shellcheck
+$ asdf plugin add adr-tools
+$ asdf plugin add python
+$ asdf plugin add shellcheck
+$ asdf plugin add uv
 $ asdf install
 ```
 
 You'll also need to put the Vault password (stored in 1Password) into
 `.ansible_vault_password` or the `ANSIBLE_VAULT_PASSWORD` environment variable.
+
+Use `uv run` to run Python tools such as `ansible`. For example:
+
+``` shell
+$ uv run ansible --version
+```
 
 ## Virtualbox 
 
