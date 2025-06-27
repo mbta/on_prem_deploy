@@ -10,6 +10,7 @@ rules:
   comments:
     level: warning
     ignore: user-data
+    min-spaces-from-content: 1
   document-start:
     ignore: |
       /**/vault*
@@ -21,3 +22,4 @@ rules:
 
 ignore: |
   .vagrant
+  .venv

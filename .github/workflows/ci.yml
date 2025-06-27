@@ -2,7 +2,7 @@
 
 name: CI
 
-on:  # yamllint disable-line rule:truthy
+on:
   push:
   pull_request:
 
@@ -11,7 +11,6 @@ jobs:
     name: Setup
     runs-on: ubuntu-22.04
     steps:
-
       - uses: actions/checkout@v3
       # cache the ASDF directory, using the values from .tool-versions
       - name: ASDF cache
@@ -22,10 +21,6 @@ jobs:
         id: asdf-cache
       # only run `asdf install` if we didn't hit the cache
       - uses: asdf-vm/actions/setup@v2
-        if: steps.asdf-cache.outputs.cache-hit != 'true'
-      - run: asdf plugin-add ansible https://github.com/amrox/asdf-pyapp.git
-        env:
-          ASDF_PYAPP_INCLUDE_DEPS: 1
         if: steps.asdf-cache.outputs.cache-hit != 'true'
       - uses: asdf-vm/actions/install@v2
         if: steps.asdf-cache.outputs.cache-hit != 'true'
@@ -56,13 +51,14 @@ jobs:
         with:
           path: ~/.asdf
           key: ${{ runner.os }}-asdf-${{ hashFiles('.tool-versions') }}
-      - name: Install ansible-lint
-        run: ~/.asdf/installs/ansible/*/venv/bin/python3 -m pip install ansible-lint
-      - name: Install yamllint
-        run: ~/.asdf/installs/ansible/*/venv/bin/python3 -m pip install yamllint
+      - name: Python venv cache
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: ${{ runner.os }}-venv-${{ hashFiles('uv.lock') }}
       - uses: mbta/actions/reshim-asdf@v1
       - name: Run ansible-lint
-        run: ~/.asdf/installs/ansible/*/venv/bin/ansible-lint --format full
+        run: uv run ansible-lint --format full
         working-directory: linux
       - name: Run yamllint
-        run: ~/.asdf/installs/ansible/*/venv/bin/yamllint .
+        run: uv run yamllint .
