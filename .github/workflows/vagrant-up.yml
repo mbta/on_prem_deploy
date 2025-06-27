@@ -2,7 +2,7 @@
 
 name: vagrant-up
 
-on:  # yamllint disable-line rule:truthy
+on:
   workflow_dispatch:
   # disabled due to consistent failures on macOS runners
   # https://github.com/actions/runner-images/issues/8730
