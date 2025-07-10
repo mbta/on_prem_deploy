@@ -48,7 +48,10 @@ splunk_base_image:
       hosts:
         HSSPLNKAB[01:99]:
         PPSPLNKAB[01:99]:
-
+   splunk_servers_at_Markley:
+      hosts:
+        MLUSPLKHF01P[01:99]:
+        MLUSPLKDS01P[01:99]:
 scu:
   hosts:
     BAIRSCU001:
