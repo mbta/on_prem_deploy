@@ -40,10 +40,12 @@ splunk_base_image:
       hosts:
         HSSPLNKHF[01:99]:
         PPSPLNKHF[01:99]:
+        MLUSPLKHF01P[01:99]P:
     splunk_deployment_server:
       hosts:
         HSSPLNKDS[01:99]:
         PPSPLNKDS[01:99]:
+        MLUSPLKDS01P[01:99]P:
     splunk_automation_broker:
       hosts:
         HSSPLNKAB[01:99]:
