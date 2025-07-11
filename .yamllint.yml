@@ -18,7 +18,6 @@ rules:
     max: 120
     ignore: |
       /.github/
-      /pull_ecr_stack_deploy.cmd.yml
 
 ignore: |
   .vagrant
