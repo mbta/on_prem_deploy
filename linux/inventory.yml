@@ -45,7 +45,7 @@ splunk_base_image:
       hosts:
         HSSPLNKDS[01:99]:
         PPSPLNKDS[01:99]:
-        MLUSPLKDS01P[01:99]P:
+        MLUSPLKDS[01:99]P:
     splunk_automation_broker:
       hosts:
         HSSPLNKAB[01:99]:
