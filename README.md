@@ -1,3 +1,6 @@
 # on_prem_deploy
 
-Support scripts for deploying to on-prem servers.
+Ansible configuration and supporting scripts for provisioning on-prem servers.
+
+All configuration now lives in the `linux/` subdirectory; see `linux/README.md`
+for details.

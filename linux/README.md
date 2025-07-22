@@ -1,6 +1,29 @@
+# Overview
+
+This directory contains [Ansible](https://docs.ansible.com/) configuration for
+provisioning Linux servers, as well as scripts for building OVA images that can
+be deployed into virtualization environments.
+
+## How We Use This Repo
+
+- We build an OVA using the [`build_ova.sh`](build_ova.sh) script (see
+  [OVA installer](#ova-installer))
+- On first boot of the server, `cloud-init` runs Ansible in pull mode (see
+  [`cloud-init/user-data`](cloud-init/user-data))
+- `ansible-pull` runs hourly via cron, which pulls this repo and runs the
+  relevant plays according to the roles defined in [`main.yml`](main.yml) and
+  the corresponding hostname in [`inventory.yml`](inventory.yml)
+- All ongoing maintenance, including updates and configuration changes, happens
+  via the Ansible configuration in this repo
+
 # Requirements
 
-## Mise
+## Installation
+
+To run Ansible and shell scripts locally, the following installation methods
+are supported:
+
+### Mise
 
 [Mise](https://mise.jdx.dev/) is an alternative to ASDF.
 
@@ -8,7 +31,7 @@
 $ mise install
 ```
 
-## ASDF
+### ASDF
 
 Not needed if using Mise (above).
 
@@ -19,10 +42,22 @@ $ asdf plugin-add shellcheck
 $ asdf install
 ```
 
-You'll also need to put the Vault password (stored in 1Password) into
-`.ansible_vault_password` or the `ANSIBLE_VAULT_PASSWORD` environment variable.
+## Ansible Vault
 
-## Virtualbox 
+Ansible Vault is used to obfuscate some configuration. Note that **secrets and
+other credentials should not be stored in this repo**. To ensure that the Vault
+can be decrypted by servers, or to decrypt it locally, you'll need to put the
+Vault password (stored in 1Password) into `.ansible_vault_password` or the
+`ANSIBLE_VAULT_PASSWORD` environment variable.
+
+## Testing
+
+As of this writing, all testing of provisioning scripts and Ansible
+configuration must be performed manually. This can be done by provisioning a
+VM locally on your workstation using one of the following methods. For more
+information, see [Ansible Testing](#ansible-testing) below.
+
+### Virtualbox / Vagrant
 
 So far, this only works on an Intel Mac. It would probably work on an Intel Linux machine as well.
 
@@ -50,7 +85,7 @@ $ vagrant ssh
 $ ssh -p2222 <username>@localhost
 ```
 
-## QEMU
+### QEMU
 
 QEMU will work on an M1.
 
@@ -58,7 +93,7 @@ QEMU will work on an M1.
 $ brew install qemu
 ```
 
-### Usage
+#### Usage
 
 ``` shell
 # optional: set a different remote branch to test (default: main)
@@ -83,7 +118,7 @@ Host <hostname>
     Port 5555
 ```
 
-# Ansible
+# Ansible Testing
 
 To iterate on the Ansible configuration, you can run `ansible-pull` directly from an SSH connection:
 
