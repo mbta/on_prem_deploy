@@ -33,3 +33,6 @@ users:
     comment: Dean Shi
     github: deanshi
     groups: [admin, users]
+users_deleted:
+  - username: pkim
+  - username: cmaddox
