@@ -18,7 +18,3 @@ users:
     comment: Raj Kuthuru
     github: rkuthuru12
     groups: [admin, users, docker]
-  - username: wjohnson
-    comment: Warren Johnson
-    github: Warren-Johnson-TID
-    groups: [admin, users, docker]
