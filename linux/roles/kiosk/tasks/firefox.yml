@@ -1,24 +1,24 @@
 ---
 
 - name: Check whether Firefox Snap is installed
-  register: firefox_snap_path
+  register: kiosk_firefox_snap_path
   ansible.builtin.stat:
     path: '/var/snap/firefox'
 
 - name: Check whether Mozilla Firefox is isntalled
-  register: mozilla_firefox_path
+  register: kiosk_mozilla_firefox_path
   ansible.builtin.stat:
     path: '/usr/lib/firefox/firefox'
 
 - name: Uninstall Firefox snap
-  when: firefox_snap_path.stat.exists
+  when: kiosk_firefox_snap_path.stat.exists
   community.general.snap:
     name:
       - firefox
     state: absent
 
 - name: Uninstall Firefox snap transitional apt package
-  when: firefox_snap_path.stat.exists or not mozilla_firefox_path.stat.exists
+  when: kiosk_firefox_snap_path.stat.exists or not kiosk_mozilla_firefox_path.stat.exists
   ansible.builtin.apt:
     name:
       - firefox

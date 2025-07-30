@@ -39,7 +39,16 @@ Not needed if using Mise (above).
 $ ASDF_PYAPP_INCLUDE_DEPS=1 asdf plugin add ansible https://github.com/amrox/asdf-pyapp.git
 $ asdf plugin-add adr-tools
 $ asdf plugin-add shellcheck
+$ asdf plugin-add python
 $ asdf install
+```
+
+### ansible-lint
+
+After the above `asdf` or `mise` installations are complete, use `pip3` to install `ansible-lint`:
+
+```shell
+$ pip3 install ansible-lint
 ```
 
 ## Ansible Vault
