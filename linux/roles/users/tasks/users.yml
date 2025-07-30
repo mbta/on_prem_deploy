@@ -50,5 +50,5 @@
     group: "{{ item.username }}"
     mode: '0600'
   loop: "{{ users }}"
-  register: enforce_google_authenticator_permissions
-  failed_when: enforce_google_authenticator_permissions.state not in ["absent", "file"]
+  register: users_enforce_google_authenticator_permissions
+  failed_when: users_enforce_google_authenticator_permissions.state not in ["absent", "file"]

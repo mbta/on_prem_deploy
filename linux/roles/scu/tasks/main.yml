@@ -26,13 +26,13 @@
 - name: Check SSM registration
   ansible.builtin.stat:
     path: /var/lib/amazon/ssm/registration
-  register: ssm_registration
+  register: scu_ssm_registration
 
 - name: Stop SSM Agent
   ansible.builtin.systemd_service:
     name: snap.amazon-ssm-agent.amazon-ssm-agent.service
     state: stopped
-  when: not ssm_registration.stat.exists
+  when: not scu_ssm_registration.stat.exists
 
 - name: Register SSM Agent
   ansible.builtin.command:
@@ -42,7 +42,7 @@
       -id {{ lookup('file', '/root/activation-id') }}
       -region us-east-1
   changed_when: true
-  when: not ssm_registration.stat.exists
+  when: not scu_ssm_registration.stat.exists
 
 - name: Start SSM Agent
   ansible.builtin.systemd_service:
