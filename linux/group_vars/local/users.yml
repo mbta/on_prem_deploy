@@ -29,4 +29,4 @@ users:
   - username: dshi
     comment: Dean Shi
     github: deanshi
-    groups: [admin, users]
+    groups: [admin, users, docker]
