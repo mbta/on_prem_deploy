@@ -19,7 +19,7 @@
       - awscli
 
 - name: Configure NTP
-  ansible-builtin.copy: 
+  ansible.builtin.copy: 
     src: timesyncd.conf
     dest: /etc/systemd/timesyncd.conf
     mode: "0644"
