@@ -20,7 +20,8 @@ users:
     sudo: "ALL=(ALL) NOPASSWD:ALL"
     ssh_authorized_keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBCjUF91KR24vSxdet//lijSSayNkWzsVNyILOsxIeOm
-      - ssh-ed25519 5ZIZpZ2Fe8jT1UQdqDE/dUk80Qr7CwWmPbKzRWnc25Q
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMS/Dw2SAH+yDTa/HvlkVYa+Y9KImKGtnoBQGu6kQ260
+
 write_files:
   - path: /root/.ansible_vault_password
     permissions: '0400'
