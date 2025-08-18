@@ -17,14 +17,6 @@ users:
     comment: Jon Zimbel
     github: jzimbel-mbta
     groups: [admin, users]
-  - username: cmaddox
-    comment: Christian Maddox
-    github: cmaddox5
-    groups: [admin, users]
-  - username: pkim
-    comment: Paul Kim
-    github: PaulJKim
-    groups: [admin, users]
   - username: bheathwlaz
     comment: Brett Heath-Wlaz
     github: panentheos
@@ -32,4 +24,12 @@ users:
   - username: cgrant
     comment: Cora Grant
     github: digitalcora
+    groups: [admin, users]
+  - username: rsundstrom
+    comment: Robbie Sundstrom
+    github: robbie-sundstrom
+    groups: [admin, users]
+  - username: dshi
+    comment: Dean Shi
+    github: deanshi
     groups: [admin, users]

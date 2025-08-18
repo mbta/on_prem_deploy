@@ -18,15 +18,15 @@ users:
     comment: Brett Heath-Wlaz
     github: panentheos
     groups: [admin, users, docker]
-  - username: pkim
-    comment: Paul Kim
-    github: PaulJKim
-    groups: [admin, users, docker]
   - username: cgrant2
     comment: Cora Grant
     github: digitalcora
     groups: [admin, users, docker]
-  - username: cmaddox
-    comment: Christian Maddox
-    github: cmaddox5
-    groups: [admin, users, docker]
+  - username: rsundstrom
+    comment: Robbie Sundstrom
+    github: robbie-sundstrom
+    groups: [admin, users]
+  - username: dshi
+    comment: Dean Shi
+    github: deanshi
+    groups: [admin, users]
