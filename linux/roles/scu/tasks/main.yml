@@ -18,6 +18,20 @@
       - asihpi-dkms-4
       - awscli
 
+- name: Configure NTP
+  ansible.builtin.copy:
+    src: timesyncd.conf
+    dest: /etc/systemd/timesyncd.conf
+    mode: "0644"
+  register: scu_ntp_configuration
+
+- name: Restart timesyncd if NTP change
+  ansible.builtin.systemd:
+    name: systemd-timesyncd
+    daemon-reload: true
+    state: restarted
+  when: scu_ntp_configuration.changed # noqa: no-handler
+
 - name: Install SSM Agent
   community.general.snap:
     name: amazon-ssm-agent
