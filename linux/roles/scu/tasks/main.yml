@@ -23,7 +23,7 @@
     src: timesyncd.conf
     dest: /etc/systemd/timesyncd.conf
     mode: "0644"
-    register: ntp_configuration
+  register: ntp_configuration
 
 - name: Restart timesyncd if NTP change
   ansible.builtin.systemd:
