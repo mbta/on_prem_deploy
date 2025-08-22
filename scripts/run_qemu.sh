@@ -6,8 +6,8 @@ set -e
 ISO_NAME=ubuntu-22.04-server-cloudimg-amd64.img
 ISO_URL=https://cloud-images.ubuntu.com/releases/jammy/release/"${ISO_NAME}"
 
-scripts=$(dirname $0)
-root=$(dirname $scripts)
+scripts=$(dirname "$0")
+root=$(dirname "$scripts")
 
 ISO_DIR="$root/iso" # ignored by .gitignore
 mkdir -p "${ISO_DIR}"

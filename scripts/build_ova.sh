@@ -15,8 +15,8 @@ VMDK_URL=https://cloud-images.ubuntu.com/releases/jammy/release/"$VMDK_PATH"
 HOSTNAME=${1:-local01}
 IP_ADDRESS=$2
 
-scripts=$(dirname $0)
-root=$(dirname $scripts)
+scripts=$(dirname "$0")
+root=$(dirname "$scripts")
 tmpdir="$root/tmp" # ignored by .gitignore
 mkdir -p "$tmpdir"
 

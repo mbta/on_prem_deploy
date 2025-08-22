@@ -2,8 +2,8 @@
 
 set -e
 
-scripts=$(dirname $0)
-root=$(dirname $scripts)
+scripts=$(dirname "$0")
+root=$(dirname "$scripts")
 
 GITHUB_REPO=${GITHUB_REPO:-mbta/on_prem_deploy}
 GIT_BRANCH=${GIT_BRANCH:-main}

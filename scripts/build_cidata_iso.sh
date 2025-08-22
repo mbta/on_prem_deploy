@@ -5,8 +5,8 @@
 set -e
 
 HOSTNAME=$1
-scripts=$(dirname $0)
-root=$(dirname $scripts)
+scripts=$(dirname "$0")
+root=$(dirname "$scripts")
 tmpdir="$root"/tmp
 
 mkdir -p "$tmpdir"/config
