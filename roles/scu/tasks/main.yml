@@ -30,7 +30,7 @@
     name: systemd-timesyncd
     daemon-reload: true
     state: restarted
-  when: scu_ntp_configuration.changed # noqa: no-handler
+  when: scu_ntp_configuration.changed  # noqa: no-handler
 
 - name: Install SSM Agent
   community.general.snap:
