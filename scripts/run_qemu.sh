@@ -6,10 +6,12 @@ set -e
 ISO_NAME=ubuntu-22.04-server-cloudimg-amd64.img
 ISO_URL=https://cloud-images.ubuntu.com/releases/jammy/release/"${ISO_NAME}"
 
-ISO_DIR="iso" # ignored by .gitignore
+scripts=$(dirname $0)
+root=$(dirname $scripts)
+
+ISO_DIR="$root/iso" # ignored by .gitignore
 mkdir -p "${ISO_DIR}"
 ISO_PATH="${ISO_DIR}/${ISO_NAME}"
-
 
 if [ "$(arch)" = "arm64" ]; then
    QEMU_CPU_TYPE="max"
@@ -23,7 +25,7 @@ QEMU_CPUS="${QEMU_CPUS:-2}"
 QEMU_MEMORY="${QEMU_MEMORY:-1024}"
 
 HOSTNAME=${1:-qemu}
-tmpdir="tmp" # ignored by .gitignore
+tmpdir="$root/tmp" # ignored by .gitignore
 mkdir -p "${tmpdir}"
 
 if [ -f "${tmpdir}/boot-disk.img" ]; then
@@ -40,7 +42,7 @@ else
    popd >/dev/null
 fi
 
-bash build_cidata_iso.sh "${HOSTNAME}"
+bash "$scripts/build_cidata_iso.sh" "${HOSTNAME}"
 
 qemu-system-x86_64 \
 	 -net 'nic,model=virtio-net-pci' \

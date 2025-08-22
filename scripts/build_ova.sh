@@ -15,7 +15,9 @@ VMDK_URL=https://cloud-images.ubuntu.com/releases/jammy/release/"$VMDK_PATH"
 HOSTNAME=${1:-local01}
 IP_ADDRESS=$2
 
-tmpdir="tmp" # ignored by .gitignore
+scripts=$(dirname $0)
+root=$(dirname $scripts)
+tmpdir="$root/tmp" # ignored by .gitignore
 mkdir -p "$tmpdir"
 
 pushd "$tmpdir" > /dev/null
@@ -26,8 +28,8 @@ rm -rf "${tmpdir:?}"/"$HOSTNAME" "$tmpdir"/"$HOSTNAME".*
 mkdir -p "$tmpdir"/"$HOSTNAME"
 cp "$tmpdir"/"$VMDK_PATH" "$tmpdir"/"$HOSTNAME"/
 
-b64_user_data=$(bash build_vm_user_data.sh "$HOSTNAME" | base64)
-b64_network_config=$(bash build_network_config.sh "$IP_ADDRESS" | base64)
+b64_user_data=$(bash "$scripts/build_vm_user_data.sh" "$HOSTNAME" | base64)
+b64_network_config=$(bash "$scripts/build_network_config.sh" "$IP_ADDRESS" | base64)
 vmdk_size=$(stat -f "%z" "$tmpdir"/"$VMDK_PATH")
 
 cat > "$tmpdir"/"$HOSTNAME"/"$HOSTNAME".ovf <<EOF

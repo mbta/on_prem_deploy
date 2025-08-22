@@ -3,6 +3,5 @@
 *.log
 tmp/
 
-
-/linux/iso/*.img
+/iso/*.img
 /**/.ansible_vault_password
