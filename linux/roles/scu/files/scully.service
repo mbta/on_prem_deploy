@@ -1,14 +1,18 @@
 [Unit]
 Description=Scully service
-After=docker.service
-Requires=docker.service
+After=docker.service set-audio-mode.service network-online.target
+Requires=docker.service set-audio-mode.service network-online.target
 StartLimitIntervalSec=0
 
 [Service]
+Type=oneshot
+RemainAfterExit=yes
 TimeoutStartSec=0
-Restart=always
+Restart=on-failure
 RestartSec=10
-ExecStart=/root/run-scully
+ExecStart=/root/run-scully up
+ExecReload=/root/run-scully up
+ExecStop=/root/run-scully down
 
 [Install]
 WantedBy=default.target

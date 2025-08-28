@@ -1,0 +1,6 @@
+[Unit]
+Description=Scully update service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/systemctl reload-or-restart scully.service

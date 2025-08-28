@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -e
+
+read_secret() {
+    aws secretsmanager get-secret-value \
+        --secret-id $1 \
+        --region {{ aws_region }} \
+        --query "SecretString" \
+        --output text
+}
+
+cat << EOF > /root/scully.env
+SCULLY_STATION_ID=$(hostname)
+SCULLY_API_KEY=$(read_secret scully-{{ scu_env }}-api-key)
+SCULLY_SPLUNK_INDEX=scully-{{ scu_env }}
+SPLUNK_TOKEN=$(read_secret lambda-generic-splunk-token)
+SECRET_KEY_BASE=$(read_secret scully-{{ scu_env }}-secret-key-base)
+EOF

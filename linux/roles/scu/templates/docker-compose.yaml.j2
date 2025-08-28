@@ -1,0 +1,8 @@
+services:
+  scully:
+    image: {{ aws_account_id }}.dkr.ecr.{{ aws_region }}.amazonaws.com/scully:{{ scu_env }}
+    devices:
+      - "/dev/asihpi:/dev/asihpi"
+    ports:
+      - "80:4010"
+    env_file: scully.env

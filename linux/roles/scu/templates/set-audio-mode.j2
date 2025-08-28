@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -e
+
+/root/create-scully-env
+docker run --rm \
+    --privileged \
+    --device=/dev/asihpi:/dev/asihpi \
+    --env-file /root/scully.env \
+    {{ aws_account_id }}.dkr.ecr.{{ aws_region }}.amazonaws.com/scully:{{ scu_env }} \
+    /scully/bin/scully eval "AudioTasks.set_audio_mode()"
