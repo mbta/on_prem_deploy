@@ -69,29 +69,16 @@
   ansible.builtin.include_role:
     name: docker
 
-- name: Write scully systemd unit
+- name: Write systemd units
   ansible.builtin.copy:
-    src: scully.service
-    dest: /etc/systemd/system/scully.service
+    src: "{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
     mode: "0644"
-
-- name: Write scully-update systemd unit
-  ansible.builtin.copy:
-    src: scully-update.service
-    dest: /etc/systemd/system/scully-update.service
-    mode: "0644"
-
-- name: Write scully-update systemd timer
-  ansible.builtin.copy:
-    src: scully-update.timer
-    dest: /etc/systemd/system/scully-update.timer
-    mode: "0644"
-
-- name: Write set-audio-mode systemd unit
-  ansible.builtin.copy:
-    src: set-audio-mode.service
-    dest: /etc/systemd/system/set-audio-mode.service
-    mode: "0644"
+  loop:
+    - scully.service
+    - scully-update.service
+    - scully-update.timer
+    - set-audio-mode.service
 
 - name: Write scully startup script
   ansible.builtin.copy:
