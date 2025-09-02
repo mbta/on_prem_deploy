@@ -1,0 +1,13 @@
+[Unit]
+Description=Set audio mode
+After=docker.service network-online.target
+Requires=docker.service network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+TimeoutStartSec=0
+Restart=on-failure
+RestartSec=10
+ExecStart=/root/set-audio-mode

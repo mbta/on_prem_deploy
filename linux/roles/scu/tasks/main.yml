@@ -17,6 +17,7 @@
     name:
       - asihpi-dkms-4
       - awscli
+      - amazon-ecr-credential-helper
 
 - name: Configure NTP
   ansible.builtin.copy:
@@ -68,21 +69,65 @@
   ansible.builtin.include_role:
     name: docker
 
-- name: Write scully systemd unit
+- name: Write systemd units
   ansible.builtin.copy:
-    src: scully.service
-    dest: /etc/systemd/system/scully.service
+    src: "{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
     mode: "0644"
+  loop:
+    - scully.service
+    - scully-update.service
+    - scully-update.timer
+    - set-audio-mode.service
 
 - name: Write scully startup script
-  ansible.builtin.template:
-    src: run-scully.j2
+  ansible.builtin.copy:
+    src: run-scully
     dest: /root/run-scully
     mode: "0755"
 
-- name: Enable and start systemd unit
+- name: Create .docker directory
+  ansible.builtin.file:
+    path: /root/.docker
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Write docker config
+  ansible.builtin.copy:
+    src: docker-config.json
+    dest: /root/.docker/config.json
+    mode: "0644"
+
+- name: Write docker compose
+  ansible.builtin.template:
+    src: docker-compose.yaml.j2
+    dest: /root/compose.yaml
+    mode: "0644"
+
+- name: Write create-scully-env script
+  ansible.builtin.template:
+    src: create-scully-env.j2
+    dest: /root/create-scully-env
+    mode: "0755"
+
+- name: Write set-audio-mode script
+  ansible.builtin.template:
+    src: set-audio-mode.j2
+    dest: /root/set-audio-mode
+    mode: "0755"
+
+- name: Enable and start scully systemd unit
   ansible.builtin.systemd_service:
     name: scully.service
+    enabled: true
+    state: started
+  when: scu_autostart
+
+- name: Enable and start scully-update systemd timer
+  ansible.builtin.systemd_service:
+    name: scully-update.timer
     enabled: true
     state: started
   when: scu_autostart

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ $1 = "up" ]; then
+    /root/create-scully-env
+    cd /root
+    docker compose pull || true
+    docker compose up -d
+elif [ $1 = "down" ]; then
+    cd /root
+    docker compose down
+fi
