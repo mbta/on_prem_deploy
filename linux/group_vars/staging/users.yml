@@ -1,20 +1,10 @@
 # staging users
 ---
 
-users:
-  - username: pswartz
-    comment: Paul Swartz
-    github: paulswartz
-    groups: [admin, users, docker]
-  - username: iwestcott
-    comment: Ian Westcott
-    github: ianwestcott
-    groups: [admin, users, docker]
-  - username: krisjohnson
-    comment: Kris Johnson
-    github: krisrjohnson21
-    groups: [admin, users, docker]
-  - username: rkuthuru
-    comment: Raj Kuthuru
-    github: rkuthuru12
-    groups: [admin, users, docker]
+default_groups: [admin, users, docker]
+
+users: >-
+  {{
+    users_tid_infrastructure
+    + users_infosec
+  }}
