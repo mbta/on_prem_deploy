@@ -14,7 +14,7 @@
     comment: "{{ item.comment }}"
     password: "!"
     password_lock: true
-    groups: "{{ item.groups }}"
+    groups: "{{ item.groups | default(default_groups) }}"
     shell: /bin/bash
     append: false
   loop: "{{ users }}"
