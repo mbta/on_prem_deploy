@@ -154,8 +154,11 @@ scu:
     SEAVSCU001:
     SWTCSCU001:
     TESTSCU[001:099]:
+      scu_deploy_tag: staging
     TESTSCU[100:899]:
       scu_env: staging
+      scu_deploy_tag: staging
     TESTSCU[900:999]:
       scu_env: staging
+      scu_deploy_tag: staging
       scu_autostart: false

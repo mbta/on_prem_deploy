@@ -1,6 +1,6 @@
 services:
   scully:
-    image: {{ aws_account_id }}.dkr.ecr.{{ aws_region }}.amazonaws.com/scully:{{ scu_env }}
+    image: {{ aws_account_id }}.dkr.ecr.{{ aws_region }}.amazonaws.com/scully:{{ scu_deploy_tag }}
     devices:
       - "/dev/asihpi:/dev/asihpi"
     ports:
