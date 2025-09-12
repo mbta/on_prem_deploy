@@ -21,9 +21,6 @@ users_tid_screens:
   - username: dshi
     comment: Dean Shi
     github: deanshi
-  - username: jzimbel
-    comment: Jon Zimbel
-    github: jzimbel-mbta
   - username: rsundstrom
     comment: Robbie Sundstrom
     github: robbie-sundstrom
@@ -38,6 +35,9 @@ users_tid_devops:
   - username: hhuang
     comment: Henry Huang
     github: huangh
+  - username: jzimbel
+    comment: Jon Zimbel
+    github: jzimbel-mbta
   - username: kbrady
     comment: Kayla Brady
     github: kaylabrady
