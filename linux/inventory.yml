@@ -14,6 +14,8 @@ local:
     local[01:99]:
 
 staging:
+  children:
+    staging_gateway:
   hosts:
     HSCTDLNXSTG01:
       ecs_anywhere_attributes:
@@ -26,6 +28,8 @@ arrival_screen:
     SCREEN-BUS-[100:999]:
 
 prod:
+  children:
+    prod_gateway:
   hosts:
     HSCTDLNXPRD01:
       ecs_anywhere_attributes:
@@ -33,6 +37,17 @@ prod:
     HSCTDLNXPRD[02:99]:
     PPCTDLNXPRD[01:99]:
     MLLTIDAPP[01:99]P:
+
+bastion_hosts:
+  children:
+    staging_gateway:
+      hosts:
+        dev.gateway.mbtace.com:
+        tgw-dev.gateway.mbtace.com:
+    prod_gateway:
+      hosts:
+        prod.gateway.mbtace.com:
+        tgw-prod.gateway.mbtace.com:
 
 splunk_base_image:
   children:

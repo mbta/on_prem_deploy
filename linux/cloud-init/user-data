@@ -21,6 +21,7 @@ users:
     ssh_authorized_keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBCjUF91KR24vSxdet//lijSSayNkWzsVNyILOsxIeOm
       - ssh-ed25519 5ZIZpZ2Fe8jT1UQdqDE/dUk80Qr7CwWmPbKzRWnc25Q
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDP3/an2bfN5e8EuUpdmpq+sp1tEget8Ya2AYLfQ43y68ugV3eGs7SdwVRdEh6XQ8a4ZL1ptRBbM/scNCyfCEsxv4iDEdx6FDzRo1RNDVM5vXVv5S/YxEg6/GkNxhFmn762fuA6Z1ub2uO92U+0Ep3T8DqBr9KkQtx6yEMV3EbkmRmHdERAtHSRDKGn0DXA5MNVQC5GJsAt5a0DV5+YYqL5xfDHdth6z4EztZgYQ3vXUQCRTcjl5ijxok4X5HdMyBe+557wtbcSWxkVNEFovV+LbuyiNieUVUood49+DJYpoT+nEfDlOv4nrws8WxayxYjSPhxV6zdFXkUCvlsGiaIycO9enYIuv7DDsSH5A0sTAsWQyhsZMLQaJbIqaMzJFk1DoXjbaCKdxoTGsrAKtn/aO4yzlUjr0kq7JDjONGeXUZD06CNFm7Sj49E5e8yOZzRhADcOAxpIy+6Kfv9L7E/lUiMmwtWfO5DirVFuUoE34zMVp3jwGnd3WQ0xWXvub7d6aN2xj7tS7bwnakgFHGVHCdtCbR4KA99omZQ7iNdzlHXWBubDWn0aZym2conorHuMF3gM7Zjsjb8Vy+yVjy5qTSTgevsHEUc3xBuKSv9s/Pghs3bAtgh+110KOl7jT9BxlkDI70o59YJaEd5aS08mRUmlmGKMAQq6+ehJfEbSHw==
 write_files:
   - path: /root/.ansible_vault_password
     permissions: '0400'
@@ -30,6 +31,9 @@ write_files:
 # `ansible-galaxy` command to run first, before the other roles which use that
 # collection.
 runcmd:
+  - ["ansible-galaxy",
+     "collection", "install",
+     "community.general.ansible_galaxy_install"]
   - ["ansible-pull",
      "--vault-password-file", "/root/.ansible_vault_password",
      "-e", "github_repo=GITHUB_REPO git_branch=GIT_BRANCH",
