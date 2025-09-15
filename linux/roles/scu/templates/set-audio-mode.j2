@@ -7,5 +7,5 @@ docker run --rm \
     --privileged \
     --device=/dev/asihpi:/dev/asihpi \
     --env-file /root/scully.env \
-    {{ aws_account_id }}.dkr.ecr.{{ aws_region }}.amazonaws.com/scully:{{ scu_env }} \
+    {{ aws_account_id }}.dkr.ecr.{{ aws_region }}.amazonaws.com/scully:{{ scu_deploy_tag }} \
     /scully/bin/scully eval "AudioTasks.set_audio_mode()"
