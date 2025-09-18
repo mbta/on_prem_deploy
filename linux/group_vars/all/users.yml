@@ -1,11 +1,77 @@
 ---
 
-# deleted users
-users_deleted:
-  - username: ubuntu  # delete default user
-  - username: kjohnson  # typo
-  - username: hlingutla
-  - username: ctzunuxpineda
-  - username: pkim
-  - username: cmaddox
-  - username: wjohnson
+users_tid_infrastructure:
+  - username: iwestcott
+    comment: Ian Westcott
+    github: ianwestcott
+  - username: krisjohnson
+    comment: Kris Johnson
+    github: krisrjohnson21
+  - username: pswartz
+    comment: Paul Swartz
+    github: paulswartz
+
+users_tid_screens:
+  - username: bheathwlaz
+    comment: Brett Heath-Wlaz
+    github: panentheos
+  - username: cgrant
+    comment: Cora Grant
+    github: digitalcora
+  - username: dshi
+    comment: Dean Shi
+    github: deanshi
+  - username: rsundstrom
+    comment: Robbie Sundstrom
+    github: robbie-sundstrom
+
+users_tid_engineers:
+  - username: emaldonado
+    comment: Eddie Maldonado
+    github: lemald
+  - username: ggjura
+    comment: Grejdi Gjura
+    github: grejdi-mbta
+  - username: hhuang
+    comment: Henry Huang
+    github: huangh
+  - username: jzimbel
+    comment: Jon Zimbel
+    github: jzimbel-mbta
+  - username: kbrady
+    comment: Kayla Brady
+    github: kaylabrady
+  - username: kfirestack
+    comment: Kayla Firestack
+    github: firestack
+  - username: mharty
+    comment: Meag Harty
+    github: meagharty
+  - username: mshanley
+    comment: Matt Shanley
+    github: arkadyan
+  - username: npinilla
+    comment: Nicholas Pinilla
+    github: napilla
+  - username: srose
+    comment: Sky Rose
+    github: skyqrose
+
+users_infosec:
+  - username: rkuthuru
+    comment: Raj Kuthuru
+    github: rkuthuru12
+
+users_splunk_admins:
+  - username: apullorthody
+    comment: Arun Pullorthody
+    github: arunpullo
+  - username: crayford
+    comment: Christian Rayford
+    github: crayford28
+  - username: ecgregory
+    comment: Edward C. Gregory
+    github: ecgregory
+
+# add a user's username to this list to delete them
+users_deleted: []

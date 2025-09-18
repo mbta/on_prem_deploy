@@ -1,35 +1,9 @@
 ---
 
-users:
-  - username: pswartz
-    comment: Paul Swartz
-    github: paulswartz
-    groups: [admin, users]
-  - username: iwestcott
-    comment: Ian Westcott
-    github: ianwestcott
-    groups: [admin, users]
-  - username: krisjohnson
-    comment: Kris Johnson
-    github: krisrjohnson21
-    groups: [admin, users]
-  - username: jzimbel
-    comment: Jon Zimbel
-    github: jzimbel-mbta
-    groups: [admin, users]
-  - username: bheathwlaz
-    comment: Brett Heath-Wlaz
-    github: panentheos
-    groups: [admin, users]
-  - username: cgrant
-    comment: Cora Grant
-    github: digitalcora
-    groups: [admin, users]
-  - username: rsundstrom
-    comment: Robbie Sundstrom
-    github: robbie-sundstrom
-    groups: [admin, users]
-  - username: dshi
-    comment: Dean Shi
-    github: deanshi
-    groups: [admin, users]
+default_groups: [admin, users]
+
+users: >-
+  {{
+    users_tid_infrastructure
+    + users_tid_screens
+  }}
