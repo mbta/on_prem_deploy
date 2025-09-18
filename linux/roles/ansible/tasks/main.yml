@@ -14,29 +14,16 @@
       - ansible
       - python3-pip
 
-- name: Ensure collections directory exists
-  ansible.builtin.file:
-    path: /root/collections
-    state: directory
-    mode: "0700"
-
-- name: Copy requirements file
-  register: ansible_requirements
-  ansible.builtin.copy:
-    src: collections/requirements.yml
-    dest: /root/collections/requirements.yml
-    mode: "0600"
-
 # required by amazon.aws collection
 - name: Ensure boto3 package is installed
   ansible.builtin.pip:
     name: boto3
 
-- name: Install Ansible dependencies
-  community.general.ansible_galaxy_install:
-    type: collection
-    requirements_file: /root/collections/requirements.yml
-  when: ansible_requirements.changed  # noqa: no-handler
+# can be removed once run on all hosts
+- name: Remove non-builtin Ansible collections
+  ansible.builtin.file:
+    path: /root/.ansible/collections
+    state: absent
 
 - name: Check for local Ansible Vault password
   delegate_to: localhost
