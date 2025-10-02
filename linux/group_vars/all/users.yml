@@ -26,6 +26,9 @@ users_tid_screens:
     github: robbie-sundstrom
 
 users_tid_engineers:
+  - username: crunkel
+    comment: Corey Runkel
+    github: runkelcorey
   - username: emaldonado
     comment: Eddie Maldonado
     github: lemald
