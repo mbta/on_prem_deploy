@@ -1,0 +1,22 @@
+---
+
+- name: Create tunnel group
+  ansible.builtin.group:
+    name: tunnel
+
+- name: Add users to tunnel group
+  ansible.builtin.user:
+    name: "{{ item.username }}"
+    groups: tunnel
+    append: true
+  loop: "{{ tunnel_users }}"
+
+- name: Allow users in tunnel group to create SSH tunnels
+  ansible.builtin.blockinfile:
+    path: /etc/ssh/sshd_config
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - Allow users in tunnel group to create SSH tunnels"
+    block: |
+      Match group tunnel
+        PermitTunnel yes
+  notify:
+    - Reload sshd

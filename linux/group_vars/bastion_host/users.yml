@@ -1,0 +1,15 @@
+# jump hosts for database access
+---
+
+users: >-
+  {{
+    users_tid_infrastructure
+    + users_tid_engineers
+  }}
+
+# TODO does anyone besides infrastructure group need to tunnel?
+# (e.g. for Terraform modules that manage LAMP and DMAP databases?)
+tunnel_users: >-
+  {{
+    users_tid_infrastructure
+  }}
