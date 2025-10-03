@@ -94,6 +94,17 @@
     - role: crowdstrike
     - role: qualys
 
+- name: Bastion host
+  hosts: bastion_host
+  roles:
+    - role: pull
+    - role: users
+    - role: onprem
+      tags: [initial]
+    - role: splunk
+    - role: crowdstrike
+    - role: qualys
+    - role: bastion_host
 
 - name: Splunk base image
   hosts: splunk_base_image

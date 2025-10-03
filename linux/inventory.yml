@@ -32,6 +32,15 @@ prod:
     HSCTDLNXPRD[02:99]:
     MLLTIDAPP[01:99]P:
 
+bastion_host:
+  hosts:
+    # TODO confirm whether these hostnames will work
+    dev.gateway:
+    prod.gateway:
+    # TODO validate these hostnames
+    HSTIDGWY[01:99]:
+    MLTIDGWY[01:99]:
+
 splunk_base_image:
   children:
     splunk_heavy_forwarder:
