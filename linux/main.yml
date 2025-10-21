@@ -100,6 +100,11 @@
   roles:
     - role: pull
     - role: users
+    # TODO remove 1 day after running
+    - role: user_2fa_reset
+      vars:
+        user_2fa_reset_username: rkuthuru
+        user_2fa_reset_before: 1760983440
     - role: onprem
       tags: [initial]
     - role: crowdstrike
