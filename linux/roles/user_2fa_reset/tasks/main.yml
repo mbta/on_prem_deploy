@@ -1,0 +1,28 @@
+---
+
+- name: Get creation time of user's .google_authenticator file
+  ansible.builtin.stat:
+    path: "{{ user_2fa_reset_path }}"
+  register: user_2fa_reset_stats
+
+- name: Check
+  ansible.builtin.debug:
+    msg: >
+      {% if user_2fa_reset_stats.stat.ctime is defined -%}
+        {{ user_2fa_reset_path }} exists and has ctime: {{ user_2fa_reset_stats.stat.ctime }}"
+        {% if user_2fa_reset_stats.stat.ctime < user_2fa_reset_before -%}
+          File is older than {{ user_2fa_reset_before }}, deleting.
+        {% else -%}
+          File is newer, doing nothing.
+        {% endif -%}
+      {% else -%}
+        {{ user_2fa_reset_path }} does not exist.
+      {% endif -%}
+
+- name: Remove user's outdated .google_authenticator file
+  ansible.builtin.file:
+    path: "{{ user_2fa_reset_path }}"
+    state: absent
+  when: >
+    user_2fa_reset_stats.stat.ctime is defined and
+      user_2fa_reset_stats.stat.ctime < user_2fa_reset_before

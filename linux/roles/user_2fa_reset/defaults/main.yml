@@ -1,0 +1,4 @@
+---
+user_2fa_reset_before: "{{ undef(hint='This play requires a Unix timestamp to check against.') }}"
+user_2fa_reset_path: "/home/{{ user_2fa_reset_username }}/.google_authenticator"
+user_2fa_reset_username: "{{ undef(hint='This play requires a username.') }}"
