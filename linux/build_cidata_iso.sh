@@ -20,7 +20,11 @@ echo
 echo > "$tmpdir"/config/vendor-data
 
 rm -f "$tmpdir"/"$HOSTNAME".iso
-hdiutil makehybrid -o "$tmpdir"/"$HOSTNAME".iso -hfs -joliet -iso -default-volume-name cidata "$tmpdir"/config/
+if [ -x "$(command -v hdiutil)" ]; then
+  hdiutil makehybrid -o "$tmpdir"/"$HOSTNAME".iso -hfs -joliet -iso -default-volume-name cidata "$tmpdir"/config/
+else
+  xorriso -outdev "$tmpdir"/"$HOSTNAME".iso -volid cidata -blank as_needed -map "$tmpdir"/config /
+fi
 rm -r "$tmpdir"/config
 
 echo Built "$tmpdir"/"$HOSTNAME".iso
