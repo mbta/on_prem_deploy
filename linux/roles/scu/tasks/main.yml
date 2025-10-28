@@ -16,7 +16,6 @@
   ansible.builtin.apt:
     name:
       - asihpi-dkms-4
-      - awscli
       - amazon-ecr-credential-helper
 
 - name: Configure NTP
@@ -64,10 +63,6 @@
     name: snap.amazon-ssm-agent.amazon-ssm-agent.service
     enabled: true
     state: started
-
-- name: Install Docker
-  ansible.builtin.include_role:
-    name: docker
 
 - name: Write systemd units
   ansible.builtin.copy:
