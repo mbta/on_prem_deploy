@@ -1,0 +1,16 @@
+[Unit]
+Description=Docker login
+After=docker.service network-online.target snap.amazon-ssm-agent.amazon-ssm-agent.service
+Wants=docker.service network-online.target snap.amazon-ssm-agent.amazon-ssm-agent.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+TimeoutStartSec=0
+Restart=on-failure
+RestartSec=10
+ExecStart=/root/docker-login
+
+[Install]
+WantedBy=default.target

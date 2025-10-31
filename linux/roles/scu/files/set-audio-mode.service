@@ -1,7 +1,7 @@
 [Unit]
 Description=Set audio mode
-After=docker.service network-online.target
-Requires=docker.service network-online.target
+After=docker-login.service network-online.target
+Wants=docker-login.service network-online.target
 StartLimitIntervalSec=0
 
 [Service]
