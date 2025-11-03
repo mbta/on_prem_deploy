@@ -116,7 +116,7 @@
 
 - name: Enable and start scully
   ansible.builtin.systemd_service:
-    name: scully.service
+    name: "{{ item }}"
     enabled: true
     state: started
   when: scu_autostart
