@@ -3,36 +3,23 @@
 - name: Gather package facts
   ansible.builtin.package_facts:
 
-- name: Get the installed version of Qualys Cloud Agent
-  ansible.builtin.set_fact:
-    qualys_installed_version: "{{ ansible_facts.packages['qualys-cloud-agent']['version'] | default(None) }}"
-
-- name: Download Qualys Cloud Agent Agent
-  register: qualys_download
-  when: "qualys_installed_version != qualys_version"
+- name: Download Qualys Cloud Agent
   ansible.builtin.get_url:
     url: "https://{{ s3_config_bucket }}.s3.amazonaws.com/{{ s3_package_prefix }}/{{ qualys_path }}"
     dest: /root/qualys.deb
     mode: '0644'
     checksum: "sha256:eca555a71ef4d1e1f87312c4ce9ddbd801ba4b18ce6173da87d5c0a9a4d40374"
 
-- name: Install Qualys Cloud Agent  # noqa: no-handler
-  when: qualys_download.changed
-  register: qualys_install
+- name: Install Qualys Cloud Agent
+  when: ansible_facts.packages['qualys-cloud-agent'] is not defined
   ansible.builtin.apt:
     deb: /root/qualys.deb
 
-- name: Configure Qualys Cloud Agent  # noqa: no-handler
-  when: qualys_install.changed
+- name: Configure Qualys Cloud Agent
+  when: ansible_facts.packages['qualys-cloud-agent'] is not defined
   changed_when: false
   ansible.builtin.command: >-
      /usr/local/qualys/cloud-agent/bin/qualys-cloud-agent.sh
      ActivationId={{ qualys_activation_id }}
      CustomerId={{ qualys_customer_id }}
      ServerUri={{ qualys_server_uri }}
-
-- name: Remove Qualys Cloud Agent package after installation  # noqa: no-handler
-  when: qualys_install.changed
-  ansible.builtin.file:
-    name: /root/qualys.deb
-    state: absent
