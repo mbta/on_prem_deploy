@@ -10,7 +10,7 @@ be deployed into virtualization environments.
   [OVA installer](#ova-installer))
 - On first boot of the server, `cloud-init` runs Ansible in pull mode (see
   [`cloud-init/user-data`](cloud-init/user-data))
-- `ansible-pull` runs hourly via cron, which pulls this repo and runs the
+- `ansible-pull` runs hourly via systemd, which pulls this repo and runs the
   relevant plays according to the roles defined in [`main.yml`](main.yml) and
   the corresponding hostname in [`inventory.yml`](inventory.yml)
 - All ongoing maintenance, including updates and configuration changes, happens
@@ -112,7 +112,7 @@ Host <hostname>
 To iterate on the Ansible configuration, you can run `ansible-pull` directly from an SSH connection:
 
 ``` shell
-ansible-pull -C main -U https://github.com/mbta/on_prem_deploy.git --vault-password-file /root/.ansible_vault_password -i linux/inventory.yml linux/main.yml
+systemctl start ansible-pull
 ```
 
 If you have the relevant hostname configured in `~/.ssh/config` (so that `ssh <hostname>` works), you can also run the playbook from your local machine:
