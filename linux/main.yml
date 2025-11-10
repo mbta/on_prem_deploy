@@ -5,23 +5,21 @@
   become: true
   roles:
     - role: ansible
-      tags: [initial]
 
 - name: CI
   hosts: ci
   roles:
     - role: onprem
-      tags: [initial]
 
 - name: Local development
   hosts: local
   roles:
+    - role: onprem
+      tags: [onprem]
     - role: pull
       tags: [pull]
     - role: users
       tags: [users]
-    - role: onprem
-      tags: [initial]
     - role: ecs_anywhere
       tags: [ecs_anywhere]
     - role: splunk
@@ -40,10 +38,9 @@
     ecs_anywhere_region: us-east-1
     ecs_anywhere_cluster: linux-staging
   roles:
+    - role: onprem
     - role: pull
     - role: users
-    - role: onprem
-      tags: [initial]
     - role: ecs_anywhere
     - role: splunk
     - role: metrics
@@ -67,10 +64,9 @@
 - name: Screens for realtime arrival info
   hosts: arrival_screen
   roles:
+    - role: onprem
     - role: pull
     - role: users
-    - role: onprem
-      tags: [initial]
     # TODO decide whether to send logs to Splunk
     # - role: splunk
     - role: crowdstrike
@@ -84,10 +80,9 @@
     ecs_anywhere_region: us-east-1
     ecs_anywhere_cluster: linux-prod
   roles:
+    - role: onprem
     - role: pull
     - role: users
-    - role: onprem
-      tags: [initial]
     - role: ecs_anywhere
     - role: splunk
     - role: metrics
@@ -98,9 +93,8 @@
 - name: Splunk base image
   hosts: splunk_base_image
   roles:
+    - role: onprem
     - role: pull
     - role: users
-    - role: onprem
-      tags: [initial]
     - role: crowdstrike
     - role: qualys
