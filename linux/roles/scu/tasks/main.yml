@@ -83,6 +83,13 @@
     daemon-reload: true
   when: scu_systemd_units.changed # noqa: no-handler
 
+- name: Restart timers
+  ansible.builtin.systemd_service:
+    name: "{{ item.item }}"
+    state: restarted
+  when: item.item.endswith(".timer") and item.changed
+  loop: "{{ scu_systemd_units.results }}"
+
 - name: Write scripts
   ansible.builtin.template:
     src: "{{ item }}.j2"
