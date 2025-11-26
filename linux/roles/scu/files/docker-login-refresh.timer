@@ -2,7 +2,7 @@
 Description=Docker login timer
 
 [Timer]
-OnActiveSec=21600
+OnCalendar=00/6:00
 
 [Install]
 WantedBy=timers.target
