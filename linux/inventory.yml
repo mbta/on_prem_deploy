@@ -19,7 +19,6 @@ staging:
       ecs_anywhere_attributes:
         com.mbta.ctd.primary-instance:
     HSCTDLNXSTG[02:99]:
-    PPCTDLNXSTG[01:99]:
 
 arrival_screen:
   hosts:
@@ -31,7 +30,6 @@ prod:
       ecs_anywhere_attributes:
         com.mbta.ctd.primary-instance:
     HSCTDLNXPRD[02:99]:
-    PPCTDLNXPRD[01:99]:
     MLLTIDAPP[01:99]P:
 
 splunk_base_image:
@@ -154,8 +152,11 @@ scu:
     SEAVSCU001:
     SWTCSCU001:
     TESTSCU[001:099]:
+      scu_deploy_tag: staging
     TESTSCU[100:899]:
       scu_env: staging
+      scu_deploy_tag: staging
     TESTSCU[900:999]:
       scu_env: staging
+      scu_deploy_tag: staging
       scu_autostart: false

@@ -1,8 +1,9 @@
 .DS_Store
 .idea
 *.log
+.ansible
+.venv/
 tmp/
-
 
 /linux/iso/*.img
 /**/.ansible_vault_password

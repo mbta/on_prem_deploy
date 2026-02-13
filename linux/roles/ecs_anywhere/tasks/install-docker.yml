@@ -1,9 +1,5 @@
 ---
 
-- name: Install Docker
-  ansible.builtin.include_role:
-    name: docker
-
 - name: Apparmor profile for Docker
   ansible.builtin.copy:
     src: files/docker-default

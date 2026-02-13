@@ -10,45 +10,25 @@ be deployed into virtualization environments.
   [OVA installer](#ova-installer))
 - On first boot of the server, `cloud-init` runs Ansible in pull mode (see
   [`cloud-init/user-data`](cloud-init/user-data))
-- `ansible-pull` runs hourly via cron, which pulls this repo and runs the
+- `ansible-pull` runs hourly via systemd, which pulls this repo and runs the
   relevant plays according to the roles defined in [`main.yml`](main.yml) and
   the corresponding hostname in [`inventory.yml`](inventory.yml)
 - All ongoing maintenance, including updates and configuration changes, happens
   via the Ansible configuration in this repo
 
-# Requirements
-
-## Installation
-
-To run Ansible and shell scripts locally, the following installation methods
-are supported:
-
-### Mise
-
-[Mise](https://mise.jdx.dev/) is an alternative to ASDF.
+## Setup
 
 ``` shell
-$ mise install
-```
-
-### ASDF
-
-Not needed if using Mise (above).
-
-``` shell
-$ ASDF_PYAPP_INCLUDE_DEPS=1 asdf plugin add ansible https://github.com/amrox/asdf-pyapp.git
-$ asdf plugin-add adr-tools
-$ asdf plugin-add shellcheck
-$ asdf plugin-add python
+$ asdf plugin add adr-tools
+$ asdf plugin add shellcheck
+$ asdf plugin add uv
 $ asdf install
 ```
 
-### ansible-lint
+Use `uv run` to run Python tools such as `ansible`. For example:
 
-After the above `asdf` or `mise` installations are complete, use `pip3` to install `ansible-lint`:
-
-```shell
-$ pip3 install ansible-lint
+``` shell
+$ uv run ansible --version
 ```
 
 ## Ansible Vault
@@ -132,13 +112,13 @@ Host <hostname>
 To iterate on the Ansible configuration, you can run `ansible-pull` directly from an SSH connection:
 
 ``` shell
-ansible-pull -C main -U https://github.com/mbta/on_prem_deploy.git --vault-password-file /root/.ansible_vault_password -i linux/inventory.yml linux/main.yml
+systemctl start ansible-pull
 ```
 
 If you have the relevant hostname configured in `~/.ssh/config` (so that `ssh <hostname>` works), you can also run the playbook from your local machine:
 
 ``` shell
-ansible-playbook main.yml -i inventory.yml --vault-password-file .ansible_vault_password -c ssh --become -l <hostname>
+uv run ansible-playbook main.yml -i inventory.yml --vault-password-file .ansible_vault_password -c ssh --become -l <hostname>
 ```
 
 Ansible Vault is used for storing some kinds of low-secrecy values, where they

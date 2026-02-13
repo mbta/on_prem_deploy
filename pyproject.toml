@@ -1,0 +1,23 @@
+[project]
+name = "on-prem-deploy"
+version = "0.1.0"
+# match the version included in the Ubuntu image
+# https://packages.ubuntu.com/jammy/python3
+requires-python = "~=3.10.6"
+dependencies = [
+  # match the version we install from the PPA in cloud-init
+  # see: https://launchpad.net/~ansible/+archive/ubuntu/ansible
+  "ansible==10.7.0",
+  # `ansible` package does not require Python deps of the collections it
+  # includes. we use `amazon.aws`, which has some Python deps, so require
+  # matching versions of those. see:
+  # https://github.com/ansible-collections/amazon.aws/blob/stable-8/requirements.txt
+  "boto3~=1.26",
+  "botocore~=1.29",
+]
+
+[dependency-groups]
+dev = [
+  "ansible-lint~=25.9.0",
+  "yamllint~=1.37.1",
+]

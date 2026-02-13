@@ -1,0 +1,6 @@
+[Unit]
+Description=Docker login refresh
+
+[Service]
+Type=oneshot
+ExecStart=/bin/systemctl restart docker-login.service

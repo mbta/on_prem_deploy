@@ -1,32 +1,13 @@
 # local users
 ---
 
-users:
-  - username: pswartz
-    comment: Paul Swartz
-    github: paulswartz
-    groups: [admin, users, docker]
-  - username: iwestcott
-    comment: Ian Westcott
-    github: ianwestcott
-    groups: [admin, users, docker]
-  - username: krisjohnson
-    comment: Kris Johnson
-    github: krisrjohnson21
-    groups: [admin, users, docker]
-  - username: bheathwlaz
-    comment: Brett Heath-Wlaz
-    github: panentheos
-    groups: [admin, users, docker]
-  - username: cgrant2
-    comment: Cora Grant
-    github: digitalcora
-    groups: [admin, users, docker]
-  - username: rsundstrom
-    comment: Robbie Sundstrom
-    github: robbie-sundstrom
-    groups: [admin, users, docker]
-  - username: dshi
-    comment: Dean Shi
-    github: deanshi
-    groups: [admin, users, docker]
+default_groups: [admin, users, docker]
+
+users: >-
+  {{
+    users_tid_infrastructure
+    + users_tid_screens
+    + users_tid_engineers
+    + users_infosec
+    + users_splunk_admins
+  }}

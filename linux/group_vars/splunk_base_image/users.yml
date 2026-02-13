@@ -1,24 +1,10 @@
 # prod users
 ---
 
-users:
-  - username: apullorthody
-    comment: Arun Pullorthody
-    github: arunpullo
-    groups: [admin, users]
-  - username: iwestcott
-    comment: Ian Westcott
-    github: ianwestcott
-    groups: [admin, users]
-  - username: rkuthuru
-    comment: Raj Kuthuru
-    github: rkuthuru12
-    groups: [admin, users]
-  - username: ecgregory
-    comment: Edward C. Gregory
-    github: ecgregory
-    groups: [admin, users]
-  - username: crayford
-    comment: Christian Rayford
-    github: crayford28
-    groups: [admin, users]
+default_groups: [admin, users]
+
+users: >-
+  {{
+    users_infosec
+    + users_splunk_admins
+  }}

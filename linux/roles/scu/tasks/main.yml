@@ -16,7 +16,6 @@
   ansible.builtin.apt:
     name:
       - asihpi-dkms-4
-      - awscli
 
 - name: Configure NTP
   ansible.builtin.copy:
@@ -64,25 +63,79 @@
     enabled: true
     state: started
 
-- name: Install Docker
-  ansible.builtin.include_role:
-    name: docker
-
-- name: Write scully systemd unit
+- name: Write systemd units
   ansible.builtin.copy:
-    src: scully.service
-    dest: /etc/systemd/system/scully.service
+    src: "{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+    mode: "0644"
+  loop:
+    - scully.service
+    - scully-update.service
+    - scully-update.timer
+    - set-audio-mode.service
+    - docker-login.service
+    - docker-login-refresh.service
+    - docker-login-refresh.timer
+  register: scu_systemd_units
+
+- name: Reload systemd units
+  ansible.builtin.systemd_service:
+    daemon-reload: true
+  when: scu_systemd_units.changed # noqa: no-handler
+
+- name: Restart timers
+  ansible.builtin.systemd_service:
+    name: "{{ item.item }}"
+    state: restarted
+  when: item.item.endswith(".timer") and item.changed
+  loop: "{{ scu_systemd_units.results }}"
+
+- name: Write scripts
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: /root/{{ item }}
+    mode: "0755"
+  loop:
+    - run-scully
+    - create-scully-env
+    - set-audio-mode
+    - docker-login
+
+- name: Stat docker config
+  ansible.builtin.stat:
+    path: /root/.docker/config.json
+  register: scu_docker_config
+
+# Can be removed after this has run on all hosts
+- name: Clear old credsStore in docker config
+  ansible.builtin.copy:
+    content: "{}"
+    dest: /root/.docker/config.json
+    mode: "0644"
+  when: "scu_docker_config.stat.checksum is defined and
+    scu_docker_config.stat.checksum == \"83936cf7831f23b197ed3ce272455b0fd41f5707\""
+
+- name: Write docker compose
+  ansible.builtin.template:
+    src: docker-compose.yaml.j2
+    dest: /root/compose.yaml
     mode: "0644"
 
-- name: Write scully startup script
-  ansible.builtin.template:
-    src: run-scully.j2
-    dest: /root/run-scully
-    mode: "0755"
-
-- name: Enable and start systemd unit
+- name: Enable and start scully
   ansible.builtin.systemd_service:
-    name: scully.service
+    name: "{{ item }}"
     enabled: true
     state: started
   when: scu_autostart
+  loop:
+    - scully.service
+    - scully-update.timer
+
+- name: Enable and start docker-login
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - docker-login.service
+    - docker-login-refresh.timer

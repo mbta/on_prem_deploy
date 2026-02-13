@@ -14,9 +14,12 @@ ISO_PATH="${ISO_DIR}/${ISO_NAME}"
 if [ "$(arch)" = "arm64" ]; then
    QEMU_CPU_TYPE="max"
    QEMU_MACHINE="q35"
-else
+elif [ "$(uname)" = "Darwin" ]; then
    QEMU_CPU_TYPE="host"
    QEMU_MACHINE="accel=hvf"
+else
+   QEMU_CPU_TYPE="host"
+   QEMU_MACHINE="accel=kvm"
 fi
 
 QEMU_CPUS="${QEMU_CPUS:-2}"
