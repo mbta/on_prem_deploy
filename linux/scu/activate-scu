@@ -6,7 +6,10 @@ import requests
 while True:
     key = getpass.getpass('SCU activation password: ')
     try:
-        response = requests.post('CREATE_ACTIVATION_URL', headers={'x-password': key})
+        with open('etc/hostname', 'r') as f:
+            hostname = f.read().strip()
+        url = f'CREATE_ACTIVATION_URL?hostname={hostname}'
+        response = requests.post(url, headers={'x-password': key})
     except requests.ConnectionError:
         print('Error: unable to connect')
         continue
