@@ -6,7 +6,7 @@ import requests
 while True:
     key = getpass.getpass('SCU activation password: ')
     try:
-        with open('etc/hostname', 'r') as f:
+        with open('/target/etc/hostname', 'r') as f:
             hostname = f.read().strip()
         url = f'CREATE_ACTIVATION_URL?hostname={hostname}'
         response = requests.post(url, headers={'x-password': key})
