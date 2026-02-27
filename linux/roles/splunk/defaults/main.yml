@@ -1,8 +1,8 @@
 ---
 
 splunk_enable_forwarding: true
-splunk_version: "9.0.4"
-splunk_deb: "splunkforwarder-{{ splunk_version }}-de405f4a7979-linux-2.6-amd64.deb"
+splunk_version: "9.2.12"
+splunk_deb: "splunkforwarder-{{ splunk_version }}-b69eb59e0cce-linux-2.6-amd64.deb"
 splunk_index: test
 splunk_forwarder_collectd_https_port: 9556  # randomly generated
 splunk_forwarder_collectd_index: collectd-metrics
