@@ -17,6 +17,7 @@ rules:
       user-data
   line-length:
     max: 120
+    allow-non-breakable-inline-mappings: true
     ignore: |
       /.github/
 
