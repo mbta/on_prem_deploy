@@ -160,3 +160,7 @@ scu:
       scu_env: staging
       scu_deploy_tag: staging
       scu_autostart: false
+
+localtest:
+  hosts:
+    LOCALTEST:

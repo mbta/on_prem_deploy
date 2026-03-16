@@ -98,3 +98,9 @@
     - role: users
     - role: crowdstrike
     - role: qualys
+
+- name: Local Test
+  hosts: localtest
+  roles:
+    - role: splunk
+      tags: [splunk]
