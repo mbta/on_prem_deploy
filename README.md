@@ -4,3 +4,5 @@ Ansible configuration and supporting scripts for provisioning on-prem servers.
 
 All configuration now lives in the `linux/` subdirectory; see `linux/README.md`
 for details.
+
+This should most definitely not run any CI. 
