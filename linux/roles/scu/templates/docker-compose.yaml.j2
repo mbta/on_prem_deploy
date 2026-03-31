@@ -1,9 +1,13 @@
 services:
   scully:
     image: {{ aws_account_id }}.dkr.ecr.{{ aws_region }}.amazonaws.com/scully:{{ scu_deploy_tag }}
+    volumes:
+      - audio-cache:/audio_cache
     devices:
       - "/dev/asihpi:/dev/asihpi"
     ports:
       - "80:4010"
     env_file: scully.env
     restart: always
+volumes:
+  audio-cache:
