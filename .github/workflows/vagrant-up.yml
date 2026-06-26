@@ -11,10 +11,15 @@ on:
   #     - linux/**
 
 permissions:
-  contents: read
+  contents: read # private repo, needs permission to read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   vagrant-up:
+    name: Run Vagrant Up
     runs-on: macos-latest
     env:
       VAGRANT_HOSTNAME: github
