@@ -10,6 +10,9 @@ on:
   #   paths:
   #     - linux/**
 
+permissions:
+  contents: read
+
 jobs:
   vagrant-up:
     runs-on: macos-latest
@@ -18,9 +21,12 @@ jobs:
       GITHUB_REPO: ${{ github.repository }}
       GIT_BRANCH: ${{ github.ref_name }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
       - name: Cache Vagrant boxes
-        uses: actions/cache@v3
+        uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6.0.0
         with:
           path: ~/.vagrant.d
           key: ${{ runner.os }}-vagrant-${{ hashFiles('linux/Vagrantfile') }}
