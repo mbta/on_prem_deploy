@@ -4,9 +4,12 @@ users_tid_infrastructure:
   - username: iwestcott
     comment: Ian Westcott
     github: ianwestcott
-  - username: krisjohnson
-    comment: Kris Johnson
-    github: krisrjohnson21
+  - username: stran1
+    comment: Steven Tran
+    github: stevenlaitran-mbta
+  - username: srose
+    comment: Sky Rose
+    github: skyqrose
   - username: pswartz
     comment: Paul Swartz
     github: paulswartz
@@ -56,14 +59,14 @@ users_tid_engineers:
   - username: npinilla
     comment: Nicholas Pinilla
     github: napilla
-  - username: srose
-    comment: Sky Rose
-    github: skyqrose
 
 users_infosec:
   - username: rkuthuru
     comment: Raj Kuthuru
     github: rkuthuru12
+  - username: kharikumar
+    comment: Kalyani Harikumar
+    github: kharikumar430
 
 users_splunk_admins:
   - username: apullorthody
@@ -77,4 +80,5 @@ users_splunk_admins:
     github: ecgregory
 
 # add a user's username to this list to delete them
-users_deleted: []
+users_deleted:
+  - krisjohnson
