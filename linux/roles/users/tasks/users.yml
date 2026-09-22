@@ -38,7 +38,7 @@
 
 - name: Delete users who should no longer have access
   ansible.builtin.user:
-    name: "{{ item.username }}"
+    name: "{{ item }}"
     state: absent
   loop: "{{ users_deleted }}"
 
